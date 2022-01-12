@@ -19,11 +19,11 @@ abstract class AbstractPageSearch<E> implements PageSearchable<E>{
     protected MapperFactory mapperFactory;
 
     @Override
-    public List<E> search(Conditional condition, int pageStart, int pageSize) {
+    public List<E> search(Conditional condition) {
         String sql = condition.decodeCondition();
         BaseMapper mapper = new BaseMapper() {
             @Override
-            public List<User> getList(String condition, int pageStart, int pageSize) {
+            public List<User> getAccountList(String condition) {
                 ArrayList<User> list = new ArrayList<>();
                 User user1 = new User();
                 User user2 = new User();
@@ -33,9 +33,14 @@ abstract class AbstractPageSearch<E> implements PageSearchable<E>{
                 list.add(user2);
                 return list;
             }
+
+            @Override
+            public Integer getAccountCount(String condition) {
+                return 100;
+            }
         };
-        return getList(mapper,sql, pageStart, pageSize);
+        return getList(mapper,sql);
     }
 
-    abstract List<E> getList(BaseMapper mapper, String condition, int pageStart, int pageSize);
+    abstract List<E> getList(BaseMapper mapper, String condition);
 }

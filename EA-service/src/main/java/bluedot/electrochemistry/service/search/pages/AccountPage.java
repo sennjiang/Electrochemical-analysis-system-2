@@ -14,7 +14,7 @@ import java.util.List;
 public class AccountPage extends AbstractPageSearch<User>{
 
     @Override
-    List<User> getList(BaseMapper mapper, String condition, int pageStart, int pageSize) {
-        return mapper.getList(condition,pageStart,pageSize);
+    List<User> getList(BaseMapper mapper, String condition) {
+        return mapper.getAccountList(condition);
     }
 }

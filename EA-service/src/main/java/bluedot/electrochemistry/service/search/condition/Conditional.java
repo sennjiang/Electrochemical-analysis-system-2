@@ -1,5 +1,8 @@
 package bluedot.electrochemistry.service.search.condition;
 
+import bluedot.electrochemistry.service.exception.IllegalConditionException;
+import bluedot.electrochemistry.service.exception.IllegalIndexException;
+
 /**
  * @author Sens
  * @Create 2021/12/16 18:58
@@ -16,5 +19,5 @@ public interface Conditional {
      *  验证条件 防止sql注入
      * @return sql语句
      */
-    boolean checkCondition();
+    boolean checkCondition() throws IllegalIndexException , IllegalConditionException;
 }

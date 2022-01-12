@@ -19,16 +19,10 @@ public class SearchService implements SearchModularity{
 
     @Override
     public List<?> doService(Conditional condition, PageSearchable<?> pageSearchable) {
-        return pageSearchable.search(condition,0,10);
+        return pageSearchable.search(condition);
     }
 
-    public static void main(String[] args) {
-        SearchService service = new SearchService();
-        AccountCondition accountCondition = new AccountCondition();
-        AccountPage accountPage = new AccountPage();
-        List<?> list = service.doService(accountCondition, accountPage);
-        System.out.println(JsonUtil.toJson(list));
-    }
+
 
     @Override
     public void init() {
