@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mapper namespace="com.bluedot.electrochemistry.dao.BaseMapper">
+<mapper namespace="bluedot.electrochemistry.dao.BaseMapper">
 
-    <select id="getList" resultType="bluedot.electrochemistry.pojo.domain.User">
-        select * from user limit #{currentPage},#{pageSize}
+    <select id="getAccountList" resultType="bluedot.electrochemistry.pojo.domain.User">
+        select * from user where ${condition};
     </select>
+
+    <select id="getAccountCount" resultType="Integer">
+        select count(*) from user where ${condition};
+    </select>
+
 
 </mapper>

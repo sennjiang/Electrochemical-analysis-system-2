@@ -10,5 +10,18 @@ import java.util.List;
  */
 public interface BaseMapper {
 
-    List<User> getList(String condition, int pageStart, int pageSize);
+    /**
+     * 获取列表
+     * @param condition 条件
+     * @return 结果集合
+     */
+    List<User> getAccountList(String condition);
+
+    /**
+     * 获取Account 总数量
+     * @param condition 条件
+     * @return 数量
+     */
+    Integer getAccountCount(String condition);
+
 }
