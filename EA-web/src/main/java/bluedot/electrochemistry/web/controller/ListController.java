@@ -1,6 +1,8 @@
 package bluedot.electrochemistry.web.controller;
 
 
+import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.search.SearchPage;
 import bluedot.electrochemistry.service.search.condition.AccountCondition;
 import bluedot.electrochemistry.service.search.main.SearchService;
 import bluedot.electrochemistry.service.search.pages.AccountPage;
@@ -20,8 +22,8 @@ public class ListController {
     SearchService searchService;
 
     @RequestMapping("/users")
-    void getAccountList(AccountCondition condition, int pageStart, int pageSize) {
+    void getAccountList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
         //     /list/users
-        searchService.doService(condition,new AccountPage());
+        searchService.doService(condition, SearchPage.ACCOUNT_PAGE);
     }
 }

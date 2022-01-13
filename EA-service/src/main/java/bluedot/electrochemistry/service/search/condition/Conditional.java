@@ -10,7 +10,7 @@ import bluedot.electrochemistry.service.exception.IllegalIndexException;
 public interface Conditional {
 
     /**
-     *  获取 sql语句 where 后的 的条件 除 limit
+     *  获取 sql语句 where 后的 的条件
      * @return sql语句
      */
     String decodeCondition();

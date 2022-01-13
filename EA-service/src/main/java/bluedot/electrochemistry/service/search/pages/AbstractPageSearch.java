@@ -3,6 +3,7 @@ package bluedot.electrochemistry.service.search.pages;
 import bluedot.electrochemistry.dao.BaseMapper;
 import bluedot.electrochemistry.factory.MapperFactory;
 import bluedot.electrochemistry.pojo.domain.User;
+import bluedot.electrochemistry.service.search.SearchResult;
 import bluedot.electrochemistry.service.search.condition.Conditional;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 
@@ -19,7 +20,7 @@ abstract class AbstractPageSearch<E> implements PageSearchable<E>{
     protected MapperFactory mapperFactory;
 
     @Override
-    public List<E> search(Conditional condition) {
+    public SearchResult<E> search(Conditional condition) {
         String sql = condition.decodeCondition();
         BaseMapper mapper = new BaseMapper() {
             @Override
@@ -38,9 +39,38 @@ abstract class AbstractPageSearch<E> implements PageSearchable<E>{
             public Integer getAccountCount(String condition) {
                 return 100;
             }
+
+            @Override
+            public User loginByUsername(String account, String password) {
+                return null;
+            }
+
+            @Override
+            public User loginByEmail(String account, String password) {
+                return null;
+            }
+
+            @Override
+            public Integer checkEmail(String account) {
+                return null;
+            }
+
+            @Override
+            public Integer checkAccount(String account) {
+                return null;
+            }
         };
-        return getList(mapper,sql);
+        List<E> list = getList(mapper, sql);
+        Integer count = count(mapper, condition);
+        return new SearchResult<>(count,list);
     }
+
+    @Override
+    public Integer count(BaseMapper mapper, Conditional condition) {
+        return getCount(mapper ,condition.decodeCondition());
+    }
+
+    abstract Integer getCount(BaseMapper mapper, String condition);
 
     abstract List<E> getList(BaseMapper mapper, String condition);
 }

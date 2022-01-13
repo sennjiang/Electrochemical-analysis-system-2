@@ -24,4 +24,11 @@ public interface BaseMapper {
      */
     Integer getAccountCount(String condition);
 
+    User loginByUsername(String account, String password);
+
+    User loginByEmail(String account, String password);
+
+    Integer checkEmail(String account);
+
+    Integer checkAccount(String account);
 }

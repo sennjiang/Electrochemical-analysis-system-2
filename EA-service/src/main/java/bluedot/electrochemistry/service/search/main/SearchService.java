@@ -1,11 +1,10 @@
 package bluedot.electrochemistry.service.search.main;
 
+import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.search.SearchDirection;
-import bluedot.electrochemistry.service.search.condition.AccountCondition;
+import bluedot.electrochemistry.service.search.SearchPage;
+import bluedot.electrochemistry.service.search.SearchResult;
 import bluedot.electrochemistry.service.search.condition.Conditional;
-import bluedot.electrochemistry.service.search.pages.AccountPage;
-import bluedot.electrochemistry.service.search.pages.PageSearchable;
-import bluedot.electrochemistry.simplespring.util.JsonUtil;
 
 import java.util.List;
 
@@ -18,15 +17,14 @@ public class SearchService implements SearchModularity{
     SearchDirection direction;
 
     @Override
-    public List<?> doService(Conditional condition, PageSearchable<?> pageSearchable) {
-        return pageSearchable.search(condition);
+    public SearchResult<?> doService(Conditional condition, SearchPage page) throws IllegalIndexException {
+        return direction.get(page.getIndex()).search(condition);
     }
-
-
 
     @Override
     public void init() {
-
+        direction = new SearchDirection();
+        direction.init();
     }
 
     @Override

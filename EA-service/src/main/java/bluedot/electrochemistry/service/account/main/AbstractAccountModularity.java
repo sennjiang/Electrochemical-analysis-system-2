@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.service.account.main;
 
 import bluedot.electrochemistry.service.Lifecycle;
-import bluedot.electrochemistry.service.account.verify.Verify;
+import bluedot.electrochemistry.service.account.VerifyTask;
 
 /**
  * @author Sens
@@ -18,16 +18,14 @@ public interface AbstractAccountModularity<T> extends Lifecycle {
 
     /**
      * 验证用户是否存在
-     * @param account 用户 账号 邮箱 或其他
-     * @return boolean 是否存在
      */
-    boolean verifyAccount(String account, Verify verify);
+    boolean verifyAccount(VerifyTask task);
 
     /**
      * 登录
      * @return T 用户实体类
      */
-    T login(String account, String password);
+    T login(VerifyTask task);
 
     /**
      * 注册
@@ -46,5 +44,17 @@ public interface AbstractAccountModularity<T> extends Lifecycle {
      * @param t 泛型
      */
     void addAccount(T t);
+
+    /**
+     * 冻结
+     * @param ids id
+     */
+    void freezeAccounts(String[] ids);
+
+    /**
+     * 解冻
+     * @param ids id
+     */
+    void unfreezeAccounts(String[] ids);
 
 }

@@ -11,8 +11,8 @@ import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.utils.LogUtils;
 import bluedot.electrochemistry.simplemybatis.utils.ReflectUtils;
 import bluedot.electrochemistry.simplemybatis.utils.StringUtils;
+import net.sf.cglib.core.CollectionUtils;
 import org.slf4j.Logger;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class DefaultSqlSession implements SqlSession {
     @Override
     public <T> T selectOne(String statement, Object parameter) {
         List<T> results = this.selectList(statement, parameter);
-        if(CollectionUtils.isEmpty(results)){
+        if(results == null){
             return null;
         }else if(results.size()==1){
             return results.get(0);
