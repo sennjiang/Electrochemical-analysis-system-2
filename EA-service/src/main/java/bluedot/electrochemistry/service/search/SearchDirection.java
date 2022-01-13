@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.service.search;
 
 import bluedot.electrochemistry.service.Direction;
-import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.search.pages.AccountPage;
 import bluedot.electrochemistry.service.search.pages.PageSearchable;
 

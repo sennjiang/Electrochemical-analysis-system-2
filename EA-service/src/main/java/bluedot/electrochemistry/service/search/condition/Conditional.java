@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.service.search.condition;
 
-import bluedot.electrochemistry.service.exception.IllegalConditionException;
-import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.exception.IllegalConditionException;
+import bluedot.electrochemistry.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.search.SearchPage;
 
 /**

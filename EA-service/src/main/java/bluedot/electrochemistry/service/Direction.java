@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service;
 
-import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.exception.IllegalIndexException;
 
 /**
  * @author Senn
