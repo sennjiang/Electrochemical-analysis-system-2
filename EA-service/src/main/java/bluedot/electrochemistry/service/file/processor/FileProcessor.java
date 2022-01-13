@@ -14,10 +14,4 @@ public interface FileProcessor {
      */
     void fileUploads();
 
-    /**
-     * 多文件上传处理
-     * @return 成功 返回true 失败返回false
-     */
-    boolean multipleUploads(File[] files);
-
 }

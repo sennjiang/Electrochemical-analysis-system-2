@@ -15,13 +15,14 @@ import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 @Service
 public class SearchServiceImpl implements SearchService{
 
-    SearchDirection direction;
+    static SearchDirection direction;
 
     @Autowired
     MapperFactory mapperFactory;
 
     @Override
     public void init() {
+        direction = new SearchDirection();
         direction.init();
     }
 
