@@ -6,7 +6,7 @@ import bluedot.electrochemistry.service.Lifecycle;
  * @author Sens
  * @Create 2021/12/16 18:58
  */
-public interface FileModularity extends Lifecycle {
+public interface FileService extends Lifecycle {
 
     /**
      * 文件上传
@@ -17,6 +17,5 @@ public interface FileModularity extends Lifecycle {
      * 文件下载
      */
     void exportFile();
-
 
 }

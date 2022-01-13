@@ -6,7 +6,6 @@ import bluedot.electrochemistry.service.search.SearchPage;
 import bluedot.electrochemistry.service.search.SearchResult;
 import bluedot.electrochemistry.service.search.condition.AccountCondition;
 import bluedot.electrochemistry.service.search.main.SearchService;
-import bluedot.electrochemistry.service.search.pages.AccountPage;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
@@ -29,5 +28,20 @@ public class ListController {
         condition.setPage(SearchPage.ACCOUNT_PAGE);
         SearchResult<?> searchResult = searchService.doService(condition);
         return JsonUtil.toJson(searchResult);
+    }
+
+    @RequestMapping("/algorithms")
+    String getAlgorithmList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
+       return "";
+    }
+
+    @RequestMapping("/files")
+    String getFileList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
+        return "";
+    }
+
+    @RequestMapping("/roles")
+    String getRoleList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
+        return "";
     }
 }

@@ -7,7 +7,7 @@ import bluedot.electrochemistry.service.search.condition.Conditional;
 import java.util.List;
 
 /**
- * @author Sens
+ * @author Senn
  * @Create 2021/12/16 18:58
  */
 public interface PageSearchable<E> {
