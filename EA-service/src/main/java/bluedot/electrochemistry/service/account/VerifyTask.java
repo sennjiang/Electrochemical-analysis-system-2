@@ -12,8 +12,15 @@ import bluedot.electrochemistry.service.account.verify.Verify;
  */
 public class VerifyTask {
 
+    public static final String LOGIN = "login";
+
+    public static final String CHECK_ACCOUNT = "check";
+
+
+    private String type;
+
     /**
-     * 策略
+     * 验证策略
      */
     Verify verify;
 
@@ -27,7 +34,8 @@ public class VerifyTask {
      */
     String password;
 
-    public VerifyTask(String account, String password) {
+
+    public VerifyTask(String account, String password, String type) {
         if (account.contains("@")) {
             verify = new MailVerify();
         }else {
@@ -35,6 +43,7 @@ public class VerifyTask {
         }
         this.account = account;
         this.password = password;
+        this.type = type;
     }
 
     public User login(BaseMapper mapper) {
@@ -45,4 +54,11 @@ public class VerifyTask {
         return verify.checkAccount(mapper, account);
     }
 
+    public String getType() {
+        return this.type;
+    }
+
+    public String getAccount() {
+        return this.account;
+    }
 }

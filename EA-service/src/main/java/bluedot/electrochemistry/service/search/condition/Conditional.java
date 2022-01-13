@@ -2,6 +2,7 @@ package bluedot.electrochemistry.service.search.condition;
 
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.search.SearchPage;
 
 /**
  * @author Sens
@@ -20,4 +21,6 @@ public interface Conditional {
      * @return sql语句
      */
     boolean checkCondition() throws IllegalIndexException , IllegalConditionException;
+
+    SearchPage getPage();
 }

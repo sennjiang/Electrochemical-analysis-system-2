@@ -2,12 +2,15 @@ package bluedot.electrochemistry.service.search.condition;
 
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.search.SearchPage;
 
 /**
  * @author Senn
  * @create 2022/1/12 20:23
  */
-public class DefaultCondition implements Conditional{
+public abstract class DefaultCondition implements Conditional{
+
+    protected SearchPage page;
 
     public static final String SQL_AND = "and";
 
@@ -31,7 +34,6 @@ public class DefaultCondition implements Conditional{
      * 搜索框内容
      */
     protected String content;
-
 
     @Override
     public String decodeCondition() {
@@ -62,5 +64,6 @@ public class DefaultCondition implements Conditional{
      * 预留的检查方法 由子类实现扩展
      */
     protected void checkOther() {
+
     }
 }
