@@ -9,10 +9,6 @@ import bluedot.electrochemistry.service.query.searchable.Searchable;
  */
 public class AccountCondition extends DefaultCondition {
 
-    private SearchType type;
-
-    private Searchable<?> search;
-
     private Integer status;
 
     public AccountCondition(String content , Integer pageStart , Integer pageSize , Integer status) {
