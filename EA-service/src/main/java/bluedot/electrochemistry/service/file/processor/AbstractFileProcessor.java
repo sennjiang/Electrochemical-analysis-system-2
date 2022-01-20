@@ -7,8 +7,6 @@ import java.io.File;
  * @createDate 2021/12/17 20:02
  */
 public abstract class AbstractFileProcessor implements FileProcessor{
-
-    @Override
     public boolean multipleUploads(File[] files) {
         for (File file : files) {
             fileUploads();

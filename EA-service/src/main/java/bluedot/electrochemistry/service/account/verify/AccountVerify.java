@@ -11,7 +11,7 @@ public class AccountVerify implements Verify {
 
     @Override
     public User verifyAccount(BaseMapper mapper , String account, String password) {
-        return mapper.loginByUsername(account, password);
+        return null;
     }
 
     @Override

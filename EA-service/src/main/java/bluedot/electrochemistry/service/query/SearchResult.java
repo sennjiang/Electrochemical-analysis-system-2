@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.service.search;
+package bluedot.electrochemistry.service.query;
 
 import java.util.List;
 

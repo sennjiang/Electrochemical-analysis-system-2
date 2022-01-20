@@ -1,12 +1,17 @@
-package bluedot.electrochemistry.service.search.condition;
+package bluedot.electrochemistry.service.query.condition;
 
-import bluedot.electrochemistry.service.search.SearchPage;
+import bluedot.electrochemistry.service.query.SearchType;
+import bluedot.electrochemistry.service.query.searchable.Searchable;
 
 /**
  * @author Senn
  * @createDate 2021/12/15 17:08
  */
 public class AccountCondition extends DefaultCondition {
+
+    private SearchType type;
+
+    private Searchable<?> search;
 
     private Integer status;
 
@@ -17,14 +22,6 @@ public class AccountCondition extends DefaultCondition {
         this.status = status;
     }
 
-    public AccountCondition(String content , Integer pageStart , Integer pageSize , Integer status , SearchPage page) {
-        this.content = content;
-        this.pageStart = pageStart;
-        this.pageSize = pageSize;
-        this.status = status;
-        this.page = page;
-    }
-
     @Override
     public String decodeCondition() {
         if (checkCondition()) {
@@ -33,12 +30,21 @@ public class AccountCondition extends DefaultCondition {
         return null;
     }
 
-    @Override
-    public SearchPage getPage() {
-        return this.page;
+    public void setSearchable(Searchable<?> search) {
+        this.search = search;
     }
 
-    public void setPage(SearchPage page) {
-        this.page = page;
+    public void setType(SearchType type) {
+        this.type = type;
+    }
+
+    @Override
+    public SearchType getType() {
+        return this.type;
+    }
+
+    @Override
+    public Searchable<?> getSearchable() {
+        return this.search;
     }
 }

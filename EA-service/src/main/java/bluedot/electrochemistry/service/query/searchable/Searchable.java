@@ -1,22 +1,19 @@
-package bluedot.electrochemistry.service.search.pages;
+package bluedot.electrochemistry.service.query.searchable;
 
 import bluedot.electrochemistry.dao.BaseMapper;
-import bluedot.electrochemistry.service.search.SearchResult;
-import bluedot.electrochemistry.service.search.condition.Conditional;
-
-import java.util.List;
+import bluedot.electrochemistry.service.query.SearchResult;
+import bluedot.electrochemistry.service.query.condition.Conditional;
 
 /**
  * @author Senn
- * @Create 2021/12/16 18:58
+ * @createDate 2022/1/20 19:17
  */
-public interface PageSearchable<E> {
-
+public interface Searchable<T> {
     /**
      * 调用 mapper 做查询
      * @param condition 条件对象 用于生成条件语句
      */
-    SearchResult<E> search(Conditional condition);
+    SearchResult<T> search(Conditional condition);
 
     /**
      *  调用 mapper 做查询
@@ -24,5 +21,4 @@ public interface PageSearchable<E> {
      * @return 数量
      */
     Integer count(BaseMapper mapper, Conditional condition);
-
 }

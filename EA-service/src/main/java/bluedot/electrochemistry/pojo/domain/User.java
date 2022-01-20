@@ -5,15 +5,15 @@ package bluedot.electrochemistry.pojo.domain;
  * @createDate 2021/12/16 19:20
  */
 public class User {
-    private String username;
+    private String name;
     private Integer age;
 
     public String getUsername() {
-        return username;
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = username;
     }
 
     public Integer getAge() {
@@ -27,7 +27,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "name='" + name + '\'' +
                 ", age=" + age +
                 '}';
     }

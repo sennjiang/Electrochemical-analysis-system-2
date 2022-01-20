@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="bluedot.electrochemistry.dao.CommonMapper">
+
+    <select id="checkEmail" resultType="java.lang.Integer">
+
+    </select>
+    <select id="loginByEmail" resultType="bluedot.electrochemistry.pojo.domain.User">
+
+    </select>
+
+</mapper>

@@ -8,6 +8,7 @@
     <select id="getAccountCount" resultType="Integer">
         select count(*) from user where ${condition};
     </select>
-
-
+    <select id="getOneUser" resultType="bluedot.electrochemistry.pojo.domain.User">
+        select * from user where ${condition};
+    </select>
 </mapper>

@@ -1,8 +1,9 @@
-package bluedot.electrochemistry.service.search.condition;
+package bluedot.electrochemistry.service.query.condition;
 
 import bluedot.electrochemistry.exception.IllegalConditionException;
 import bluedot.electrochemistry.exception.IllegalIndexException;
-import bluedot.electrochemistry.service.search.SearchPage;
+import bluedot.electrochemistry.service.query.SearchType;
+import bluedot.electrochemistry.service.query.searchable.Searchable;
 
 /**
  * @author Sens
@@ -22,5 +23,13 @@ public interface Conditional {
      */
     boolean checkCondition() throws IllegalIndexException , IllegalConditionException;
 
-    SearchPage getPage();
+    /**
+     * 获取查询类型
+     */
+    SearchType getType();
+
+    /**
+     * 获取查询工具
+     */
+    Searchable<?> getSearchable();
 }

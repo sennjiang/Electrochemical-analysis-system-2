@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.factory;
 
 import bluedot.electrochemistry.dao.BaseMapper;
+import bluedot.electrochemistry.dao.CommonMapper;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Repository;
@@ -20,5 +21,11 @@ public class MapperFactory {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         sqlSession.setAutoCommit(true);
         return sqlSession.getMapper(BaseMapper.class);
+    }
+
+    public CommonMapper createCommonMapper(){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        sqlSession.setAutoCommit(true);
+        return sqlSession.getMapper(CommonMapper.class);
     }
 }

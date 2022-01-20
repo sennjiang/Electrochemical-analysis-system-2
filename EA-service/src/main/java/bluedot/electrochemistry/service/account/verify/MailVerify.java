@@ -8,14 +8,13 @@ import bluedot.electrochemistry.pojo.domain.User;
  * @Create 2021/12/16 18:58
  */
 public class MailVerify implements Verify{
-
     @Override
     public User verifyAccount(BaseMapper mapper, String account, String password) {
-        return mapper.loginByEmail(account, password);
+        return null;
     }
 
     @Override
     public boolean checkAccount(BaseMapper mapper, String account) {
-        return mapper.checkEmail(account) == 1;
+        return false;
     }
 }

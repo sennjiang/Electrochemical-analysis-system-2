@@ -1,16 +1,13 @@
-package bluedot.electrochemistry.service.search.condition;
+package bluedot.electrochemistry.service.query.condition;
 
 import bluedot.electrochemistry.exception.IllegalConditionException;
 import bluedot.electrochemistry.exception.IllegalIndexException;
-import bluedot.electrochemistry.service.search.SearchPage;
 
 /**
  * @author Senn
  * @create 2022/1/12 20:23
  */
 public abstract class DefaultCondition implements Conditional{
-
-    protected SearchPage page;
 
     public static final String SQL_AND = "and";
 
