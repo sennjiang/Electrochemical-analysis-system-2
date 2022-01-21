@@ -6,10 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标注在方法上，主要用于添加外源类
  * @author Senn
+ * @create 2021/12/26 11:28
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Bean {
+public @interface WhiteMapping {
+    String[] value();
 }

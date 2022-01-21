@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 配置类，用来配置外源类
- * @author xxbb
+ * @author Senn
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
