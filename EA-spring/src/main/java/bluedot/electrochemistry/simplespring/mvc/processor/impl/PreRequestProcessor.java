@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 请求预处理，包括编码以及路径处理
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class PreRequestProcessor implements RequestProcessor {
     private final Logger log = LogUtil.getLogger();

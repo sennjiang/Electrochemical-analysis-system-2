@@ -1,7 +1,8 @@
 package bluedot.electrochemistry.simplespring.util;
 
 /**
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class ConverterUtil {
     /**

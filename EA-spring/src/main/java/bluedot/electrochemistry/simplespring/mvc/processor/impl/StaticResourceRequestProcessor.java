@@ -8,7 +8,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
 /**
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class StaticResourceRequestProcessor implements RequestProcessor {
     private static final String DEFAULT_TOMCAT_SERVLET = "default";
@@ -17,6 +18,9 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
     private static final String HTML_RESOURCE_SUFFIX = ".html";
     private static final String VUE_RESOURCE_SUFFIX = ".vue";
     private static final String JSP_RESOURCE_SUFFIX = ".jsp";
+    private static final String TXT_RESOURCE_SUFFIX = ".txt";
+    private static final String JAVA_RESOURCE_SUFFIX = ".java";
+
 
     /**
      * tomcat默认的请求派发器

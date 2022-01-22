@@ -3,7 +3,8 @@ package bluedot.electrochemistry.simplespring.aop.aspect;
 import java.lang.reflect.Method;
 
 /**
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public abstract class DefaultAspect {
     /**

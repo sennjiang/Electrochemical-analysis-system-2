@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * @author JDsen99
+ * @author Senn
+ * @create 2022/1/22 17:03
  * @description 解析成json对象
- * @createDate 2021/8/27-17:04
  */
 public class JsonUtil {
     private static volatile Gson gson = null;

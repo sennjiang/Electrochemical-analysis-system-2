@@ -4,7 +4,8 @@ import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 
 /**
  * 渲染请求结果
- * @author 1
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public interface ResultRender {
     /**

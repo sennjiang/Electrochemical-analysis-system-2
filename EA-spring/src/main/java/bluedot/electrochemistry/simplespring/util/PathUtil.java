@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.simplespring.util;
 
 /**
- * @author JDsen99
+ * @author Senn
+ * @create 2022/1/22 17:03
  * @description 获取当前项目的地址
- * @createDate 2021/9/20-11:25
  */
 public class PathUtil {
 

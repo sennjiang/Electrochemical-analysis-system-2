@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 /**
  * 封装了字符串常用的操作
- *
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class StringUtil {
     /**

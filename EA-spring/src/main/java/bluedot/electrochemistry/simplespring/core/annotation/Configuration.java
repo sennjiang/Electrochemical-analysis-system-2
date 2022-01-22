@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 配置类，用来配置外源类
  * @author Senn
+ * @create 2022/1/22 17:03
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

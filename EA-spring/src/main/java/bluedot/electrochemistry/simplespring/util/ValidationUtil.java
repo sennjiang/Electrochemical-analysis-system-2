@@ -5,8 +5,8 @@ import java.util.Map;
 
 /**
  * 对值的验证，如非空判断等
- *
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class ValidationUtil {
     /**

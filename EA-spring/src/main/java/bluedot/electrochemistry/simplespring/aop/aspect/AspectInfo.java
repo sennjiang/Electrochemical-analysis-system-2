@@ -3,7 +3,8 @@ package bluedot.electrochemistry.simplespring.aop.aspect;
 import bluedot.electrochemistry.simplespring.aop.PointcutLocator;
 
 /**
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/22 17:03
  */
 public class AspectInfo {
     private int orderIndex;
