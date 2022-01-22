@@ -20,6 +20,7 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
     private static final String JSP_RESOURCE_SUFFIX = ".jsp";
     private static final String TXT_RESOURCE_SUFFIX = ".txt";
     private static final String JAVA_RESOURCE_SUFFIX = ".java";
+    private static final String ICO_RESOURCE_SUFFIX = ".ico";
 
 
     /**
@@ -59,6 +60,9 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
                 || requestPath.startsWith(ASSETS_RESOURCE_PREFIX)
                 || requestPath.endsWith(HTML_RESOURCE_SUFFIX)
                 || requestPath.endsWith(VUE_RESOURCE_SUFFIX)
-                || requestPath.endsWith("index.jsp");
+                || requestPath.endsWith(JSP_RESOURCE_SUFFIX)
+                || requestPath.endsWith(TXT_RESOURCE_SUFFIX)
+                || requestPath.endsWith(ICO_RESOURCE_SUFFIX)
+                || requestPath.endsWith(JAVA_RESOURCE_SUFFIX);
     }
 }

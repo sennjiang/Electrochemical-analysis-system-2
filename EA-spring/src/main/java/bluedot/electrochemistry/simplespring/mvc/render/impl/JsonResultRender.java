@@ -15,11 +15,11 @@ import java.util.Map;
  * @author xxbb
  */
 public class JsonResultRender implements ResultRender {
-    private Map<String,Object> jsonData;
+    private Object object;
     private Logger logger = LogUtil.getLogger();
 
-    public JsonResultRender(Map jsonData) {
-        this.jsonData = jsonData;
+    public JsonResultRender(Object object) {
+        this.object = object;
     }
 
     @Override
@@ -29,9 +29,8 @@ public class JsonResultRender implements ResultRender {
         requestProcessorChain.getResp().setCharacterEncoding("UTF-8");
         //响应流写入经过gson格式化之后的处理结果
         try (PrintWriter writer = requestProcessorChain.getResp().getWriter()) {
-            writer.write(JsonUtil.toJson(jsonData));
+            writer.write(JsonUtil.toJson(object));
             writer.flush();
         }
-        logger.debug("请求响应成功 --- threadName: {}", Thread.currentThread().getName());
     }
 }

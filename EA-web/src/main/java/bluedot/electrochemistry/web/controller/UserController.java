@@ -3,19 +3,37 @@ package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.pojo.domain.User;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
+import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
+import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Senn
  * @create 2021/12/26 11:28
  */
 @Controller
-@WhiteMapping("/user")
+@RequestMapping("/user")
 public class UserController {
 
-    @WhiteMapping("/login")
-    public String login(String account, String password) {
-        return "";
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @RequestMapping("/test")
+    public String test() {
+        logger.info(" /user/test 请求成功！！！");
+        return "hello world !! ";
+    }
+
+    @RequestMapping("/t")
+    public String test1(@RequestParam("name") String name) {
+        logger.info(" /user/t 请求成功！！！ name : " + name);
+        return name;
+    }
+
+    @RequestMapping("/login")
+    public String login(@RequestParam("account") String account,@RequestParam("password") String password) {
+        return "hello world !! ";
     }
 
     @WhiteMapping("/register")

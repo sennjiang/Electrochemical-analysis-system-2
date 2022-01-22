@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
+import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
 
 import javax.management.relation.Role;
@@ -10,15 +11,15 @@ import javax.management.relation.Role;
  * @create 2022/1/13 19:07
  */
 @Controller
-@WhiteMapping("/role")
+@RequestMapping("/role")
 public class RoleController {
 
-    @WhiteMapping("/add")
+    @RequestMapping("/add")
     public String addRole(Role role) {
         return "";
     }
 
-    @WhiteMapping("/delete")
+    @RequestMapping("/delete")
     public String deleteRole(String[] ids) {
         return "";
     }
@@ -28,7 +29,7 @@ public class RoleController {
      * @param id id
      * @return String
      */
-    @WhiteMapping("/distribution")
+    @RequestMapping("/distribution")
     public String distributeRole(String id, String roleID) {
         return "";
     }

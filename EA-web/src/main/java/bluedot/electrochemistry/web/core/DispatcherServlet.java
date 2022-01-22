@@ -1,9 +1,10 @@
 package bluedot.electrochemistry.web.core;
 
-import bluedot.electrochemistry.simplemybatis.pool.MyDataSourceImpl;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
@@ -18,11 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
@@ -55,7 +52,8 @@ public class DispatcherServlet extends HttpServlet {
         doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
         //初始化容器
         BeanContainer beanContainer = BeanContainer.getInstance();
-        beanContainer.loadBeans(contextConfig.getProperty("scanPackage"));
+        beanContainer.loadController(contextConfig.getProperty("scanControllerPackage"));
+        beanContainer.loadBeans(contextConfig.getProperty("scanServicePackage"));
         //AOP织入
 //        new AspectWeaver().doAspectOrientedProgramming();
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
@@ -63,13 +61,24 @@ public class DispatcherServlet extends HttpServlet {
         //依赖注入
 //        new DependencyInject().doDependencyInject();
 
+
+
         //初始化请求处理器责任链
         // 预处理的请求处理器
+
+
+
         PROCESSORS.add(new PreRequestProcessor());
+
         // 静态资源的请求处理器（如果是静态资源让RequestDispatcher自己处理）
         PROCESSORS.add(new StaticResourceRequestProcessor(servletConfig.getServletContext()));
-        // 根据业务需要自定义的请求处理器
-//        PROCESSORS.add(new MQRequestProcessor(contextConfig));
+
+        PROCESSORS.add(new DoRequestProcessor());
+
+        PROCESSORS.add(new DoFileProcessor());
+
+
+
     }
 
     @Override

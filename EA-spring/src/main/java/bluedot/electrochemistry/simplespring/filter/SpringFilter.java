@@ -13,7 +13,9 @@ public interface SpringFilter {
      * @param request request
      * @param response response
      */
-    void beforeFilter(HttpRequest request, HttpResponse response);
+    default void beforeFilter(HttpRequest request, HttpResponse response) {
+
+    }
 
     /**
      * 请求处理之后
@@ -21,6 +23,8 @@ public interface SpringFilter {
      * @param response response
      * @param returnValue 返回值参数 无则null
      */
-    void afterFilter(HttpRequest request, HttpResponse response, Object returnValue);
+    default void afterFilter(HttpRequest request, HttpResponse response, Object returnValue) {
+
+    }
 
 }

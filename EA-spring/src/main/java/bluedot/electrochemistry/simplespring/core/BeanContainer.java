@@ -5,6 +5,7 @@ import bluedot.electrochemistry.simplespring.core.annotation.*;
 import bluedot.electrochemistry.simplespring.util.ClassUtil;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import bluedot.electrochemistry.simplespring.util.ValidationUtil;
+import com.sun.deploy.net.proxy.UserDefinedProxyConfig;
 import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;
@@ -26,7 +27,15 @@ public class BeanContainer {
      * 加载bean的注解列表
      */
     private static final List<Class<? extends Annotation>> BEAN_ANNOTATION = Arrays.asList(
-            Component.class, Controller.class, Service.class, Repository.class, Aspect.class, Configuration.class);
+            Component.class,
+            Controller.class,
+            Service.class,
+            Repository.class,
+            Aspect.class,
+            Configuration.class,
+            Filter.class,
+            BeforeFilter.class,
+            AfterFilter.class);
     /**
      * 判断容器是否被加载
      */
@@ -35,6 +44,7 @@ public class BeanContainer {
      * 获取静态日志管理器
      */
     private static final Logger LOGGER = LogUtil.getLogger();
+
 
     /**
      * 通过内部枚举类来实现bean容器的单例，线程安全，不会被反射或者序列化破坏
@@ -95,6 +105,56 @@ public class BeanContainer {
                 }
             }
         }
+        loaded = true;
+    }
+
+    /**
+     * 将bean对象加载进容器
+     *
+     * @param packageName 扫描包名
+     */
+    public void loadController(String packageName) {
+        if (isLoaded()) {
+            LOGGER.warn("BeanContainer has been loaded");
+            return;
+        }
+        // 获得扫描路径下所有类的Class文件存放到HashSet中
+        Set<Class<?>> classSet = ClassUtil.extractPackageClass(packageName);
+        // 判断Class集合是否非空
+        if (ValidationUtil.isEmpty(classSet)) {
+            LOGGER.warn("Extract nothing from packageName:" + packageName);
+            return;
+        }
+        RequestURLAdapter urlAdapter = new RequestURLAdapter();
+        for (Class<?> clazz : classSet) {
+            if (clazz.isAnnotationPresent(Controller.class)) {
+                LOGGER.debug("load  controller: " + clazz.getName());
+                Method[] declaredMethods = clazz.getMethods();
+                String rootUrl = "";
+                if (clazz.isAnnotationPresent(RequestMapping.class)) {
+                    RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
+                    String[] value = annotation.value();
+                    rootUrl = value[0];
+                }
+
+                for (Method method : declaredMethods) {
+                    Annotation[] annotations = method.getDeclaredAnnotations();
+
+                    if (annotations.length == 0) continue;
+                    for (Annotation annotation : annotations) {
+                        if (annotation.annotationType() == RequestMapping.class) {
+                            RequestMapping annotation1 = (RequestMapping) annotation;
+                            String[] value = annotation1.value();
+                            String url = rootUrl + value[0];
+                            urlAdapter.putUrl(url, method);
+                            urlAdapter.putClass(url,clazz);
+                        }
+                    }
+                }
+                beanMap.put(clazz, ClassUtil.newInstance(clazz, true));
+            }
+        }
+        addBean(RequestURLAdapter.class , urlAdapter);
         loaded = true;
     }
 
