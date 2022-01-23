@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public class DoRequestProcessor implements RequestProcessor {
 
+    public static final String EMPTY_STRING = "";
+
     private final BeanContainer beanContainer = BeanContainer.getInstance();
 
     private final Logger logger = LogUtil.getLogger();
@@ -80,43 +82,71 @@ public class DoRequestProcessor implements RequestProcessor {
                 Object o = type.newInstance();
                 Field[] declaredFields = type.getDeclaredFields();
                 if (type.isAnnotationPresent(Param.class)) {
-                    for (Field declaredField : declaredFields) {
-                        String fieldName = declaredField.getName();
-                        String[] strings = parameterMap.get(fieldName);
-
-                        String methodName = "set" + StringUtil.firstCharToUpperCase(fieldName);
-                        Method curMethod = type.getMethod(methodName, declaredField.getClass());
-                        curMethod.setAccessible(true);
-                        Object convert = ConverterUtil.convert(declaredField.getClass(), strings[0]);
-                        curMethod.invoke(o, convert);
+                    for (Field field : declaredFields) {
+                        setParamByField(field, parameterMap,o);
                     }
                 }else {
                     for (Field field : declaredFields) {
                         if (field.isAnnotationPresent(Param.class)) {
-                            String fieldName;
-                            Param annotation = field.getAnnotation(Param.class);
-                            String[] value = annotation.value();
-                            if (value.length == 0) {
-                                fieldName = field.getName();
-                            }else {
-                                fieldName = value[0];
-                            }
-                            String[] strings = parameterMap.get(fieldName);
-                            System.out.println(strings);
-                            String methodName = "set" + StringUtil.firstCharToUpperCase(fieldName);
-                            Method curMethod = parameterType.getType().getMethod(methodName, field.getClass());
-                            curMethod.setAccessible(true);
-                            Object convert = ConverterUtil.convert(field.getClass(), strings[0]);
-                            curMethod.invoke(o,convert);
+                            setParamByField(field,parameterMap,o);
                         }
                     }
-
                 }
                 params[i] = o;
             }
         }
         return params;
     }
+
+    @Deprecated
+    private void setParam(Field field, Map<String, String[]> parameterMap, Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        String fieldName = getFieldName(field);
+        String[] strings = parameterMap.get(fieldName);
+        String methodName = "set" + StringUtil.firstCharToUpperCase(fieldName);
+        Method curMethod = o.getClass().getMethod(methodName, field.getClass());
+        curMethod.setAccessible(true);
+        Object convert = ConverterUtil.convert(field.getClass(), strings[0]);
+        curMethod.invoke(o,convert);
+    }
+
+    /**
+     * 注入属性
+     * @param field  属性对象
+     * @param parameterMap 请求参数map
+     * @param o 对象
+     * @throws NoSuchMethodException  无此方法
+     * @throws InvocationTargetException 反射执行失败
+     * @throws IllegalAccessException 方法处理
+     */
+    private void setParamByField(Field field, Map<String, String[]> parameterMap, Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        String fieldName = getFieldName(field);
+        String[] strings = parameterMap.get(fieldName);
+        if (strings != null) {
+            field.setAccessible(true);
+            if (ConverterUtil.isPrimitive(field.getType())) {
+                field.set(o, ConverterUtil.convert(field.getType(), strings[0]));
+            }
+        }
+    }
+
+    /**
+     * 获取属性名称
+     * @param field 属性对象
+     * @return 属性名称
+     */
+    private String getFieldName(Field field) {
+        String fieldName = EMPTY_STRING;
+        Param annotation = field.getAnnotation(Param.class);
+        if (annotation != null) {
+            String[] value = annotation.value();
+            fieldName = value[0];
+        }
+        if (EMPTY_STRING.equals(fieldName)) {
+            fieldName = field.getName();
+        }
+        return fieldName;
+    }
+
 
     /**
      * 获取基础变量 数组(RequestParam) 或者 加了注解 RequestParam

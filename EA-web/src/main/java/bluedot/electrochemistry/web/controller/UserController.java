@@ -6,6 +6,7 @@ import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
+import bluedot.electrochemistry.simplespring.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +26,10 @@ public class UserController {
         return "hello world !! ";
     }
 
-    @RequestMapping("/s")
-    public String test2(@RequestParam("strs") String[] name) {
-        logger.info(" /user/t 请求成功！！！ name : " + name);
-        return name[0];
+    @RequestMapping("/user")
+    public String test2(User user) {
+        logger.info(" /user/s 请求成功！！！user : " + user);
+        return JsonUtil.toJson(user);
     }
 
     @RequestMapping("/t")

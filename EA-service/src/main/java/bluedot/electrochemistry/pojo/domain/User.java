@@ -1,14 +1,17 @@
 package bluedot.electrochemistry.pojo.domain;
 
+import bluedot.electrochemistry.simplespring.core.annotation.Param;
+
 /**
- * @author Sens
+ * @author Senn
  * @createDate 2021/12/16 19:20
  */
+@Param
 public class User {
     private String name;
     private Integer age;
 
-    public String getUsername() {
+    public String getName() {
         return name;
     }
 
@@ -27,7 +30,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "name=" + name +
                 ", age=" + age +
                 '}';
     }
