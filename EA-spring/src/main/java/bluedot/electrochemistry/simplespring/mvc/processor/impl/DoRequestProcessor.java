@@ -68,7 +68,10 @@ public class DoRequestProcessor implements RequestProcessor {
             if (ConverterUtil.isPrimitive(parameterType.getType()) || parameterType.isAnnotationPresent(RequestParam.class) || parameterType.getType().isArray()) {
 
                 String[] strings =  getRequestParam(parameterType,parameterMap);
-
+                if (strings == null) {
+                    params[i] = null;
+                    continue;
+                }
                 //基本类型;
                 if (!parameterType.getType().isArray()) {
                     params[i] = ConverterUtil.convert(parameterType.getType(),strings[0]);
@@ -155,17 +158,13 @@ public class DoRequestProcessor implements RequestProcessor {
      * @return String[] 请求值
      */
     private String[] getRequestParam(Parameter parameterType, Map<String, String[]>  parameterMap) {
-        String paramName = "";
+        String paramName = EMPTY_STRING;
         RequestParam requestParam = parameterType.getAnnotation(RequestParam.class);
         if (requestParam != null) {
-            String[] value = requestParam.value();
-            if (value.length != 0) {
-                paramName = value[0];
-            }else {
-                paramName = parameterType.getName();
-            }
-        }else {
-            paramName = parameterType.getName();
+            paramName = requestParam.value()[0];
+        }
+        if (EMPTY_STRING.equals(paramName)) {
+            parameterType.getName();
         }
         return parameterMap.get(paramName);
     }
