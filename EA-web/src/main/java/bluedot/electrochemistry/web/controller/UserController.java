@@ -25,6 +25,12 @@ public class UserController {
         return "hello world !! ";
     }
 
+    @RequestMapping("/s")
+    public String test2(@RequestParam("strs") String[] name) {
+        logger.info(" /user/t 请求成功！！！ name : " + name);
+        return name[0];
+    }
+
     @RequestMapping("/t")
     public String test1(@RequestParam("name") String name) {
         logger.info(" /user/t 请求成功！！！ name : " + name);
@@ -32,7 +38,7 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam("account") String account,@RequestParam("password") String password) {
+    public String login(@RequestParam("account") String account, @RequestParam("password") String password) {
         return "hello world !! ";
     }
 

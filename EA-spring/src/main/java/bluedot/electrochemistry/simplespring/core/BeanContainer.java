@@ -129,7 +129,7 @@ public class BeanContainer {
         for (Class<?> clazz : classSet) {
             if (clazz.isAnnotationPresent(Controller.class)) {
                 LOGGER.debug("load  controller: " + clazz.getName());
-                Method[] declaredMethods = clazz.getMethods();
+                Method[] declaredMethods = clazz.getDeclaredMethods();
                 String rootUrl = "";
                 if (clazz.isAnnotationPresent(RequestMapping.class)) {
                     RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
