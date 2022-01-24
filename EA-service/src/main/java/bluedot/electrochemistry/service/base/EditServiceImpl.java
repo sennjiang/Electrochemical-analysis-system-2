@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.base;
 
-import bluedot.electrochemistry.dao.base.BaseDao;
+import bluedot.electrochemistry.service.dao.base.BaseDao;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
 
 /**

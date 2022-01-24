@@ -1,6 +1,6 @@
-package bluedot.electrochemistry.dao;
+package bluedot.electrochemistry.service.dao;
 
-import bluedot.electrochemistry.pojo.domain.User;
+import bluedot.electrochemistry.service.pojo.domain.User;
 
 /**
  * @author Senn

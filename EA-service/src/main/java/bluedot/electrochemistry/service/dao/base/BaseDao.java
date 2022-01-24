@@ -1,6 +1,6 @@
-package bluedot.electrochemistry.dao.base;
+package bluedot.electrochemistry.service.dao.base;
 
-import bluedot.electrochemistry.dao.BaseMapper;
+import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Repository;

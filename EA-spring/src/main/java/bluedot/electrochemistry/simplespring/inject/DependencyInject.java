@@ -12,7 +12,8 @@ import java.lang.reflect.Field;
 import java.util.Set;
 
 /**
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/24 19:37
  */
 public class DependencyInject {
     private BeanContainer beanContainer;

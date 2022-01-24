@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.pojo.domain;
+package bluedot.electrochemistry.service.pojo.domain;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 

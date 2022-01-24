@@ -26,6 +26,7 @@ import java.util.Objects;
 /**
  * @author xxbb
  */
+
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
     /**
      * 配置对象

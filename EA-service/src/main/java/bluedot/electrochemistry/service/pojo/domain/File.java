@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.pojo.domain;
+package bluedot.electrochemistry.service.pojo.domain;
 
 /**
  * @author Senn

@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.exception;
+package bluedot.electrochemistry.service.exception;
 
 /**
  * 非法查询条件异常，如 sql 注入

@@ -1,16 +1,9 @@
 package bluedot.electrochemistry.simplespring.core;
 
-import bluedot.electrochemistry.simplespring.aop.annotation.Aspect;
-import bluedot.electrochemistry.simplespring.core.annotation.*;
-import bluedot.electrochemistry.simplespring.util.ClassUtil;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import bluedot.electrochemistry.simplespring.util.ValidationUtil;
-import com.sun.deploy.net.proxy.UserDefinedProxyConfig;
 import org.slf4j.Logger;
-
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,19 +16,7 @@ public class BeanContainer {
      * bean容器
      */
     private final Map<Class<?>, Object> beanMap = new ConcurrentHashMap<>();
-    /**
-     * 加载bean的注解列表
-     */
-    private static final List<Class<? extends Annotation>> BEAN_ANNOTATION = Arrays.asList(
-            Component.class,
-            Controller.class,
-            Service.class,
-            Repository.class,
-            Aspect.class,
-            Configuration.class,
-            Filter.class,
-            BeforeFilter.class,
-            AfterFilter.class);
+
     /**
      * 判断容器是否被加载
      */
@@ -73,89 +54,6 @@ public class BeanContainer {
 
     public Map getBeanContainer() {
         return this.beanMap;
-    }
-
-    /**
-     * 将bean对象加载进容器
-     *
-     * @param packageName 扫描包名
-     */
-    public void loadBeans(String packageName) {
-        if (isLoaded()) {
-            LOGGER.warn("BeanContainer has been loaded");
-            return;
-        }
-        // 获得扫描路径下所有类的Class文件存放到HashSet中
-        Set<Class<?>> classSet = ClassUtil.extractPackageClass(packageName);
-        // 判断Class集合是否非空
-        if (ValidationUtil.isEmpty(classSet)) {
-            LOGGER.warn("Extract nothing from packageName:" + packageName);
-            return;
-        }
-        for (Class<?> clazz : classSet) {
-            for (Class<? extends Annotation> annotation : BEAN_ANNOTATION) {
-                //如果类对象中存在注解则加载进bean容器中
-                if (clazz.isAnnotationPresent(annotation)) {
-                    LOGGER.debug("load bean: " + clazz.getName());
-                    beanMap.put(clazz, ClassUtil.newInstance(clazz, true));
-                    //如果注解为Configuration，则需要将该类中被@Bean标记的方法返回的对象也加载进容器中
-                    if (Configuration.class == annotation) {
-                        loadConfigurationBean(clazz);
-                    }
-                }
-            }
-        }
-        loaded = true;
-    }
-
-    /**
-     * 将bean对象加载进容器
-     *
-     * @param packageName 扫描包名
-     */
-    public void loadController(String packageName) {
-        if (isLoaded()) {
-            LOGGER.warn("BeanContainer has been loaded");
-            return;
-        }
-        // 获得扫描路径下所有类的Class文件存放到HashSet中
-        Set<Class<?>> classSet = ClassUtil.extractPackageClass(packageName);
-        // 判断Class集合是否非空
-        if (ValidationUtil.isEmpty(classSet)) {
-            LOGGER.warn("Extract nothing from packageName:" + packageName);
-            return;
-        }
-        RequestURLAdapter urlAdapter = new RequestURLAdapter();
-        for (Class<?> clazz : classSet) {
-            if (clazz.isAnnotationPresent(Controller.class)) {
-                LOGGER.debug("load  controller: " + clazz.getName());
-                Method[] declaredMethods = clazz.getDeclaredMethods();
-                String rootUrl = "";
-                if (clazz.isAnnotationPresent(RequestMapping.class)) {
-                    RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
-                    String[] value = annotation.value();
-                    rootUrl = value[0];
-                }
-
-                for (Method method : declaredMethods) {
-                    Annotation[] annotations = method.getDeclaredAnnotations();
-
-                    if (annotations.length == 0) continue;
-                    for (Annotation annotation : annotations) {
-                        if (annotation.annotationType() == RequestMapping.class) {
-                            RequestMapping annotation1 = (RequestMapping) annotation;
-                            String[] value = annotation1.value();
-                            String url = rootUrl + value[0];
-                            urlAdapter.putUrl(url, method);
-                            urlAdapter.putClass(url,clazz);
-                        }
-                    }
-                }
-                beanMap.put(clazz, ClassUtil.newInstance(clazz, true));
-            }
-        }
-        addBean(RequestURLAdapter.class , urlAdapter);
-        loaded = true;
     }
 
     /**
@@ -267,34 +165,6 @@ public class BeanContainer {
         return beanMap.size();
     }
 
-    /**
-     * 加载配置类中的bean对象
-     *
-     * @param clazz 配置类的class文件
-     */
-    private void loadConfigurationBean(Class<?> clazz) {
-        Method[] methods = clazz.getDeclaredMethods();
-        for (Method method : methods) {
-            // 判断遍历到的方法是否有@Bean注解
-            if (method.isAnnotationPresent(Bean.class)) {
-                Object configuration = beanMap.get(clazz);
-                Object bean = null;
-                try {
-                    // 直接执行方法获得bean
-                    bean = method.invoke(configuration);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    LOGGER.error("load configuration bean error: {}", e.getMessage());
-                    e.printStackTrace();
-                }
-                // bean不为空加入IOC容器
-                if (bean != null) {
-                    Class<?> beanClazz = bean.getClass();
-                    LOGGER.debug("load bean :{}", beanClazz.getName());
-                    beanMap.put(beanClazz, bean);
-                }
 
-            }
-        }
-    }
 
 }

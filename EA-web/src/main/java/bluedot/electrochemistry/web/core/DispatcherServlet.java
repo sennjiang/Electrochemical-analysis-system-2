@@ -1,14 +1,25 @@
 package bluedot.electrochemistry.web.core;
 
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
+import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
+import bluedot.electrochemistry.simplespring.core.SpringConstant;
+import bluedot.electrochemistry.simplespring.core.annotation.Bean;
+import bluedot.electrochemistry.simplespring.core.annotation.Configuration;
+import bluedot.electrochemistry.simplespring.core.annotation.Controller;
+import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
+import bluedot.electrochemistry.simplespring.inject.DependencyInject;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
+import bluedot.electrochemistry.simplespring.util.ClassUtil;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
+import bluedot.electrochemistry.simplespring.util.ValidationUtil;
+import bluedot.electrochemistry.web.sqlfactorybuilder.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,9 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author Senn
@@ -30,6 +45,9 @@ import java.util.Properties;
         initParams = {@WebInitParam(name = "contextConfigLocation", value = "application.properties")},
         loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherServlet.class);
+
     /**
      * 保存application.properties配置文件中的内容
      */
@@ -50,15 +68,17 @@ public class DispatcherServlet extends HttpServlet {
         log.info("ready init in dispatcherServlet");
         //读取配置文件，保存属性到contextConfig
         doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
+
         //初始化容器
         BeanContainer beanContainer = BeanContainer.getInstance();
-        beanContainer.loadController(contextConfig.getProperty("scanControllerPackage"));
-        beanContainer.loadBeans(contextConfig.getProperty("scanServicePackage"));
+
+        loadBeans(contextConfig.getProperty("scanControllerPackage"));
+
+        loadBeans(contextConfig.getProperty("scanPackage"));
         //AOP织入
 //        new AspectWeaver().doAspectOrientedProgramming();
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
 //        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
-        //依赖注入
 //        new DependencyInject().doDependencyInject();
 
 
@@ -141,5 +161,112 @@ public class DispatcherServlet extends HttpServlet {
 //            }
 //        }
 
+    }
+
+    /**
+     * 将bean对象加载进容器
+     * @param packageName 扫描包名
+     */
+    public void loadBeans(String packageName) {
+        // 获得扫描路径下所有类的Class文件存放到HashSet中
+        Set<Class<?>> classSet = ClassUtil.extractPackageClass(packageName);
+        // 判断Class集合是否非空
+        if (ValidationUtil.isEmpty(classSet)) {
+            LOGGER.warn("Extract nothing from packageName:" + packageName);
+            return;
+        }
+        for (Class<?> clazz : classSet) {
+            for (Class<? extends Annotation> annotation : SpringConstant.BEAN_ANNOTATION) {
+                //如果类对象中存在注解则加载进bean容器中
+                if (clazz.isAnnotationPresent(annotation)) {
+                    LOGGER.debug("load bean: " + clazz.getName());
+                    BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
+                    //如果注解为Configuration，则需要将该类中被@Bean标记的方法返回的对象也加载进容器中
+                    if (Configuration.class == annotation) {
+                        loadConfigurationBean(clazz);
+                    }
+                    if (Controller.class == annotation) {
+                        loadControllerBean(clazz);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * 加载配置类中的 Configuration bean对象
+     * @param clazz 配置类的class文件
+     */
+    private void loadConfigurationBean(Class<?> clazz) {
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+            // 判断遍历到的方法是否有@Bean注解
+            if (method.isAnnotationPresent(Bean.class)) {
+                Object configuration = BeanContainer.getInstance().getBean(clazz);
+                Object bean = null;
+                try {
+                    // 直接执行方法获得bean
+                    bean = method.invoke(configuration);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    LOGGER.error("load configuration bean error: {}", e.getMessage());
+                    e.printStackTrace();
+                }
+                // bean不为空加入IOC容器
+                if (bean != null) {
+                    Class<?> beanClazz = bean.getClass();
+                    LOGGER.debug("load bean :{}", beanClazz.getName());
+                    BeanContainer.getInstance().addBean(beanClazz, bean);
+                }
+
+            }
+        }
+    }
+    /**
+     * 将 Controller bean对象加载进容器
+     * 针对 Controller 有自己的处理方式
+     * @param clazz clazz
+     */
+    public void loadControllerBean(Class<?> clazz) {
+        Method[] declaredMethods = clazz.getDeclaredMethods();
+        String rootUrl = "";
+        if (clazz.isAnnotationPresent(RequestMapping.class)) {
+            RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
+            String[] value = annotation.value();
+            rootUrl = value[0];
+        }
+        RequestURLAdapter urlAdapter =  getRequestUrlAdapter();
+        for (Method method : declaredMethods) {
+            Annotation[] annotations = method.getDeclaredAnnotations();
+
+            if (annotations.length == 0) continue;
+            for (Annotation annotation : annotations) {
+                if (annotation.annotationType() == RequestMapping.class) {
+                    RequestMapping annotation1 = (RequestMapping) annotation;
+                    String[] value = annotation1.value();
+                    String url = rootUrl + value[0];
+
+                    urlAdapter.putUrl(url, method);
+                    urlAdapter.putClass(url,clazz);
+                }
+            }
+        }
+        BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
+        setRequestUrlAdapter(urlAdapter);
+    }
+
+    /**
+     * 获取url处理器
+     * @return url处理器
+     */
+    private RequestURLAdapter getRequestUrlAdapter() {
+        Object bean = BeanContainer.getInstance().getBean(RequestURLAdapter.class);
+        return bean == null ? new RequestURLAdapter() : (RequestURLAdapter) bean;
+    }
+
+    /**
+     * set url处理器
+     * @param adapter url处理器
+     */
+    private void setRequestUrlAdapter(RequestURLAdapter adapter) {
+       BeanContainer.getInstance().addBean(adapter.getClass(),adapter);
     }
 }

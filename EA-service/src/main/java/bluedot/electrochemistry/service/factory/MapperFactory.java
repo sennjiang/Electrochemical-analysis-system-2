@@ -1,7 +1,7 @@
-package bluedot.electrochemistry.factory;
+package bluedot.electrochemistry.service.factory;
 
-import bluedot.electrochemistry.dao.BaseMapper;
-import bluedot.electrochemistry.dao.CommonMapper;
+import bluedot.electrochemistry.service.dao.BaseMapper;
+import bluedot.electrochemistry.service.dao.CommonMapper;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Repository;

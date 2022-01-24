@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.service.query.searchable;
 
-import bluedot.electrochemistry.dao.BaseMapper;
-import bluedot.electrochemistry.pojo.domain.User;
+import bluedot.electrochemistry.service.dao.BaseMapper;
+import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 
 import java.util.List;

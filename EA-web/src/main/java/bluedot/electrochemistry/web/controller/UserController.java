@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.web.controller;
 
 
-import bluedot.electrochemistry.pojo.domain.User;
+import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;

@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.exception;
+package bluedot.electrochemistry.service.exception;
 
 /**
  * 非法索引异常

@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.service.query.main;
 
 import bluedot.electrochemistry.service.Lifecycle;
-import bluedot.electrochemistry.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.SearchResult;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 

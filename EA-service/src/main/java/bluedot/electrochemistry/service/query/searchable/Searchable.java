@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.query.searchable;
 
-import bluedot.electrochemistry.dao.BaseMapper;
+import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.query.SearchResult;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 

@@ -12,7 +12,8 @@ import java.io.InputStream;
 /**
  * 构建者模式创建sqlSession工厂对象
  *
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/24 19:37
  */
 public class SqlSessionFactoryBuilder {
     /**
@@ -39,6 +40,4 @@ public class SqlSessionFactoryBuilder {
         BeanContainer.getInstance().addBean(factory.getClass(), factory);
         return factory;
     }
-
-
 }
