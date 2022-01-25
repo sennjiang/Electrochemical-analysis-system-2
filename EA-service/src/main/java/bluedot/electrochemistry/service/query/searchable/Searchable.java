@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.query.searchable;
 
-import bluedot.electrochemistry.service.dao.BaseMapper;
+import bluedot.electrochemistry.service.dao.CommonMapper;
 import bluedot.electrochemistry.service.query.SearchResult;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 
@@ -20,5 +20,5 @@ public interface Searchable<T> {
      * @param condition 条件
      * @return 数量
      */
-    Integer count(BaseMapper mapper, Conditional condition);
+    Integer count(CommonMapper mapper, Conditional condition);
 }

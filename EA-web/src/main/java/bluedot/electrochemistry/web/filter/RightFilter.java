@@ -2,8 +2,6 @@ package bluedot.electrochemistry.web.filter;
 
 import bluedot.electrochemistry.simplespring.core.annotation.BeforeFilter;
 import bluedot.electrochemistry.simplespring.filter.SpringFilter;
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
 
 /**
  * @author Senn
@@ -11,9 +9,4 @@ import com.sun.deploy.net.HttpResponse;
  */
 @BeforeFilter
 public class RightFilter implements SpringFilter {
-
-    @Override
-    public void beforeFilter(HttpRequest request, HttpResponse response) {
-
-    }
 }

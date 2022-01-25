@@ -57,6 +57,11 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
         loadTableInfo(configuration);
     }
 
+    //测试注入 FIXME 请删除
+    public DefaultSqlSessionFactory() {
+        configuration = null;
+    }
+
     /**
      * 双重检测锁获取单例工厂
      *

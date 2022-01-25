@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper namespace="bluedot.electrochemistry.service.dao.BaseMapper">
 
-    <select id="getAccountList" resultType="bluedot.electrochemistry.service.pojo.domain.User">
-        select * from user where ${condition};
-    </select>
+    <select id="checkEmail" resultType="java.lang.Integer">
 
-    <select id="getAccountCount" resultType="Integer">
-        select count(*) from user where ${condition};
     </select>
-    <select id="getOneUser" resultType="bluedot.electrochemistry.service.pojo.domain.User">
-        select * from user where ${condition};
+    <select id="loginByEmail" resultType="bluedot.electrochemistry.service.pojo.domain.User">
+
     </select>
 </mapper>

@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.web.core;
 
+import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
+import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.SpringConstant;
@@ -15,11 +17,10 @@ import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
 import bluedot.electrochemistry.simplespring.util.ClassUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
 import bluedot.electrochemistry.simplespring.util.ValidationUtil;
 import bluedot.electrochemistry.web.sqlfactorybuilder.SqlSessionFactoryBuilder;
+import bluedot.electrochemistry.web.util.LogUtil;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -46,7 +47,7 @@ import java.util.Set;
         loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherServlet.class);
+    private static final Logger LOGGER = LogUtil.getLogger(DispatcherServlet.class);
 
     /**
      * 保存application.properties配置文件中的内容
@@ -58,14 +59,12 @@ public class DispatcherServlet extends HttpServlet {
      */
     List<RequestProcessor> PROCESSORS = new ArrayList<>();
 
-    /**
-     * 日志
-     */
-    private final Logger log = LogUtil.getLogger();
-
     @Override
     public void init(ServletConfig servletConfig) {
-        log.info("ready init in dispatcherServlet");
+        LOGGER.info("ready init in dispatcherServlet");
+
+
+
         //读取配置文件，保存属性到contextConfig
         doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
 
@@ -78,16 +77,15 @@ public class DispatcherServlet extends HttpServlet {
         //AOP织入
 //        new AspectWeaver().doAspectOrientedProgramming();
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
+        //TODO 初始化mybatis异常
 //        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
-//        new DependencyInject().doDependencyInject();
 
+        beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
 
+        new DependencyInject().doDependencyInject();
 
         //初始化请求处理器责任链
         // 预处理的请求处理器
-
-
-
         PROCESSORS.add(new PreRequestProcessor());
 
         // 静态资源的请求处理器（如果是静态资源让RequestDispatcher自己处理）
@@ -104,7 +102,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        log.info("ready service in dispatcherServlet");
+        LOGGER.info("ready service in dispatcherServlet");
 
         //1.创建责任链对象实例
         RequestProcessorChain requestProcessorChain = new RequestProcessorChain(PROCESSORS.iterator(), request, response);
@@ -122,7 +120,7 @@ public class DispatcherServlet extends HttpServlet {
     private void doLoadConfig(String contextConfigLocation) {
         //直接通过类路径找到框架主配置文件的路径
         //并将配置文件内容读取到properties对象中
-        log.info("Loading configLocation--->path:{} ", contextConfigLocation);
+        LOGGER.info("Loading configLocation--->path:{} ", contextConfigLocation);
         InputStream is = null;
         try {
             is = this.getClass().getClassLoader().getResourceAsStream(contextConfigLocation);
@@ -144,7 +142,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void destroy() {
 
-        log.info("close all resources...");
+        LOGGER.info("close all resources...");
 //
 //        //关闭连接池
 //        MyDataSourceImpl.getInstance().close();

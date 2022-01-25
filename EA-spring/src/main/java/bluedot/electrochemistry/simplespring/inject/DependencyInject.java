@@ -9,6 +9,8 @@ import bluedot.electrochemistry.simplespring.util.ValidationUtil;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 /**
@@ -19,6 +21,8 @@ public class DependencyInject {
     private BeanContainer beanContainer;
     private static final Logger LOGGER = LogUtil.getLogger();
 
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
+
     public DependencyInject() {
         beanContainer = BeanContainer.getInstance();
     }
@@ -27,11 +31,12 @@ public class DependencyInject {
      * 依赖注入
      */
     public void doDependencyInject() {
+        LOGGER.debug(" do dependency inject start time : {}",dateTimeFormatter.format(LocalDateTime.now()));
 
         //遍历Bean容器中的所有class对象
         Set<Class<?>> classSet = beanContainer.getClasses();
         if (ValidationUtil.isEmpty(classSet)) {
-            LOGGER.warn("There is an empty classSet");
+            LOGGER.warn("There is an empty classSet in beanContainer ");
         }
         for (Class<?> clazz : classSet) {
             //遍历class对象的所有成员变量
@@ -52,13 +57,13 @@ public class DependencyInject {
                     }
                     //通过反射将对应的成员变量实例注入到成员变量中
                     Object targetBean = beanContainer.getBean(clazz);
-                    LogUtil.getLogger().debug("Dependency inject for class: " + clazz.getName() + ";injected value：" + fieldClass.getName());
+                    LOGGER.debug("Dependency inject for class: " + clazz.getName() + ";injected value：" + fieldClass.getName());
                     ClassUtil.setField(targetBean, field, fieldValue, true);
 
                 }
             }
         }
-
+        LOGGER.debug(" end dependency inject end time : {}",dateTimeFormatter.format(LocalDateTime.now()));
     }
 
     /**

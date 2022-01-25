@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.service.query.searchable;
 
 import bluedot.electrochemistry.service.dao.BaseMapper;
+import bluedot.electrochemistry.service.dao.CommonMapper;
 import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.service.query.SearchResult;
@@ -23,7 +24,7 @@ abstract class AbstractSearch<T> implements Searchable<T> {
     @Override
     public SearchResult<T> search(Conditional condition) {
         String sql = condition.decodeCondition();
-        BaseMapper mapper = new BaseMapper() {
+        CommonMapper mapper = new CommonMapper() {
             @Override
             public List<User> getAccountList(String condition) {
                 ArrayList<User> list = new ArrayList<>();
@@ -65,15 +66,15 @@ abstract class AbstractSearch<T> implements Searchable<T> {
     }
 
     @Override
-    public Integer count(BaseMapper mapper, Conditional condition) {
+    public Integer count(CommonMapper mapper, Conditional condition) {
         return null;
     }
 
-    List<T> getList(BaseMapper mapper, String condition) {
+    List<T> getList(CommonMapper mapper, String condition) {
         return null;
     }
 
-    T getOne(BaseMapper mapper, String condition){
+    T getOne(CommonMapper mapper, String condition){
         return null;
     }
 }
