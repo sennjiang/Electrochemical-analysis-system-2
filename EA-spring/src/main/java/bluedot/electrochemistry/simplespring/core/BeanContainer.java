@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.simplespring.core;
 
+import bluedot.electrochemistry.simplespring.util.ClassUtil;
+import bluedot.electrochemistry.simplespring.util.ConverterUtil;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import bluedot.electrochemistry.simplespring.util.ValidationUtil;
 import org.slf4j.Logger;
@@ -88,6 +90,10 @@ public class BeanContainer {
 
     public Object getBean(Class<?> clazz) {
         return beanMap.get(clazz);
+    }
+
+    public Object getBeanOrNewInstance(Class<?> clazz) {
+        return beanMap.get(clazz) == null ? ClassUtil.newInstance(clazz,true) : beanMap.get(clazz);
     }
 
     /**

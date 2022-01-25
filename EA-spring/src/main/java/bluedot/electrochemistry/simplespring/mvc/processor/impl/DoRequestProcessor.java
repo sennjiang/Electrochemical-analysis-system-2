@@ -4,6 +4,7 @@ import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
+import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.JsonResultRender;
@@ -34,8 +35,19 @@ public class DoRequestProcessor implements RequestProcessor {
 
     private static final RequestURLAdapter urlAdapter = (RequestURLAdapter) BeanContainer.getInstance().getBean(RequestURLAdapter.class);
 
+
+    /**
+     * 后置过滤器
+     */
+    private FilterAdapter filterAdapter;
+
     @Override
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
+
+        if (filterAdapter.needDoBefore()) {
+            filterAdapter.doBeforeFilter(requestProcessorChain.getReq(), requestProcessorChain.getResp());
+        }
+
         String requestPath = requestProcessorChain.getRequestPath();
         logger.info("request path --> {}",requestPath);
         Method method = urlAdapter.getUrl(requestPath);
@@ -46,8 +58,13 @@ public class DoRequestProcessor implements RequestProcessor {
         //获取执行对象
         Object o = beanContainer.getBean(aClass);
         //最终执行
-        Object invoke = method.invoke(o, params);
-        requestProcessorChain.setResultRender(new JsonResultRender(invoke));
+        Object returnValue = method.invoke(o, params);
+        requestProcessorChain.setResultRender(new JsonResultRender(returnValue));
+
+        if (filterAdapter.needDoAfter()) {
+            filterAdapter.doAfterFilter(requestProcessorChain.getReq(), requestProcessorChain.getResp(), returnValue);
+        }
+
         return false;
     }
 
@@ -167,6 +184,10 @@ public class DoRequestProcessor implements RequestProcessor {
             parameterType.getName();
         }
         return parameterMap.get(paramName);
+    }
+
+    public void setFilterAdapter(FilterAdapter filterAdapter) {
+        this.filterAdapter = filterAdapter;
     }
 
 }

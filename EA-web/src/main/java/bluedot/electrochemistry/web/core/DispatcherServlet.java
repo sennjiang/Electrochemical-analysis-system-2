@@ -1,14 +1,10 @@
 package bluedot.electrochemistry.web.core;
-
-import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.SpringConstant;
-import bluedot.electrochemistry.simplespring.core.annotation.Bean;
-import bluedot.electrochemistry.simplespring.core.annotation.Configuration;
-import bluedot.electrochemistry.simplespring.core.annotation.Controller;
-import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
+import bluedot.electrochemistry.simplespring.core.annotation.*;
+import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.inject.DependencyInject;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
@@ -18,10 +14,8 @@ import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProces
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
 import bluedot.electrochemistry.simplespring.util.ClassUtil;
 import bluedot.electrochemistry.simplespring.util.ValidationUtil;
-import bluedot.electrochemistry.web.sqlfactorybuilder.SqlSessionFactoryBuilder;
 import bluedot.electrochemistry.web.util.LogUtil;
 import org.slf4j.Logger;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -59,6 +53,13 @@ public class DispatcherServlet extends HttpServlet {
      */
     List<RequestProcessor> PROCESSORS = new ArrayList<>();
 
+    private BeanContainer beanContainer;
+
+    /**
+     * 过滤器
+     */
+    private FilterAdapter filterAdapter;
+
     @Override
     public void init(ServletConfig servletConfig) {
         LOGGER.info("ready init in dispatcherServlet");
@@ -69,11 +70,14 @@ public class DispatcherServlet extends HttpServlet {
         doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
 
         //初始化容器
-        BeanContainer beanContainer = BeanContainer.getInstance();
+        beanContainer = BeanContainer.getInstance();
 
         loadBeans(contextConfig.getProperty("spring.controllerPackage"));
 
         loadBeans(contextConfig.getProperty("spring.scanPackage"));
+
+        filterAdapter = new FilterAdapter();
+        loadBeans(contextConfig.getProperty("spring.filterPackage"));
         //AOP织入
 //        new AspectWeaver().doAspectOrientedProgramming();
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
@@ -91,9 +95,13 @@ public class DispatcherServlet extends HttpServlet {
         // 静态资源的请求处理器（如果是静态资源让RequestDispatcher自己处理）
         PROCESSORS.add(new StaticResourceRequestProcessor(servletConfig.getServletContext()));
 
-        PROCESSORS.add(new DoRequestProcessor());
-
         PROCESSORS.add(new DoFileProcessor());
+
+        DoRequestProcessor doRequestProcessor = new DoRequestProcessor();
+        doRequestProcessor.setFilterAdapter(filterAdapter);
+        PROCESSORS.add(doRequestProcessor);
+
+
 
 
 
@@ -102,14 +110,17 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+
         LOGGER.info("ready service in dispatcherServlet");
 
         //1.创建责任链对象实例
         RequestProcessorChain requestProcessorChain = new RequestProcessorChain(PROCESSORS.iterator(), request, response);
+
         //2.通过责任链模式来一次调用请求处理器对请求进行处理
         requestProcessorChain.doRequestProcessorChain();
         //3.对处理结果进行渲染
         requestProcessorChain.doRender();
+
     }
 
     /**
@@ -186,10 +197,15 @@ public class DispatcherServlet extends HttpServlet {
                     if (Controller.class == annotation) {
                         loadControllerBean(clazz);
                     }
+                    if (Filter.class == annotation || BeforeFilter.class == annotation || AfterFilter.class == annotation) {
+                        loadFilterBean(clazz);
+                    }
                 }
             }
         }
     }
+
+
     /**
      * 加载配置类中的 Configuration bean对象
      * @param clazz 配置类的class文件
@@ -231,7 +247,7 @@ public class DispatcherServlet extends HttpServlet {
             String[] value = annotation.value();
             rootUrl = value[0];
         }
-        RequestURLAdapter urlAdapter =  getRequestUrlAdapter();
+        RequestURLAdapter urlAdapter = (RequestURLAdapter) beanContainer.getBeanOrNewInstance(RequestURLAdapter.class);
         for (Method method : declaredMethods) {
             Annotation[] annotations = method.getDeclaredAnnotations();
 
@@ -248,23 +264,28 @@ public class DispatcherServlet extends HttpServlet {
             }
         }
         BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
-        setRequestUrlAdapter(urlAdapter);
+        beanContainer.addBean(RequestURLAdapter.class,urlAdapter);
     }
 
     /**
-     * 获取url处理器
-     * @return url处理器
+     * 将 Filter bean对象加载进容器
+     * 针对 Filter 有自己的处理方式
+     * @param clazz clazz
      */
-    private RequestURLAdapter getRequestUrlAdapter() {
-        Object bean = BeanContainer.getInstance().getBean(RequestURLAdapter.class);
-        return bean == null ? new RequestURLAdapter() : (RequestURLAdapter) bean;
-    }
-
-    /**
-     * set url处理器
-     * @param adapter url处理器
-     */
-    private void setRequestUrlAdapter(RequestURLAdapter adapter) {
-       BeanContainer.getInstance().addBean(adapter.getClass(),adapter);
+    private void loadFilterBean(Class<?> clazz) {
+        LOGGER.debug("load filter bean name : " + clazz.getName());
+        if (clazz.isAnnotationPresent(Filter.class)) {
+            int level = clazz.getAnnotation(Filter.class).value();
+            filterAdapter.addBeforeFilter(clazz, level);
+            filterAdapter.addAfterFilter(clazz, level);
+        }
+        if (clazz.isAnnotationPresent(BeforeFilter.class)) {
+            int level = clazz.getAnnotation(BeforeFilter.class).value();
+            filterAdapter.addBeforeFilter(clazz, level);
+        }
+        if (clazz.isAnnotationPresent(AfterFilter.class)) {
+            int level = clazz.getAnnotation(AfterFilter.class).value();
+            filterAdapter.addAfterFilter(clazz, level);
+        }
     }
 }

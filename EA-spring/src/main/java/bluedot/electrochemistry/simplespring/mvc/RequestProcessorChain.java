@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
+import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.DefaultResultRender;
@@ -52,6 +53,7 @@ public class RequestProcessorChain {
      * 日志
      */
     private final Logger log = LogUtil.getLogger();
+
 
     /**
      * 构造函数
@@ -186,6 +188,5 @@ public class RequestProcessorChain {
                 ", resultRender=" + resultRender +
                 '}';
     }
-
 
 }
