@@ -246,25 +246,33 @@ public class DispatcherServlet extends HttpServlet {
             RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
             String[] value = annotation.value();
             rootUrl = value[0];
+        }else {
+            return;
         }
         RequestURLAdapter urlAdapter = (RequestURLAdapter) beanContainer.getBeanOrNewInstance(RequestURLAdapter.class);
         for (Method method : declaredMethods) {
-            Annotation[] annotations = method.getDeclaredAnnotations();
-
-            if (annotations.length == 0) continue;
-            for (Annotation annotation : annotations) {
-                if (annotation.annotationType() == RequestMapping.class) {
-                    RequestMapping annotation1 = (RequestMapping) annotation;
-                    String[] value = annotation1.value();
-                    String url = rootUrl + value[0];
-
-                    urlAdapter.putUrl(url, method);
-                    urlAdapter.putClass(url,clazz);
-                }
+            if (method.isAnnotationPresent(RequestMapping.class)) {
+                doLoadUrl(urlAdapter, clazz, method, rootUrl);
+            } else if (method.isAnnotationPresent(WhiteMapping.class)) {
+                doLoadWhiteUrl(urlAdapter, clazz, method, rootUrl);
             }
         }
-        BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
+        beanContainer.addBean(clazz, ClassUtil.newInstance(clazz, true));
         beanContainer.addBean(RequestURLAdapter.class,urlAdapter);
+    }
+
+    private void doLoadWhiteUrl(RequestURLAdapter urlAdapter, Class<?> clazz, Method method, String rootUrl) {
+        String[] value = method.getAnnotation(WhiteMapping.class).value();
+        String url = rootUrl + value[0];
+        urlAdapter.putWhiteUrl(url, method);
+        urlAdapter.putClass(url,clazz);
+    }
+
+    private void doLoadUrl(RequestURLAdapter urlAdapter, Class<?> clazz, Method method, String rootUrl) {
+        String[] value = method.getAnnotation(RequestMapping.class).value();
+        String url = rootUrl + value[0];
+        urlAdapter.putUrl(url, method);
+        urlAdapter.putClass(url,clazz);
     }
 
     /**

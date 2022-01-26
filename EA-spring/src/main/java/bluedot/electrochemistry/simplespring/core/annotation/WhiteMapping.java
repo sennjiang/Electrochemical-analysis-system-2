@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author Senn
  * @create 2021/12/26 11:28
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WhiteMapping {
     String[] value();

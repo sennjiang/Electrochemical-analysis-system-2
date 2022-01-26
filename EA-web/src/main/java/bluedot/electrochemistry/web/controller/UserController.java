@@ -28,7 +28,7 @@ public class UserController {
         return "hello world !! ";
     }
 
-    @RequestMapping("/user")
+    @WhiteMapping("/user")
     public String test2(User user) {
         logger.info(" /user/user 请求成功！！！user : " + user);
         return JsonUtil.toJson(user);

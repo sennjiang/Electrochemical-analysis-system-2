@@ -14,12 +14,15 @@ import java.util.Map;
  * @create 2022/1/22 17:03
  */
 public class DefaultResultRender implements ResultRender {
+
     @Override
     public void render(RequestProcessorChain requestProcessorChain) throws IOException {
+
         Map<String,Object> map = new HashMap<>();
         map.put("code",401);
-        map.put("message","用户未登录！请先登录");
+        map.put("message","do nothing");
         requestProcessorChain.getResp().setCharacterEncoding("GBK");
         requestProcessorChain.getResp().getWriter().write(JsonUtil.toJson(map));
     }
+
 }

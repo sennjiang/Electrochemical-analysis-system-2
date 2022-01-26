@@ -12,10 +12,16 @@ public class RequestURLAdapter {
 
     private Map<String, Method> urlMap = new HashMap<>();
 
+    private Map<String, Method> whiteUrlMap = new HashMap<>();
+
     private Map<String, Class<?>> classMap = new HashMap<>();
 
     public void putUrl(String url, Method method) {
         urlMap.put(url,method);
+    }
+
+    public void putWhiteUrl(String url, Method method) {
+        whiteUrlMap.put(url,method);
     }
 
     public Method getUrl(String url) {
@@ -30,4 +36,10 @@ public class RequestURLAdapter {
         return classMap.getOrDefault(url,null);
     }
 
+    public Method getWhiteUrl(String url) {
+        return whiteUrlMap.getOrDefault(url,null);
+    }
+    public boolean isWhiteUrl(String url) {
+        return whiteUrlMap.containsKey(url);
+    }
 }

@@ -50,9 +50,14 @@ public class DoRequestProcessor implements RequestProcessor {
 
         String requestPath = requestProcessorChain.getRequestPath();
         logger.info("request path --> {}",requestPath);
-        Method method = urlAdapter.getUrl(requestPath);
-        Class<?> aClass = urlAdapter.getClass(requestPath);
+        Method method = null;
+        if (urlAdapter.isWhiteUrl(requestPath)) {
+            method = urlAdapter.getWhiteUrl(requestPath);
+        }else {
+            method = urlAdapter.getUrl(requestPath);
+        }
         if (method == null) throw new RuntimeException("No such request path !!");
+        Class<?> aClass = urlAdapter.getClass(requestPath);
         //获取方法参数
         Object[] params = doMethodParam(method,requestProcessorChain.getReq());
         //获取执行对象
