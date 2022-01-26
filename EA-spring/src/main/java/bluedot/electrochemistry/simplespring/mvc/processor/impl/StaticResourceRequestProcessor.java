@@ -2,6 +2,7 @@ package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.render.impl.ResourceResultRender;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -44,6 +45,7 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
             //如果是静态资源，则交给default servlet处理
             LogUtil.getLogger().debug("static requestPath: {}", requestProcessorChain.getRequestPath());
             defaultDispatcher.forward(requestProcessorChain.getReq(), requestProcessorChain.getResp());
+            requestProcessorChain.setResultRender(new ResourceResultRender());
             return false;
         }
         return true;
