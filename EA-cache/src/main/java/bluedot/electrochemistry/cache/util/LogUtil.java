@@ -1,13 +1,13 @@
-package bluedot.electrochemistry.simplemybatis.utils;
+package bluedot.electrochemistry.cache.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 每个线程获取不同的Logger对象
- * @author xxbb
+ * @author Senn
+ * @create 2022/1/26 19:55
  */
-public class LogUtils {
+public class LogUtil {
     /**
      * 根据线程名获取 Log 对象
      * @return slf4j.Logger

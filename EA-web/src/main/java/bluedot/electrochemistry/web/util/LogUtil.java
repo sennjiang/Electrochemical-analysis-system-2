@@ -15,6 +15,7 @@ public class LogUtil {
     public static Logger getLogger() {
         return LoggerFactory.getLogger(Thread.currentThread().getName());
     }
+
     /**
      * 根据 Class 获取 Log 对象
      * @return slf4j.Logger
