@@ -4,6 +4,7 @@ import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.DefaultResultRender;
+import bluedot.electrochemistry.simplespring.mvc.render.impl.ErrorResultRender;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.JsonResultRender;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
@@ -86,13 +87,8 @@ public class RequestProcessorChain {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            log.warn("执行出错 : {}",e.getMessage());
-            //执行报错 直接交给前端处理
-            Map<String,Object> map = new HashMap<>();
-            map.put("message",e.getMessage());
-            map.put("code",404);
-            setResultRender(new JsonResultRender(map));
+            log.error("执行出错 : {}",e.getMessage());
+            setResultRender(new ErrorResultRender(e.getMessage()));
         }
 
 
