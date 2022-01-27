@@ -13,8 +13,8 @@ public interface SpringFilter {
      * @param request request
      * @param response response
      */
-    default void beforeFilter(ServletRequest request, ServletResponse response) {
-
+    default boolean beforeFilter(ServletRequest request, ServletResponse response) {
+        return true;
     }
 
     /**
@@ -23,8 +23,8 @@ public interface SpringFilter {
      * @param response response
      * @param returnValue 返回值参数 无则null
      */
-    default void afterFilter(ServletRequest request, ServletResponse response, Object returnValue) {
-
+    default boolean afterFilter(ServletRequest request, ServletResponse response, Object returnValue) {
+        return true;
     }
 
 }

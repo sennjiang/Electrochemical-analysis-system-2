@@ -22,11 +22,23 @@ public class FilterAdapter {
 
 
     public void doBeforeFilter(HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.debug("do before filter filter name :  1 ");
+        for (FilterDefinition next : beforeFilters) {
+            SpringFilter filter = next.getFilter();
+            LOGGER.debug("do before filter filter name :  " + filter.getClass().getName());
+            if (!filter.beforeFilter(request, response)) {
+                throw new RuntimeException("do before filter fail ");
+            }
+        }
     }
 
     public void doAfterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) {
-        LOGGER.debug("do after filter filter name :  2 ");
+        for (FilterDefinition next : afterFilters) {
+            SpringFilter filter = next.getFilter();
+            LOGGER.debug("do after filter filter name :  " + filter.getClass().getName());
+            if (!filter.afterFilter(request, response,returnValue)) {
+                throw new RuntimeException("do after filter fail ");
+            }
+        }
     }
 
     public void addBeforeFilter(Class<?> clazz, int level) {

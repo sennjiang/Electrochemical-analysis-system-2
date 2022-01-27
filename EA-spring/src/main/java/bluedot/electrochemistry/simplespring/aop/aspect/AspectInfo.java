@@ -7,6 +7,7 @@ import bluedot.electrochemistry.simplespring.aop.PointcutLocator;
  * @create 2022/1/22 17:03
  */
 public class AspectInfo {
+
     private int orderIndex;
     private DefaultAspect aspectObject;
     private PointcutLocator pointcutLocator;

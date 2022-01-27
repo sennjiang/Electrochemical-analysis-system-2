@@ -1,19 +1,15 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
-import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.DefaultResultRender;
 import bluedot.electrochemistry.simplespring.mvc.render.impl.ErrorResultRender;
-import bluedot.electrochemistry.simplespring.mvc.render.impl.JsonResultRender;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author Senn
