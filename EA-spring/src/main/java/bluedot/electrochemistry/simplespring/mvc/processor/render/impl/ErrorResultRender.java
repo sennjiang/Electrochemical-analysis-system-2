@@ -1,7 +1,7 @@
-package bluedot.electrochemistry.simplespring.mvc.render.impl;
+package bluedot.electrochemistry.simplespring.mvc.processor.render.impl;
 
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
-import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;
 import bluedot.electrochemistry.simplespring.util.JsonUtil;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class ErrorResultRender implements ResultRender {
         Map<String,Object> map = new HashMap<>();
         map.put("code",404);
         map.put("message",errorMessage);
-        requestProcessorChain.getResp().setCharacterEncoding("GBK");
-        requestProcessorChain.getResp().getWriter().write(JsonUtil.toJson(map));
+        requestProcessorChain.getResponse().setCharacterEncoding("GBK");
+        requestProcessorChain.getResponse().getWriter().write(JsonUtil.toJson(map));
     }
 }

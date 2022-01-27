@@ -1,7 +1,7 @@
-package bluedot.electrochemistry.simplespring.mvc.render.impl;
+package bluedot.electrochemistry.simplespring.mvc.processor.render.impl;
 
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
-import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +21,7 @@ public class ResourceNotFoundResultRender implements ResultRender {
 
     @Override
     public void render(RequestProcessorChain requestProcessorChain) throws Exception {
-        requestProcessorChain.getResp().sendError(HttpServletResponse.SC_NOT_FOUND,
+        requestProcessorChain.getResponse().sendError(HttpServletResponse.SC_NOT_FOUND,
                 "获取不到对应的请求资源：请求路径[" + httpPath + "]" + "请求方法[" + httpMethod + "]");
     }
 }

@@ -1,6 +1,4 @@
-package bluedot.electrochemistry.simplespring.mvc.processor;
-
-import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
+package bluedot.electrochemistry.simplespring.mvc;
 
 /**
  * 请求执行器

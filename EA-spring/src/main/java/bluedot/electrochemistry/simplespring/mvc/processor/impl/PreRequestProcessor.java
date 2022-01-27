@@ -1,8 +1,8 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
-import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
-import bluedot.electrochemistry.simplespring.mvc.render.impl.DefaultResultRender;
+import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
@@ -19,7 +19,7 @@ public class PreRequestProcessor implements RequestProcessor {
 
     @Override
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
-        HttpServletResponse response = requestProcessorChain.getResp();
+        HttpServletResponse response = requestProcessorChain.getResponse();
         //// 允许跨域访问的域名：若有端口需写全（协议+域名+端口），若没有端口末尾不用加'/'
         //response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080/");
         //// 允许前端带认证cookie：启用此项后，上面的域名不能为'*'，必须指定具体的域名，否则浏览器会提示
@@ -38,7 +38,7 @@ public class PreRequestProcessor implements RequestProcessor {
 
 
         //设置请求编码
-        requestProcessorChain.getReq().setCharacterEncoding("UTF-8");
+        requestProcessorChain.getRequest().setCharacterEncoding("UTF-8");
 
         // （处理路径是/aaa/bbb，所以如果传入的路径结尾是/aaa/bbb/，就需要处理成/aaa/bbb）
         String requestPath = requestProcessorChain.getRequestPath();

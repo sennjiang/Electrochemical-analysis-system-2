@@ -7,7 +7,7 @@ import bluedot.electrochemistry.simplespring.core.annotation.*;
 import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.inject.DependencyInject;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
-import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;

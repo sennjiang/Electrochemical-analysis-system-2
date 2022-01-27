@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.simplespring.mvc.render;
+package bluedot.electrochemistry.simplespring.mvc.processor.render;
 
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 

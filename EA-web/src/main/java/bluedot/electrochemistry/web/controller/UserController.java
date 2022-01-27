@@ -6,11 +6,14 @@ import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
+import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.simplespring.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Senn
@@ -20,23 +23,33 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    @RequestMapping("/test")
-    public String test() {
-        logger.info(" /user/test 请求成功！！！");
+    @RequestMapping("/file/test")
+    public String test(MultipartFile[] files) throws IOException {
+        LOGGER.info(" /user/file/test 请求成功！！！");
+        for (MultipartFile file : files) {
+            LOGGER.info("{}", file.getName());
+            LOGGER.info("{}",file.getSize());
+            LOGGER.info("{}",file.isEmpty());
+            File file1 = new File("E:\\testImage", file.getName());
+            file.transferTo(file1);
+            LOGGER.info(" --------- ");
+        }
+
+
         return "hello world !! ";
     }
 
     @WhiteMapping("/user")
     public String test2(User user) {
-        logger.info(" /user/user 请求成功！！！user : " + user);
+        LOGGER.info(" /user/user 请求成功！！！user : " + user);
         return JsonUtil.toJson(user);
     }
 
     @RequestMapping("/t")
     public String test1(@RequestParam("name") String name) {
-        logger.info(" /user/t 请求成功！！！ name : " + name);
+        LOGGER.info(" /user/t 请求成功！！！ name : " + name);
         return name;
     }
 

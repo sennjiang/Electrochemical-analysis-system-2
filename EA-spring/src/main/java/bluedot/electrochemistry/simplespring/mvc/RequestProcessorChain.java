@@ -1,15 +1,17 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
-import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
-import bluedot.electrochemistry.simplespring.mvc.render.ResultRender;
-import bluedot.electrochemistry.simplespring.mvc.render.impl.DefaultResultRender;
-import bluedot.electrochemistry.simplespring.mvc.render.impl.ErrorResultRender;
+import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.ErrorResultRender;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Senn
@@ -38,6 +40,14 @@ public class RequestProcessorChain {
      * 请求路径
      */
     private String requestPath;
+    /**
+     * 请求参数
+     */
+    private Map<String ,String[]> requestParams;
+    /**
+     * 请求参数
+     */
+    private MultipartFile[] requestFiles;
     /**
      * 请求状态码
      */
@@ -116,15 +126,15 @@ public class RequestProcessorChain {
         this.requestProcessorIterator = requestProcessorIterator;
     }
 
-    public HttpServletRequest getReq() {
+    public HttpServletRequest getRequest() {
         return req;
     }
 
-    public void setReq(HttpServletRequest req) {
+    public void setRequest(HttpServletRequest req) {
         this.req = req;
     }
 
-    public HttpServletResponse getResp() {
+    public HttpServletResponse getResponse() {
         return resp;
     }
 
@@ -166,6 +176,25 @@ public class RequestProcessorChain {
 
     public Logger getLog() {
         return log;
+    }
+
+    public Map<String, String[]> getRequestParams() {
+        if (this.requestParams == null) {
+            requestParams = new HashMap<>();
+        }
+        return requestParams;
+    }
+
+    public void setRequestParams(Map<String, String[]> requestParams) {
+        this.requestParams = requestParams;
+    }
+
+    public MultipartFile[] getRequestFiles() {
+        return requestFiles;
+    }
+
+    public void setRequestFiles(MultipartFile[] requestFiles) {
+        this.requestFiles = requestFiles;
     }
 
     @Override

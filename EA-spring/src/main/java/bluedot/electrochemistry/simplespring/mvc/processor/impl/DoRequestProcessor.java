@@ -6,15 +6,15 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
-import bluedot.electrochemistry.simplespring.mvc.processor.RequestProcessor;
-import bluedot.electrochemistry.simplespring.mvc.render.impl.JsonResultRender;
+import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
+import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
+import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.JsonResultRender;
 import bluedot.electrochemistry.simplespring.util.ConverterUtil;
 import bluedot.electrochemistry.simplespring.util.LogUtil;
 import bluedot.electrochemistry.simplespring.util.StringUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,7 +45,7 @@ public class DoRequestProcessor implements RequestProcessor {
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
 
         if (filterAdapter.needDoBefore()) {
-            filterAdapter.doBeforeFilter(requestProcessorChain.getReq(), requestProcessorChain.getResp());
+            filterAdapter.doBeforeFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
         }
 
         String requestPath = requestProcessorChain.getRequestPath();
@@ -59,7 +59,7 @@ public class DoRequestProcessor implements RequestProcessor {
         if (method == null) throw new RuntimeException("No such request path !!");
         Class<?> aClass = urlAdapter.getClass(requestPath);
         //获取方法参数
-        Object[] params = doMethodParam(method,requestProcessorChain.getReq());
+        Object[] params = doMethodParam(method,requestProcessorChain,requestProcessorChain.getRequestParams());
         //获取执行对象
         Object o = beanContainer.getBean(aClass);
         //最终执行
@@ -67,15 +67,14 @@ public class DoRequestProcessor implements RequestProcessor {
         requestProcessorChain.setResultRender(new JsonResultRender(returnValue));
 
         if (filterAdapter.needDoAfter()) {
-            filterAdapter.doAfterFilter(requestProcessorChain.getReq(), requestProcessorChain.getResp(), returnValue);
+            filterAdapter.doAfterFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse(), returnValue);
         }
 
         return false;
     }
 
-    private Object[] doMethodParam(Method method, HttpServletRequest req) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-        Map<String, String[]> parameterMap = req.getParameterMap();
+    private Object[] doMethodParam(Method method, RequestProcessorChain chain, Map<String, String[]> parameterMap) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        HttpServletRequest request = chain.getRequest();
 
         Parameter[] parameterTypes = method.getParameters();
 
@@ -86,6 +85,13 @@ public class DoRequestProcessor implements RequestProcessor {
         Object[] params = new Object[length];
         for (int i = 0 ; i <  length ; i ++) {
             Parameter parameterType = parameterTypes[i];
+            if (parameterType.getType() == MultipartFile[].class) {
+                params[i] = chain.getRequestFiles();
+                continue;
+            }else if (parameterType.getType() == MultipartFile.class) {
+                params[i] = chain.getRequestFiles()[0];
+                continue;
+            }
             //@RequestParam 或 基础类型
             if (ConverterUtil.isPrimitive(parameterType.getType()) || parameterType.isAnnotationPresent(RequestParam.class) || parameterType.getType().isArray()) {
 
