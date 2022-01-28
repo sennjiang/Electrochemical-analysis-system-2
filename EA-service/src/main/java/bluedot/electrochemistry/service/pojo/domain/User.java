@@ -9,29 +9,36 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
 @Param
 public class User {
     private String name;
+
     private Integer age;
+    /**
+     * 0 女 1 男 2 不明
+     */
+    private Integer sex;
+    /**
+     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
+     */
+    private String birthday;
 
-    public String getName() {
-        return name;
-    }
+    private String email;
 
-    public void setName(String username) {
-        this.name = username;
-    }
+    private String portrait;
 
-    public Integer getAge() {
-        return age;
-    }
+    private String password;
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+    /**
+     * 1：正常 2：冻结
+     */
+    private Integer status;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name=" + name +
-                ", age=" + age +
-                '}';
-    }
+    /**
+     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
+     */
+    private String gmt_create;
+
+    /**
+     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
+     */
+    private String gmt_modify;
+
 }
