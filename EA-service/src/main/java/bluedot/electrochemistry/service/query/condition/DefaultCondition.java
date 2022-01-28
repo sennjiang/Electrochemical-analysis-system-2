@@ -2,8 +2,7 @@ package bluedot.electrochemistry.service.query.condition;
 
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
-import bluedot.electrochemistry.service.query.SearchType;
-import bluedot.electrochemistry.service.query.searchable.Searchable;
+import bluedot.electrochemistry.service.query.SelectType;
 
 /**
  * @author Senn
@@ -19,9 +18,7 @@ public abstract class DefaultCondition implements Conditional{
 
     public static final String SQL_LIMIT = "limit";
 
-    protected SearchType type;
-
-    protected Searchable<?> search;
+    protected SelectType type;
 
     /**
      * 分页开始

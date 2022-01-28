@@ -2,8 +2,8 @@ package bluedot.electrochemistry.service.query.condition;
 
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
-import bluedot.electrochemistry.service.query.SearchType;
-import bluedot.electrochemistry.service.query.searchable.Searchable;
+import bluedot.electrochemistry.service.query.SelectType;
+import bluedot.electrochemistry.service.query.Table;
 
 /**
  * @author Sens
@@ -12,11 +12,13 @@ import bluedot.electrochemistry.service.query.searchable.Searchable;
 public interface Conditional {
 
     /**
-     *  获取 sql语句 where 后的 的条件
+     *  获取 sql 预处理语句
      * @return sql语句
      */
     String decodeCondition();
 
+
+    Object[] getQueryParams();
     /**
      *  验证条件 防止sql注入
      * @return sql语句
@@ -26,10 +28,10 @@ public interface Conditional {
     /**
      * 获取查询类型
      */
-    SearchType getType();
+    SelectType getSelectType();
 
     /**
-     * 获取查询工具
+     * 获取查询表
      */
-    Searchable<?> getSearchable();
+    Table getTable();
 }

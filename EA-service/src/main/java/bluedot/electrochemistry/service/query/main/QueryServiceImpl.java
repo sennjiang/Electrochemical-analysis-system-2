@@ -2,7 +2,10 @@ package bluedot.electrochemistry.service.query.main;
 
 import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.query.QueryParam;
 import bluedot.electrochemistry.service.query.SearchResult;
+import bluedot.electrochemistry.service.query.SelectType;
+import bluedot.electrochemistry.service.query.Table;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
@@ -28,6 +31,17 @@ public class QueryServiceImpl implements QueryService {
 
     @Override
     public SearchResult<?> doService(Conditional condition) throws IllegalIndexException {
-        return condition.getSearchable().search(condition);
+        String preparedSql = condition.decodeCondition();
+        Table table = condition.getTable();
+        Object[] queryParams = condition.getQueryParams();
+        SelectType selectType = condition.getSelectType();
+        QueryParam param = new QueryParam(selectType,table,preparedSql,queryParams);
+        return new SelectExecutor().doSelect(param);
+    }
+
+    private static class SelectExecutor {
+        public SearchResult<?> doSelect(QueryParam param) {
+            return null;
+        }
     }
 }

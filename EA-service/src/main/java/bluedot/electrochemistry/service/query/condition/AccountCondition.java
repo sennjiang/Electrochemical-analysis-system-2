@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.service.query.condition;
 
-import bluedot.electrochemistry.service.query.SearchType;
+import bluedot.electrochemistry.service.query.SelectType;
+import bluedot.electrochemistry.service.query.Table;
 import bluedot.electrochemistry.service.query.searchable.Searchable;
 
 /**
@@ -9,7 +10,9 @@ import bluedot.electrochemistry.service.query.searchable.Searchable;
  */
 public class AccountCondition extends DefaultCondition {
 
-    private Integer status;
+    private final Table table = Table.USER;
+
+    private final Integer status;
 
     public AccountCondition(String content , Integer pageStart , Integer pageSize , Integer status) {
         this.content = content;
@@ -21,26 +24,27 @@ public class AccountCondition extends DefaultCondition {
     @Override
     public String decodeCondition() {
         if (checkCondition()) {
-            return "name = \"" + content + "\" " + SQL_AND + " status = " + status + " "+ SQL_LIMIT + " " + ( pageStart + 1 ) * pageSize + " " + pageSize;
+            return "select * from user where name = ? status = ? limit ? , ?";
         }
         return null;
     }
 
-    public void setSearchable(Searchable<?> search) {
-        this.search = search;
+    @Override
+    public Object[] getQueryParams() {
+        return new Object[0];
     }
 
-    public void setType(SearchType type) {
+    public void setType(SelectType type) {
         this.type = type;
     }
 
     @Override
-    public SearchType getType() {
+    public SelectType getSelectType() {
         return this.type;
     }
 
     @Override
-    public Searchable<?> getSearchable() {
-        return this.search;
+    public Table getTable() {
+        return table;
     }
 }

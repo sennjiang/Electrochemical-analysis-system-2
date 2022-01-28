@@ -1,11 +1,10 @@
 package bluedot.electrochemistry.service.query.searchable;
 
-import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.dao.CommonMapper;
 import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.service.query.SearchResult;
-import bluedot.electrochemistry.service.query.SearchType;
+import bluedot.electrochemistry.service.query.SelectType;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 
@@ -51,11 +50,11 @@ abstract class AbstractSearch<T> implements Searchable<T> {
             }
         };
 
-        if (condition.getType() == SearchType.LIST) {
+        if (condition.getSelectType() == SelectType.LIST) {
             List<T> list = getList(mapper, sql);
             Integer count = count(mapper, condition);
             return new SearchResult<>(count,list);
-        }else if (condition.getType() == SearchType.ONE){
+        }else if (condition.getSelectType() == SelectType.ONE){
             List<T> list = new ArrayList<>();
             T one = getOne(mapper, condition.decodeCondition());
             list.add(one);
