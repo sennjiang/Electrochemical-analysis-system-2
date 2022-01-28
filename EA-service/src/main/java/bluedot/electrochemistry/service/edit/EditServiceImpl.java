@@ -2,6 +2,7 @@ package bluedot.electrochemistry.service.edit;
 
 import bluedot.electrochemistry.service.dao.base.BaseDao;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
+import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 
 /**
  * @author Senn
@@ -13,6 +14,7 @@ public class EditServiceImpl implements EditService{
     /**
      * 增删改
      */
+    @Autowired
     BaseDao baseDao;
 
     /**
@@ -20,7 +22,7 @@ public class EditServiceImpl implements EditService{
      * @param param 参数
      */
     private boolean add(EditParam param) {
-        return false;
+        return baseDao.insert(param.getT()) == 1;
     }
 
     /**
@@ -28,7 +30,7 @@ public class EditServiceImpl implements EditService{
      * @param param 参数
      */
     private boolean update(EditParam param) {
-        return false;
+        return baseDao.update(param.getT()) == 1;
     }
 
     /**
@@ -36,7 +38,7 @@ public class EditServiceImpl implements EditService{
      * @param param 参数
      */
     private boolean delete(EditParam param) {
-        return false;
+        return baseDao.delete(param.getT()) == 1;
     }
 
 

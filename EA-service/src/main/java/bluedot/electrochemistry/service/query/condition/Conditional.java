@@ -6,7 +6,7 @@ import bluedot.electrochemistry.service.query.SelectType;
 import bluedot.electrochemistry.service.query.Table;
 
 /**
- * @author Sens
+ * @author Senn
  * @Create 2021/12/16 18:58
  */
 public interface Conditional {

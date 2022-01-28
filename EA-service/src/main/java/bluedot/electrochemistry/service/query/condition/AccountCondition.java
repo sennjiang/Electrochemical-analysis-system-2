@@ -3,6 +3,7 @@ package bluedot.electrochemistry.service.query.condition;
 import bluedot.electrochemistry.service.query.SelectType;
 import bluedot.electrochemistry.service.query.Table;
 import bluedot.electrochemistry.service.query.searchable.Searchable;
+import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
 /**
  * @author Senn
@@ -12,6 +13,7 @@ public class AccountCondition extends DefaultCondition {
 
     private final Table table = Table.USER;
 
+    @Param
     private final Integer status;
 
     public AccountCondition(String content , Integer pageStart , Integer pageSize , Integer status) {

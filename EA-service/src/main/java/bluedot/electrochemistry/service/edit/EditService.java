@@ -6,5 +6,5 @@ package bluedot.electrochemistry.service.edit;
  */
 public interface EditService {
 
-    boolean doEdit(EditParam param);
+    boolean doEdit(EditParam<?> param);
 }

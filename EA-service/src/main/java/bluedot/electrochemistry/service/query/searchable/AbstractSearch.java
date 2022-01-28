@@ -29,8 +29,8 @@ abstract class AbstractSearch<T> implements Searchable<T> {
                 ArrayList<User> list = new ArrayList<>();
                 User user1 = new User();
                 User user2 = new User();
-                user1.setName("1");
-                user2.setName("2");
+//                user1.setName("1");
+//                user2.setName("2");
                 list.add(user1);
                 list.add(user2);
                 return list;
@@ -44,8 +44,8 @@ abstract class AbstractSearch<T> implements Searchable<T> {
             @Override
             public User getOneUser(String condition) {
                 User user = new User();
-                user.setName("张三");
-                user.setAge(18);
+//                user.setName("张三");
+//                user.setAge(18);
                 return user;
             }
         };

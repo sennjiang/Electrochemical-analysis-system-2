@@ -9,6 +9,7 @@ import java.util.List;
 public class SearchResult<E> {
     private int count;
     private List<E> list;
+    private SelectType type;
 
     public SearchResult(int count, List<E> list) {
         this.count = count;

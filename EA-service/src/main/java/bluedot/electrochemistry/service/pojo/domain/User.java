@@ -8,8 +8,11 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
  */
 @Param
 public class User {
+
+    @Param
     private String name;
 
+    @Param("a")
     private Integer age;
     /**
      * 0 女 1 男 2 不明

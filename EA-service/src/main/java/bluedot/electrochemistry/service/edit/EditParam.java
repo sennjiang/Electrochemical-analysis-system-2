@@ -22,6 +22,11 @@ public class EditParam<T> {
      */
     private String type;
 
+    public EditParam(T t, String type) {
+        this.t = t;
+        this.type = type;
+    }
+
     public String getType() {
         return type;
     }
@@ -30,4 +35,11 @@ public class EditParam<T> {
         return this.t;
     }
 
+    public void setT(T t) {
+        this.t = t;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
