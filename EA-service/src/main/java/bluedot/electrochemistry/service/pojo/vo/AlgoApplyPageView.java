@@ -1,7 +1,5 @@
 package bluedot.electrochemistry.service.pojo.vo;
 
-import bluedot.electrochemistry.simplespring.core.annotation.Param;
-
 /**
  * @author Senn
  * @create 2022/1/28 19:32

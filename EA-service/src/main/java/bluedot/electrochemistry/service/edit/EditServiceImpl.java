@@ -1,6 +1,5 @@
 package bluedot.electrochemistry.service.edit;
 
-import bluedot.electrochemistry.service.dao.base.BaseDao;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;

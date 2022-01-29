@@ -1,15 +1,13 @@
 package bluedot.electrochemistry.web.controller;
 
-
 import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditService;
-import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.factory.MapperFactory;
+import bluedot.electrochemistry.service.pojo.domain.Right;
 import bluedot.electrochemistry.service.pojo.domain.User;
-import bluedot.electrochemistry.service.query.condition.AccountCondition;
-import bluedot.electrochemistry.service.query.main.QueryService;
 import bluedot.electrochemistry.service.sender.MailSender;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
@@ -22,6 +20,7 @@ import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
 import javax.mail.MessagingException;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +71,7 @@ public class UserController extends BaseController {
         BaseMapper mapper = factory.createMapper();
         Integer integer = mapper.checkEmail(email);
         if (integer == 0) {
-            EditParam<User> param = new EditParam<>(user,EditParam.UPDATE);
+            EditParam<User> param = new EditParam<>(new User[]{user}, EditType.INSERT);
             boolean flag = editService.doEdit(param);
             if (flag) return renderSuccess("注册成功！！");
         }
@@ -95,7 +94,7 @@ public class UserController extends BaseController {
         if (user == null || user.getEmail() == null) {
             return renderBadRequest();
         }
-        boolean flag = editService.doEdit(new EditParam<>(user, EditParam.UPDATE));
+        boolean flag = editService.doEdit(new EditParam<>(new User[]{user}, EditType.UPDATE));
         if (flag) {
             return renderSuccess();
         }
@@ -138,6 +137,15 @@ public class UserController extends BaseController {
         return renderBadRequest();
     }
 
+    @RequestMapping("/rights")
+    public Result getRights(@RequestParam("id") String id) {
+        if (id == null) return renderBadRequest();
+        BaseMapper mapper = factory.createMapper();
+        List<Right> rights = mapper.getRights(id);
+        return renderSuccess("",rights);
+    }
+
+
     /**
      * TODO 验证码 保存
      * @param email 邮箱
@@ -160,6 +168,7 @@ public class UserController extends BaseController {
     public Result uploadAvatar(MultipartFile file) {
         return renderBadRequest();
     }
+
     /**
      * 判断是否是邮箱
      * @param email 邮箱

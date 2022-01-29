@@ -11,11 +11,11 @@ import java.util.concurrent.Callable;
  */
 public class FileTask<T> implements Callable<T> {
 
-    FileProcessor processor;
+    FileProcessor<?> processor;
 
     File file;
 
-    public FileTask(FileProcessor processor) {
+    public FileTask(FileProcessor<?> processor) {
         this.processor = processor;
     }
 
