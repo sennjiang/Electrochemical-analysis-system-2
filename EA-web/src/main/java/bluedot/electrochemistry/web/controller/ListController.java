@@ -3,6 +3,7 @@ package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.SearchResult;
+import bluedot.electrochemistry.service.query.SelectType;
 import bluedot.electrochemistry.service.query.condition.AccountCondition;
 import bluedot.electrochemistry.service.query.main.QueryService;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
@@ -23,6 +24,7 @@ public class ListController {
 
     @RequestMapping("/users")
     String getAccountList(AccountCondition condition) throws IllegalIndexException {
+        condition.setType(SelectType.LIST);
         SearchResult<?> searchResult = searchService.doService(condition);
         return JsonUtil.toJson(searchResult);
     }
