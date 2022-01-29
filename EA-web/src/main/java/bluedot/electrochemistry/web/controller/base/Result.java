@@ -5,8 +5,12 @@ package bluedot.electrochemistry.web.controller.base;
  * @createDate 2021/12/16 20:36
  */
 public class Result {
+
+    private static final Integer STATUS_CODE = 10;
     /**
      * 存储 状态码 与 list大小 或其他数字
+     * 前 10 位存储 状态码 = codeNum % 1024
+     * 后22位存大小 = codeNum >> 10
      * 按位存取
      */
     private int codeNum;
@@ -22,11 +26,11 @@ public class Result {
     private Object data;
 
     public void setCode(int num) {
-
+        codeNum += num;
     }
 
     public void setSize(int num) {
-
+        codeNum +=  (num <<= STATUS_CODE);
     }
 
     public int getCodeNum() {
