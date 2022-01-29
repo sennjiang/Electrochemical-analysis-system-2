@@ -14,10 +14,10 @@ public class FileFactor {
     private String mType;               //方法类型
     private int id;                     //文件id
     private File[] files;               //文件列表
-    private FileProcessor processor;    //文件处理器
+    private FileProcessor<?> processor;    //文件处理器
     private String fType;               //文件类型
 
-    public FileFactor(String mType, int id, File[] files, FileProcessor processor, String fType) {
+    public FileFactor(String mType, int id, File[] files, FileProcessor<?> processor, String fType) {
         this.mType = mType;
         this.id = id;
         this.files = files;
@@ -41,11 +41,11 @@ public class FileFactor {
         this.files = files;
     }
 
-    public FileProcessor getProcessor() {
+    public FileProcessor<?> getProcessor() {
         return processor;
     }
 
-    public void setProcessor(FileProcessor processor) {
+    public void setProcessor(FileProcessor<?> processor) {
         this.processor = processor;
     }
 

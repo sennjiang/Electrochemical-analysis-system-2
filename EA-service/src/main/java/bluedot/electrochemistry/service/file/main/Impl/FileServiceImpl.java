@@ -17,7 +17,7 @@ public class FileServiceImpl implements FileService {
 
     private MapperFactory mapperFactory;
 
-    private FileTask fileTask;
+    private FileTask<?> fileTask;
 
     @Override
     public FileResult doService(FileFactor factor) {
@@ -49,7 +49,7 @@ public class FileServiceImpl implements FileService {
         return null;
     }
 
-    private boolean uploadFile(File[] files, FileProcessor processor){
+    private boolean uploadFile(File[] files, FileProcessor<?> processor){
 
         return false;
     }
