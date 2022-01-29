@@ -57,7 +57,7 @@ public class AccountCondition extends DefaultCondition {
                 sb.append(SQL_AND);
                 sb.append(sqlMap.get("nearly"));
             }
-            sb.append("limit ? , ?");
+            sb.append("limit ? , ? ;");
             return sb.toString();
         }
         return null;

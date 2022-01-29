@@ -3,7 +3,7 @@ package bluedot.electrochemistry.web.controller;
 import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.edit.EditParam;
-import bluedot.electrochemistry.service.edit.EditService;
+import bluedot.electrochemistry.service.edit.main.EditService;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.pojo.domain.Right;

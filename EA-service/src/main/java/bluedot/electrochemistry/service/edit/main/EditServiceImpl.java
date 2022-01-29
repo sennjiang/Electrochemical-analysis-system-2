@@ -1,5 +1,8 @@
-package bluedot.electrochemistry.service.edit;
+package bluedot.electrochemistry.service.edit.main;
 
+import bluedot.electrochemistry.service.edit.EditMultiType;
+import bluedot.electrochemistry.service.edit.EditParam;
+import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
