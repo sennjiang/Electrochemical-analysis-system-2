@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.web.core;
 import bluedot.electrochemistry.common.ClassUtil;
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.common.ValidationUtil;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
@@ -14,7 +15,6 @@ import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcess
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
-import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -137,7 +137,7 @@ public class DispatcherServlet extends HttpServlet {
             is = this.getClass().getClassLoader().getResourceAsStream(contextConfigLocation);
             contextConfig.load(is);
         } catch (IOException e) {
-            LogUtil.getLogger().error(e.getMessage());
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         } finally {
             if (null != is) {

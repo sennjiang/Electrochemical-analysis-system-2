@@ -1,4 +1,6 @@
-package bluedot.electrochemistry.service.edit;
+package bluedot.electrochemistry.service.edit.main;
+
+import bluedot.electrochemistry.service.edit.EditParam;
 
 /**
  * @author Senn
