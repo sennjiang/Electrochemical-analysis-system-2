@@ -5,15 +5,15 @@ import bluedot.electrochemistry.service.pojo.domain.EaFile;
 import java.io.File;
 
 /**
- * @author Sens
- * @Create 2021/12/16 18:58
+ * @Author zero
+ * @Create 2022/1/29 17:23
  */
-public class TxtFileProcessor implements FileProcessor<EaFile> {
+public class ExcelFileProcessor implements FileProcessor<EaFile> {
 
     @Override
     public EaFile fileUploads(File file) {
-        //TODO 解析Txt 文件
-        System.out.println("解析TXT文件...");
+        //todo 解析Excel文件
+        System.out.println("解析excel文件...");
         return null;
     }
 }
