@@ -92,6 +92,16 @@ public class DoRequestProcessor implements RequestProcessor {
                 params[i] = chain.getRequestFiles()[0];
                 continue;
             }
+            //请求与响应类型
+            if (parameterType.getType() == HttpServletRequest.class) {
+                params[i] = chain.getRequest();
+                continue;
+            }
+            if (parameterType.getType() == HttpServletRequest.class) {
+                params[i] = chain.getResponse();
+                continue;
+            }
+
             //@RequestParam 或 基础类型
             if (ConverterUtil.isPrimitive(parameterType.getType()) || parameterType.isAnnotationPresent(RequestParam.class) || parameterType.getType().isArray()) {
 
