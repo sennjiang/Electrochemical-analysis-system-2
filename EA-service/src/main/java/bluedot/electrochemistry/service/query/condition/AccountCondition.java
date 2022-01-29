@@ -2,7 +2,6 @@ package bluedot.electrochemistry.service.query.condition;
 
 import bluedot.electrochemistry.service.query.SelectType;
 import bluedot.electrochemistry.service.query.Table;
-import bluedot.electrochemistry.service.query.searchable.Searchable;
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
 import java.util.ArrayList;

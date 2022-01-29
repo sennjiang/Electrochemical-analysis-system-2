@@ -1,8 +1,8 @@
 package bluedot.electrochemistry.web.filter;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.core.annotation.AfterFilter;
 import bluedot.electrochemistry.simplespring.filter.SpringFilter;
-import bluedot.electrochemistry.web.util.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletRequest;
