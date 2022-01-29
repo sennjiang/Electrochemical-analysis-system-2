@@ -9,8 +9,12 @@ import java.util.List;
  * @createDate 2021/12/16 19:19
  */
 public interface BaseMapper {
+
     Integer checkEmail(String account);
 
     User loginByEmail(String account);
+
+    Integer changePassword(String id,String password);
+
 
 }

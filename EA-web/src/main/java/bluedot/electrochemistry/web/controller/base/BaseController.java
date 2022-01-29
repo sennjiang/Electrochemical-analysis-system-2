@@ -17,6 +17,15 @@ public abstract class BaseController {
     }
 
     /**
+     * @return Result
+     */
+    public Result renderBadRequest() {
+        Result result = new Result();
+        result.setMessage("bad request.");
+        return result;
+    }
+
+    /**
      *
      * @param msg 失败的消息
      * @param code 响应码
@@ -37,6 +46,17 @@ public abstract class BaseController {
         result.setCode(200);
         return result;
     }
+    /**
+     *
+     * @param message 返回信息
+     * @return result
+     */
+    public Result renderSuccess(String message) {
+        Result result = new Result();
+        result.setCode(200);
+        result.setMessage(message);
+        return result;
+    }
 
     /**
      *
@@ -48,6 +68,7 @@ public abstract class BaseController {
         Result result = new Result();
         result.setData(object);
         result.setCode(200);
+        result.setMessage(message);
         return result;
     }
 

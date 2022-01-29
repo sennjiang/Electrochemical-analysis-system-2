@@ -7,4 +7,7 @@
     <select id="loginByEmail" resultType="bluedot.electrochemistry.service.pojo.domain.User">
 
     </select>
+    <select id="changePassword" resultType="java.lang.Integer">
+
+    </select>
 </mapper>

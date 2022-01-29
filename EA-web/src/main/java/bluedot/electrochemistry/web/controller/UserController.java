@@ -10,14 +10,20 @@ import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.service.query.condition.AccountCondition;
 import bluedot.electrochemistry.service.query.main.QueryService;
+import bluedot.electrochemistry.service.sender.MailSender;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
+import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
+
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Senn
@@ -31,19 +37,18 @@ public class UserController extends BaseController {
     MapperFactory factory;
 
     @Autowired
-    QueryService queryService;
-
-    @Autowired
     EditService editService;
+
+    MailSender mailSender = new MailSender();
 
 
     private static final Logger LOGGER = LogUtil.getLogger(UserController.class);
 
 
-    @RequestMapping("/login")
+    @WhiteMapping("/login")
     public Result login(@RequestParam("account") String account, @RequestParam("password") String password) {
         if (account == null) {
-            return renderError("bad request for login");
+            return renderBadRequest();
         }
         BaseMapper mapper = factory.createMapper();
         User user = mapper.loginByEmail(account);
@@ -58,40 +63,112 @@ public class UserController extends BaseController {
     }
 
     @WhiteMapping("/register")
-    public String register(User user) {
-        EditParam<User> param = new EditParam<>(user,EditParam.UPDATE);
-        boolean flag = editService.doEdit(param);
-        return "";
+    public Result register(User user) {
+        if (user == null || user.getEmail() == null) {
+            return renderBadRequest();
+        }
+        String email = user.getEmail();
+        BaseMapper mapper = factory.createMapper();
+        Integer integer = mapper.checkEmail(email);
+        if (integer == 0) {
+            EditParam<User> param = new EditParam<>(user,EditParam.UPDATE);
+            boolean flag = editService.doEdit(param);
+            if (flag) return renderSuccess("注册成功！！");
+        }
+        return renderError("注册异常！！");
     }
 
     @WhiteMapping("/change/password")
-    public String changePassword(String account, String password) {
-        return "";
+    public Result changePassword(String id, String password) {
+
+        if (id == null || password == null) return renderBadRequest();
+
+        BaseMapper mapper = factory.createMapper();
+        Integer integer = mapper.changePassword(id, password);
+        if (integer == 1) return renderSuccess("修改密码成功！");
+        return renderError("修改密码异常");
     }
 
-    @WhiteMapping("/change/profile")
-    public String changeInfo(User user) {
-        return "";
-    }
-
-    @WhiteMapping("/verify/username")
-    public String verifyUsername(String account) {
-        return "";
+    @RequestMapping("/change/profile")
+    public Result changeInfo(User user) {
+        if (user == null || user.getEmail() == null) {
+            return renderBadRequest();
+        }
+        boolean flag = editService.doEdit(new EditParam<>(user, EditParam.UPDATE));
+        if (flag) {
+            return renderSuccess();
+        }
+        return renderError("修改异常！！");
     }
 
     @WhiteMapping("/verify/email")
-    public String verifyEmail(String email) {
-        return "";
+    public Result verifyEmail(String email) {
+        if (email == null) return renderBadRequest();
+
+        BaseMapper mapper = factory.createMapper();
+        Integer integer = mapper.checkEmail(email);
+        if (integer <= 0) return renderSuccess("账号不存在");
+        return renderError("账号存在");
     }
 
-    @WhiteMapping("/add")
-    public String addUser(User user) {
-        return "";
+    @RequestMapping("/add")
+    public Result addUser(User user) {
+        return null;
     }
 
-    @WhiteMapping("/send/email")
-    public String sendEmail(String email) {
-        return "";
+    @WhiteMapping("/send/email/message")
+    public Result sendEmail(String email,String message) {
+        if (email == null) {
+            return renderBadRequest();
+        }
+        boolean b = mailSender.sendMessage(email, message);
+        return b ? renderSuccess() : null;
     }
 
+    @WhiteMapping("/freeze")
+    public Result freeze(String email,String message) {
+        //TODO freeze
+        return renderBadRequest();
+    }
+
+    @WhiteMapping("/unfreeze")
+    public Result unfreeze(String[] emails) {
+        //TODO unfreeze
+        return renderBadRequest();
+    }
+
+
+
+    /**
+     * TODO 验证码 保存
+     * @param email 邮箱
+     * @return Result
+     */
+    @WhiteMapping("/send/email/code")
+    public Result sendEmailCode(String email) {
+        if (email == null) {
+            return renderBadRequest();
+        }
+
+        // 要发送的验证码
+        String emailCode = UUID.randomUUID().toString().replace("-", "").toLowerCase().substring(0, 5);
+
+        boolean b = mailSender.sendMessage(email, "[电化学分析系统]您的验证码为:" + emailCode);
+        return b ? renderSuccess() : null;
+    }
+
+    @RequestMapping("/upload/avatar")
+    public Result uploadAvatar(MultipartFile file) {
+        return renderBadRequest();
+    }
+    /**
+     * 判断是否是邮箱
+     * @param email 邮箱
+     * @return 是否
+     */
+    public static boolean isEmail(String email) {
+        Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+        Matcher matcher = emailPattern.matcher(email);
+        return matcher.find();
+    }
 }
