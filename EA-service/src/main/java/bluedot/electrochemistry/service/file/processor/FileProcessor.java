@@ -4,14 +4,14 @@ import java.io.File;
 
 /**
  * 抽象 文件上传类
- * @author Sens
+ * @author Sens、zero
  * @Create 2021/12/16 18:58
  */
-public interface FileProcessor {
+public interface FileProcessor<T> {
 
     /**
      * 文件上传类
      */
-    void fileUploads();
+    T fileUploads(File file);
 
 }

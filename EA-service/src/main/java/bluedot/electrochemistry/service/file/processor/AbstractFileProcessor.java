@@ -9,7 +9,7 @@ import java.io.File;
 public abstract class AbstractFileProcessor implements FileProcessor{
     public boolean multipleUploads(File[] files) {
         for (File file : files) {
-            fileUploads();
+            fileUploads(file);
         }
         return false;
     }
