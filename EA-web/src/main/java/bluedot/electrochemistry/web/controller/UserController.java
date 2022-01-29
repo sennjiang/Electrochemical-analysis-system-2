@@ -15,6 +15,8 @@ import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
+import bluedot.electrochemistry.web.controller.base.BaseController;
+import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
 /**
@@ -23,7 +25,7 @@ import org.slf4j.Logger;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     MapperFactory factory;
@@ -39,10 +41,20 @@ public class UserController {
 
 
     @RequestMapping("/login")
-    public User login(@RequestParam("account") String account, @RequestParam("password") String password) {
+    public Result login(@RequestParam("account") String account, @RequestParam("password") String password) {
+        if (account == null) {
+            return renderError("bad request for login");
+        }
         BaseMapper mapper = factory.createMapper();
-        User user = mapper.loginByEmail(account, password);
-        return user;
+        User user = mapper.loginByEmail(account);
+        if (user.getStatus() == 0) {
+            return renderError("账号已冻结，请申请解冻！！");
+        }
+        if (!user.getPassword().equals(password)) {
+            return renderError("账号密码错误！请重新登录");
+        }
+        user.setPassword("");
+        return renderSuccess("登录成功！！",user);
     }
 
     @WhiteMapping("/register")

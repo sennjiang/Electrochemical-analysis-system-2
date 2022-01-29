@@ -11,6 +11,6 @@ import java.util.List;
 public interface BaseMapper {
     Integer checkEmail(String account);
 
-    User loginByEmail(String account, String password);
+    User loginByEmail(String account);
 
 }
