@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.service.algorithm.main.impl;
 
 import bluedot.electrochemistry.service.algorithm.AlgorithmFactor;
+import bluedot.electrochemistry.service.algorithm.en.MethodType;
 import bluedot.electrochemistry.service.algorithm.main.AlgorithmService;
 
 import javax.tools.JavaCompiler;
@@ -19,7 +20,8 @@ import java.net.URLClassLoader;
 public class AlgorithmServiceImpl implements AlgorithmService {
     @Override
     public boolean doService(AlgorithmFactor algorithmFactor) {
-        if (algorithmFactor.getType().equals("compileAndRun")) return compileAndRun(algorithmFactor);
+        if (algorithmFactor.getType() == MethodType.COMPILE_AND_RUN)
+            return compileAndRun(algorithmFactor);
         return false;
     }
 

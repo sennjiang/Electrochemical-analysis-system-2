@@ -4,6 +4,7 @@ import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.file.FileFactor;
 import bluedot.electrochemistry.service.file.FileResult;
 import bluedot.electrochemistry.service.file.FileTask;
+import bluedot.electrochemistry.service.file.en.FileType;
 import bluedot.electrochemistry.service.file.main.FileService;
 import bluedot.electrochemistry.service.file.processor.FileProcessor;
 
@@ -23,29 +24,29 @@ public class FileServiceImpl implements FileService {
     public FileResult doService(FileFactor factor) {
         FileResult fileResult = new FileResult();
         switch (factor.getmType()) {
-            case "loadingData" :
+            case LOADING :
                 fileResult.setStr(loadingData(factor.getId(), factor.getfType()));
                 break;
-            case "uploadFile" :
+            case UPLOAD :
                 fileResult.setFlag(uploadFile(factor.getFiles(),factor.getProcessor()));
                 break;
-            case "exportFile" :
+            case EXPORT :
                 fileResult.setStr(exportFile(factor.getId(),factor.getfType()));
                 break;
-            case "removeFile" :
+            case REMOVE :
                 fileResult.setFlag(removeFile(factor.getId(),factor.getfType()));
                 break;
-            case "modifyFile" :
+            case MODIFY :
                 fileResult.setFlag(modifyFile(factor.getId(),factor.getfType(),factor.getFiles()[0]));
                 break;
             default :
                 fileResult = null;
-                System.out.println("方法类型错误!");
+                System.out.println("方法类型未添加!");
         }
         return fileResult;
     }
 
-    private String loadingData(int id, String fType){
+    private String loadingData(int id, FileType fType){
         return null;
     }
 
@@ -54,16 +55,16 @@ public class FileServiceImpl implements FileService {
         return false;
     }
 
-    private String exportFile(int id, String fType){
+    private String exportFile(int id, FileType fType){
 
         return null;
     }
 
-    private boolean removeFile(int id, String fType){
+    private boolean removeFile(int id, FileType fType){
         return false;
     }
 
-    private boolean modifyFile(int id, String fType, File file){
+    private boolean modifyFile(int id, FileType fType, File file){
         return false;
     }
 }

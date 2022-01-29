@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.service.algorithm;
 
+import bluedot.electrochemistry.service.algorithm.en.MethodType;
+
 import java.util.Arrays;
 
 
@@ -9,35 +11,25 @@ import java.util.Arrays;
  * @Create 2022/1/29 16:09
  */
 public class AlgorithmFactor {
-    private String type;    //方法类型
-    private int id;         //算法文件id
-    private String name;    //算法文件名
-    private float[] xs;     //横坐标数据
-    private float[] ys;     //纵坐标数据
+    private MethodType type;    //方法类型
+    private int id;             //算法文件id
+    private String name;        //算法文件名
+    private float[] xs;         //横坐标数据
+    private float[] ys;         //纵坐标数据
 
-    @Override
-    public String toString() {
-        return "AlgorithmFactor{" +
-                "type='" + type + '\'' +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", xs=" + Arrays.toString(xs) +
-                ", ys=" + Arrays.toString(ys) +
-                '}';
-    }
-
-    public AlgorithmFactor(String type, int id, float[] xs, float[] ys) {
+    public AlgorithmFactor(MethodType type, int id, String name, float[] xs, float[] ys) {
         this.type = type;
         this.id = id;
+        this.name = name;
         this.xs = xs;
         this.ys = ys;
     }
 
-    public String getType() {
+    public MethodType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MethodType type) {
         this.type = type;
     }
 
@@ -47,6 +39,14 @@ public class AlgorithmFactor {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float[] getXs() {
@@ -65,11 +65,14 @@ public class AlgorithmFactor {
         this.ys = ys;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return "AlgorithmFactor{" +
+                "type=" + type +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", xs=" + Arrays.toString(xs) +
+                ", ys=" + Arrays.toString(ys) +
+                '}';
     }
 }
