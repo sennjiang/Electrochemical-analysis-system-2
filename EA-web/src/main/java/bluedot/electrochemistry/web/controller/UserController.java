@@ -21,6 +21,7 @@ import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
+import javax.mail.MessagingException;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -117,7 +118,7 @@ public class UserController extends BaseController {
     }
 
     @WhiteMapping("/send/email/message")
-    public Result sendEmail(String email,String message) {
+    public Result sendEmail(String email,String message) throws MessagingException {
         if (email == null) {
             return renderBadRequest();
         }
@@ -137,15 +138,13 @@ public class UserController extends BaseController {
         return renderBadRequest();
     }
 
-
-
     /**
      * TODO 验证码 保存
      * @param email 邮箱
      * @return Result
      */
     @WhiteMapping("/send/email/code")
-    public Result sendEmailCode(String email) {
+    public Result sendEmailCode(String email) throws MessagingException {
         if (email == null) {
             return renderBadRequest();
         }
