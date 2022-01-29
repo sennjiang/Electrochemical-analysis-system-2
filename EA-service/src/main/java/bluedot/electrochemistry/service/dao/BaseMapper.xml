@@ -10,4 +10,7 @@
     <select id="changePassword" resultType="java.lang.Integer">
 
     </select>
+    <select id="getRights" resultType="bluedot.electrochemistry.service.pojo.domain.Right">
+
+    </select>
 </mapper>

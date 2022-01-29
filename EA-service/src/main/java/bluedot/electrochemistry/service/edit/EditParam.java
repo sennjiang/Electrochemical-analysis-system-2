@@ -6,40 +6,54 @@ package bluedot.electrochemistry.service.edit;
  */
 public class EditParam<T> {
 
-    public static final String UPDATE = "update";
-
-    public static final String DELETE = "delete";
-
-    public static final String ADD = "add";
-
     /**
      * 实体类
      */
-    private T t;
+    private T[] ts;
 
     /**
      * 策略
      */
-    private String type;
+    private EditType type;
 
-    public EditParam(T t, String type) {
-        this.t = t;
+    /**
+     * 策略
+     */
+    private EditMultiType multiType;
+
+    public EditParam(T[] ts, EditType type) {
+        this.ts = ts;
         this.type = type;
+        new EditParam(ts,type, EditMultiType.SINGLE);
     }
 
-    public String getType() {
+    public EditParam(T[] ts, EditType type, EditMultiType multiType) {
+        this.ts = ts;
+        this.type = type;
+        this.multiType = multiType;
+    }
+
+    public EditMultiType getMultiType() {
+        return multiType;
+    }
+
+    public void setMultiType(EditMultiType multiType) {
+        this.multiType = multiType;
+    }
+
+    public EditType getType() {
         return type;
     }
 
-    public T getT() {
-        return this.t;
+    public T[] getTs() {
+        return this.ts;
     }
 
-    public void setT(T t) {
-        this.t = t;
+    public void setTs(T[] t) {
+        this.ts = t;
     }
 
-    public void setType(String type) {
+    public void setType(EditType type) {
         this.type = type;
     }
 }
