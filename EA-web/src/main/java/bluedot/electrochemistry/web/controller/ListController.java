@@ -22,9 +22,7 @@ public class ListController {
     QueryService searchService;
 
     @RequestMapping("/users")
-    String getAccountList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
-        //     /list/users
-//        condition.setPage(SearchPage.ACCOUNT_PAGE);
+    String getAccountList(AccountCondition condition) throws IllegalIndexException {
         SearchResult<?> searchResult = searchService.doService(condition);
         return JsonUtil.toJson(searchResult);
     }

@@ -1,11 +1,11 @@
 package bluedot.electrochemistry.simplespring.inject;
 
+import bluedot.electrochemistry.common.ClassUtil;
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.common.StringUtil;
+import bluedot.electrochemistry.common.ValidationUtil;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
-import bluedot.electrochemistry.simplespring.util.ClassUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
-import bluedot.electrochemistry.simplespring.util.StringUtil;
-import bluedot.electrochemistry.simplespring.util.ValidationUtil;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Field;
@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class DependencyInject {
     private BeanContainer beanContainer;
-    private static final Logger LOGGER = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.ioc");
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
 

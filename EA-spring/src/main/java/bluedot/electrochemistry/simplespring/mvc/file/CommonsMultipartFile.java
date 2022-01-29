@@ -1,10 +1,11 @@
 package bluedot.electrochemistry.simplespring.mvc.file;
 
+import bluedot.electrochemistry.common.LogUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
 import org.springframework.core.log.LogFormatUtils;
 import org.springframework.util.StreamUtils;
 
@@ -18,7 +19,7 @@ import java.io.InputStream;
  */
 public class CommonsMultipartFile implements MultipartFile {
 
-    protected static final Log LOGGER = LogFactory.getLog(CommonsMultipartFile.class);
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc");
 
     FileItem fileItem;
 
@@ -57,7 +58,7 @@ public class CommonsMultipartFile implements MultipartFile {
 
         try {
             this.fileItem.write(dest);
-            LogFormatUtils.traceDebug(LOGGER, traceOn -> {
+            LogFormatUtils.traceDebug((Log) LOGGER, traceOn -> {
                 String action = "transferred";
                 if (!this.fileItem.isInMemory()) {
                     action = (isAvailable() ? "copied" : "moved");

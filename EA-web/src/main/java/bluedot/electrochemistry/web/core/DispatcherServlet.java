@@ -1,4 +1,6 @@
 package bluedot.electrochemistry.web.core;
+import bluedot.electrochemistry.common.ClassUtil;
+import bluedot.electrochemistry.common.ValidationUtil;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
@@ -12,9 +14,7 @@ import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcess
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
-import bluedot.electrochemistry.simplespring.util.ClassUtil;
-import bluedot.electrochemistry.simplespring.util.ValidationUtil;
-import bluedot.electrochemistry.web.util.LogUtil;
+import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

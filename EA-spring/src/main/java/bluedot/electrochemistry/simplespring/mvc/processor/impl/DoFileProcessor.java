@@ -1,18 +1,16 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.file.CommonsMultipartFile;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +25,7 @@ public class DoFileProcessor implements RequestProcessor {
 
     private static final String REQUEST_FILE_DEFAULT_PATH = "/uploads";
 
-    private static final Logger LOGGER = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc.processor");
 
     @Override
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {

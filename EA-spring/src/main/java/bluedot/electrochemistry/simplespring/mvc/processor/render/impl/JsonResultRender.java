@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.render.impl;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;
 import bluedot.electrochemistry.simplespring.util.JsonUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
@@ -14,8 +14,10 @@ import java.io.PrintWriter;
  * @author xxbb
  */
 public class JsonResultRender implements ResultRender {
+
     private Object object;
-    private Logger logger = LogUtil.getLogger();
+
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc");
 
     public JsonResultRender(Object object) {
         this.object = object;

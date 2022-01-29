@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2022/1/22 17:03
  */
 public class PreRequestProcessor implements RequestProcessor {
-    private final Logger log = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc.processor");
     private static final String REQUEST_PATH_END = "/";
 
     @Override
@@ -34,7 +34,7 @@ public class PreRequestProcessor implements RequestProcessor {
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, UserStatus");
         // 接受跨域的cookie
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        log.info("请求设置允许跨域");
+        LOGGER.info("请求设置允许跨域");
 
 
         //设置请求编码
@@ -42,7 +42,7 @@ public class PreRequestProcessor implements RequestProcessor {
 
         // （处理路径是/aaa/bbb，所以如果传入的路径结尾是/aaa/bbb/，就需要处理成/aaa/bbb）
         String requestPath = requestProcessorChain.getRequestPath();
-        log.debug("original requestPath: {}", requestPath);
+        LOGGER.debug("original requestPath: {}", requestPath);
         if (requestPath.length() > 1 && requestPath.endsWith(REQUEST_PATH_END)) {
             requestProcessorChain.setRequestPath(requestPath.substring(0, requestPath.length() - 1));
         }
@@ -50,7 +50,7 @@ public class PreRequestProcessor implements RequestProcessor {
             requestProcessorChain.setResultRender(new DefaultResultRender());
             return false;
         }
-        log.debug("preprocess requestMethod: {}, requestPath: {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
+        LOGGER.debug("preprocess requestMethod: {}, requestPath: {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
         return true;
     }
 }

@@ -1,5 +1,8 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
+import bluedot.electrochemistry.common.ConverterUtil;
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.common.StringUtil;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
@@ -9,9 +12,6 @@ import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.JsonResultRender;
-import bluedot.electrochemistry.simplespring.util.ConverterUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
-import bluedot.electrochemistry.simplespring.util.StringUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class DoRequestProcessor implements RequestProcessor {
 
     private final BeanContainer beanContainer = BeanContainer.getInstance();
 
-    private final Logger logger = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc.processor");
 
     private static final RequestURLAdapter urlAdapter = (RequestURLAdapter) BeanContainer.getInstance().getBean(RequestURLAdapter.class);
 
@@ -49,7 +49,7 @@ public class DoRequestProcessor implements RequestProcessor {
         }
 
         String requestPath = requestProcessorChain.getRequestPath();
-        logger.info("request path --> {}",requestPath);
+        LOGGER.info("request path --> {}",requestPath);
         Method method = null;
         if (urlAdapter.isWhiteUrl(requestPath)) {
             method = urlAdapter.getWhiteUrl(requestPath);

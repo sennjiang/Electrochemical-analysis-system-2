@@ -3,6 +3,7 @@ package bluedot.electrochemistry.service.query.condition;
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.SelectType;
+import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
 /**
  * @author Senn
@@ -23,16 +24,19 @@ public abstract class DefaultCondition implements Conditional{
     /**
      * 分页开始
      */
+    @Param
     protected Integer pageStart;
 
     /**
      * 分页大小
      */
+    @Param
     protected Integer pageSize;
 
     /**
      * 搜索框内容
      */
+    @Param
     protected String content;
 
     @Override

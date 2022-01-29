@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.simplespring.util;
+package bluedot.electrochemistry.common;
 
 import java.util.Collection;
 import java.util.Map;

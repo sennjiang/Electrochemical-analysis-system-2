@@ -1,12 +1,13 @@
 package bluedot.electrochemistry.simplespring.aop;
 
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.common.ValidationUtil;
 import bluedot.electrochemistry.simplespring.aop.annotation.Aspect;
 import bluedot.electrochemistry.simplespring.aop.annotation.Order;
 import bluedot.electrochemistry.simplespring.aop.aspect.AspectInfo;
 import bluedot.electrochemistry.simplespring.aop.aspect.DefaultAspect;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
-import bluedot.electrochemistry.simplespring.util.ValidationUtil;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.Set;
  * @create 2022/1/22 17:03
  */
 public class AspectWeaver {
+
+    private static final Logger LOGGER = LogUtil.getLogger("spring.aop");
+
     private BeanContainer beanContainer;
 
     public AspectWeaver() {
@@ -28,7 +32,7 @@ public class AspectWeaver {
         Set<Class<?>> aspectSet = beanContainer.getClassesByAnnotation(Aspect.class);
         //没有切面类的情况
         if (ValidationUtil.isEmpty(aspectSet)) {
-            LogUtil.getLogger().warn("There is no aspect in  bean container");
+            LOGGER.warn("There is no aspect in  bean container");
             return;
         }
         //2.拼装AspectInfoList
@@ -62,7 +66,7 @@ public class AspectWeaver {
         //创建目标类的动态代理对象，将切面方法进行织入
         AspectListExecutor aspectListExecutor = new AspectListExecutor(targetClass, roughMatchedAspectList);
         Object proxyBean = ProxyCreator.createProxy(targetClass, aspectListExecutor);
-        LogUtil.getLogger().debug("wrapping for class: {}, proxyBean: {}", targetClass.getSimpleName(), proxyBean.getClass().getSimpleName());
+        LOGGER.debug("wrapping for class: {}, proxyBean: {}", targetClass.getSimpleName(), proxyBean.getClass().getSimpleName());
         beanContainer.addBean(targetClass, proxyBean);
     }
 
@@ -103,7 +107,7 @@ public class AspectWeaver {
                 AspectInfo aspectInfo = new AspectInfo(orderTag.value(), defaultAspect, pointcutLocator);
                 aspectInfoList.add(aspectInfo);
             } else {
-                LogUtil.getLogger().error("packAspectInfoList error!");
+                LOGGER.error("packAspectInfoList error!");
                 throw new RuntimeException("@Aspect and @Order must be added to the Aspect class, and Aspect class must extend from DefaultAspect");
             }
         }

@@ -1,6 +1,7 @@
-package bluedot.electrochemistry.simplespring.util;
+package bluedot.electrochemistry.common;
 
 import org.slf4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -8,7 +9,10 @@ import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -20,7 +24,7 @@ import java.util.jar.JarFile;
 public class ClassUtil {
     private final static String FILE_PROTOCOL = "file";
     private final static String CLASS_SUFFIX = ".class";
-    private final static Logger LOGGER = LogUtil.getLogger();
+    private final static Logger LOGGER = LogUtil.getLogger("spring.mvc");
     private static final String JAR_PROTOCOL = "jar";
 
     /**

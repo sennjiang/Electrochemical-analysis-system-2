@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.sender;
 
-import bluedot.electrochemistry.simplespring.util.LogUtil;
+import bluedot.electrochemistry.common.LogUtil;
 import org.slf4j.Logger;
 
 /**
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
  */
 public abstract class AbstractSender implements Sender {
 
-    protected Logger logger = LogUtil.getLogger();
+    protected static final Logger logger = LogUtil.getLogger(AbstractSender.class);
 
     @Override
     public boolean checkContent(String content) {

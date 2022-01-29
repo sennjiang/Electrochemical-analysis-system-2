@@ -1,10 +1,10 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.ErrorResultRender;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +59,7 @@ public class RequestProcessorChain {
     /**
      * 日志
      */
-    private final Logger log = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc");
 
 
     /**
@@ -86,14 +86,14 @@ public class RequestProcessorChain {
         try {
             while (requestProcessorIterator.hasNext()) {
                 RequestProcessor requestProcessor = requestProcessorIterator.next();
-                log.debug("this requestProcessor is {}", requestProcessor);
+                LOGGER.debug("this requestProcessor is {}", requestProcessor);
                 //直到某个请求处理器执行后返回为 false 为止
                 if (!requestProcessor.process(this)) {
                     break;
                 }
             }
         } catch (Exception e) {
-            log.error("执行出错 : {}",e.getMessage());
+            LOGGER.error("执行出错 : {}",e.getMessage());
             setResultRender(new ErrorResultRender(e.getMessage()));
         }
 
@@ -110,10 +110,10 @@ public class RequestProcessorChain {
         }
         try {
             //调用渲染器的render方法对结果进行渲染
-            log.debug("using {} to render view", this.resultRender.getClass().getSimpleName());
+            LOGGER.debug("using {} to render view", this.resultRender.getClass().getSimpleName());
             this.resultRender.render(this);
         } catch (Exception e) {
-            log.error("doRender error:", e);
+            LOGGER.error("doRender error:", e);
         }
     }
 
@@ -175,7 +175,7 @@ public class RequestProcessorChain {
     }
 
     public Logger getLog() {
-        return log;
+        return LOGGER;
     }
 
     public Map<String, String[]> getRequestParams() {

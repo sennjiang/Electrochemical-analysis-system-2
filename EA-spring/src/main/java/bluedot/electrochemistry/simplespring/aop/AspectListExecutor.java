@@ -1,10 +1,11 @@
 package bluedot.electrochemistry.simplespring.aop;
 
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.common.ValidationUtil;
 import bluedot.electrochemistry.simplespring.aop.aspect.AspectInfo;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
-import bluedot.electrochemistry.simplespring.util.ValidationUtil;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import org.slf4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ import java.util.List;
  * @create 2022/1/22 17:03
  */
 public class AspectListExecutor implements MethodInterceptor {
+
+    private static final Logger LOGGER = LogUtil.getLogger("spring.aop");
+
     /**
      * 被代理类
      */
@@ -40,7 +44,7 @@ public class AspectListExecutor implements MethodInterceptor {
         List<AspectInfo> accurateAspectInfoList = collectAccurateMatchedAspectList(method);
         //没有切面对方法进行增强的情况
         if (ValidationUtil.isEmpty(accurateAspectInfoList)) {
-            LogUtil.getLogger().warn("There is no Aspect for this bean");
+            LOGGER.warn("There is no Aspect for this bean");
             returnValue = methodProxy.invokeSuper(o, args);
             return returnValue;
         }

@@ -1,9 +1,10 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
+import bluedot.electrochemistry.common.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.ResourceResultRender;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
+import org.slf4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -24,6 +25,7 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
     private static final String ICO_RESOURCE_SUFFIX = ".ico";
 
 
+    private static final Logger LOGGER = LogUtil.getLogger("spring.mvc.processor");
     /**
      * tomcat默认的请求派发器
      */
@@ -32,10 +34,10 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
     public StaticResourceRequestProcessor(ServletContext servletContext) {
         this.defaultDispatcher = servletContext.getNamedDispatcher(DEFAULT_TOMCAT_SERVLET);
         if (null == defaultDispatcher) {
-            LogUtil.getLogger().error("StaticResourceRequestProcessor constructor error");
+            LOGGER.error("StaticResourceRequestProcessor constructor error");
             throw new RuntimeException("There is no default tomcat servlet");
         }
-        LogUtil.getLogger().debug("The default servlet for static resource is {}", DEFAULT_TOMCAT_SERVLET);
+        LOGGER.debug("The default servlet for static resource is {}", DEFAULT_TOMCAT_SERVLET);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
         //通过请求路径判断是否为静态资源
         if (isStaticResource(requestProcessorChain.getRequestPath())) {
             //如果是静态资源，则交给default servlet处理
-            LogUtil.getLogger().debug("static requestPath: {}", requestProcessorChain.getRequestPath());
+            LOGGER.debug("static requestPath: {}", requestProcessorChain.getRequestPath());
             defaultDispatcher.forward(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
             requestProcessorChain.setResultRender(new ResourceResultRender());
             return false;

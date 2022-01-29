@@ -1,9 +1,12 @@
 package bluedot.electrochemistry.web.controller;
 
 
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditService;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
+import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.pojo.domain.User;
 import bluedot.electrochemistry.service.query.condition.AccountCondition;
 import bluedot.electrochemistry.service.query.main.QueryService;
@@ -12,14 +15,7 @@ import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
-import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
-import bluedot.electrochemistry.simplespring.util.JsonUtil;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Senn
@@ -30,44 +26,23 @@ import java.io.IOException;
 public class UserController {
 
     @Autowired
+    MapperFactory factory;
+
+    @Autowired
     QueryService queryService;
 
     @Autowired
     EditService editService;
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LogUtil.getLogger(UserController.class);
 
-    @WhiteMapping("/user")
-    public String test2(AccountCondition condition) throws IllegalIndexException {
-        return queryService.doService(condition).toString();
-    }
-
-
-    @RequestMapping("/file/test")
-    public String test(MultipartFile[] files) throws IOException {
-        LOGGER.info(" /user/file/test 请求成功！！！");
-        for (MultipartFile file : files) {
-            LOGGER.info("{}", file.getName());
-            LOGGER.info("{}",file.getSize());
-            LOGGER.info("{}",file.isEmpty());
-            File file1 = new File("E:\\testImage", "qwer.jpg");
-            file.transferTo(file1);
-            LOGGER.info(" --------- ");
-        }
-        return "hello world !! ";
-    }
-
-
-    @RequestMapping("/t")
-    public String test1(String[] ids) {
-        LOGGER.info(" /user/t 请求成功！！！ name : " + ids);
-        return ids[0];
-    }
 
     @RequestMapping("/login")
-    public String login(@RequestParam("account") String account, @RequestParam("password") String password) {
-        return "hello world !! ";
+    public User login(@RequestParam("account") String account, @RequestParam("password") String password) {
+        BaseMapper mapper = factory.createMapper();
+        User user = mapper.loginByEmail(account, password);
+        return user;
     }
 
     @WhiteMapping("/register")

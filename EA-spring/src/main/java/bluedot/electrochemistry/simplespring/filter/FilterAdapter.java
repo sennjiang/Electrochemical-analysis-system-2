@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.simplespring.filter;
 
-import bluedot.electrochemistry.simplespring.util.ClassUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
+import bluedot.electrochemistry.common.ClassUtil;
+import bluedot.electrochemistry.common.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class FilterAdapter {
 
-    private static final Logger LOGGER = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.filter");
 
     private final Set<FilterDefinition> beforeFilters = new TreeSet<>();
 

@@ -1,9 +1,8 @@
 package bluedot.electrochemistry.simplespring.core;
 
-import bluedot.electrochemistry.simplespring.util.ClassUtil;
-import bluedot.electrochemistry.simplespring.util.ConverterUtil;
-import bluedot.electrochemistry.simplespring.util.LogUtil;
-import bluedot.electrochemistry.simplespring.util.ValidationUtil;
+import bluedot.electrochemistry.common.ClassUtil;
+import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.common.ValidationUtil;
 import org.slf4j.Logger;
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -26,7 +25,7 @@ public class BeanContainer {
     /**
      * 获取静态日志管理器
      */
-    private static final Logger LOGGER = LogUtil.getLogger();
+    private static final Logger LOGGER = LogUtil.getLogger("spring.ioc");
 
 
     /**

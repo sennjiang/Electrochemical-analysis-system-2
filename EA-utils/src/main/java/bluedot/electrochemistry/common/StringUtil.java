@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.simplespring.util;
+package bluedot.electrochemistry.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

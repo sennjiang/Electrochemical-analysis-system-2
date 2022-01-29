@@ -5,7 +5,7 @@ import bluedot.electrochemistry.service.pojo.domain.User;
 import java.util.List;
 
 /**
- * @author Sens
+ * @author Senn
  * @createDate 2021/12/16 19:19
  */
 public interface BaseMapper {
