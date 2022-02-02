@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.service.VerifyCodeMaker;
 import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.main.EditService;
@@ -47,7 +48,7 @@ public class UserController extends BaseController {
 
     @WhiteMapping("/login")
     public Result login(@RequestParam("account") String account, @RequestParam("password") String password) {
-        if (account == null) {
+        if (account == null || password == null) {
             return renderBadRequest();
         }
         BaseMapper mapper = factory.createMapper();
@@ -152,13 +153,11 @@ public class UserController extends BaseController {
      * @return Result
      */
     @WhiteMapping("/send/email/code")
-    public Result sendEmailCode(String email) throws MessagingException {
-        if (email == null) {
+    public Result sendEmailCode(@RequestParam("email") String email) throws MessagingException {
+        if (email == null || !isEmail(email)) {
             return renderBadRequest();
         }
-
-        // 要发送的验证码
-        String emailCode = UUID.randomUUID().toString().replace("-", "").toLowerCase().substring(0, 5);
+        String emailCode = VerifyCodeMaker.getVerifyCode();
 
         boolean b = mailSender.sendMessage(email, "[电化学分析系统]您的验证码为:" + emailCode);
         return b ? renderSuccess() : null;
@@ -174,7 +173,7 @@ public class UserController extends BaseController {
      * @param email 邮箱
      * @return 是否
      */
-    public static boolean isEmail(String email) {
+    private static boolean isEmail(String email) {
         Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
         Matcher matcher = emailPattern.matcher(email);
         return matcher.find();
