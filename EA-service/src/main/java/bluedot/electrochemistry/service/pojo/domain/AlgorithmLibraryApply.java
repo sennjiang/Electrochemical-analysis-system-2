@@ -1,30 +1,17 @@
 package bluedot.electrochemistry.service.pojo.domain;
 
-import bluedot.electrochemistry.simplespring.core.annotation.Param;
-
 /**
  * @author Senn
- * @create 2022/1/28 18:54
+ * @create 2022/2/2 19:14
  */
-@Param
-public class AlgorithmApply {
+public class AlgorithmLibraryApply {
     private Integer id;
     private Integer userId;
-    private Integer algoName;
+    private Integer algoId;
 
-    /**
-     * 申请类型，
-     * 0：删除算法申请；
-     * 1：添加算法申请。
-     */
-    private Integer algoType;
+    private String author;
 
-    /**
-     * 申请类型，
-     * 0：删除算法申请；
-     * 1：添加算法申请。
-     */
-    private Integer applyType;
+    private String algoName;
 
     /**
      * 0 未审核
@@ -33,10 +20,6 @@ public class AlgorithmApply {
      */
     private Integer status;
 
-    /**
-     * 算法地址
-     */
-    private String path;
 
     /**
      * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
@@ -64,28 +47,12 @@ public class AlgorithmApply {
         this.userId = userId;
     }
 
-    public Integer getAlgoName() {
-        return algoName;
+    public Integer getAlgoId() {
+        return algoId;
     }
 
-    public void setAlgoName(Integer algoName) {
-        this.algoName = algoName;
-    }
-
-    public Integer getAlgoType() {
-        return algoType;
-    }
-
-    public void setAlgoType(Integer algoType) {
-        this.algoType = algoType;
-    }
-
-    public Integer getApplyType() {
-        return applyType;
-    }
-
-    public void setApplyType(Integer applyType) {
-        this.applyType = applyType;
+    public void setAlgoId(Integer algoId) {
+        this.algoId = algoId;
     }
 
     public Integer getStatus() {
@@ -94,14 +61,6 @@ public class AlgorithmApply {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public String getGmt_create() {
@@ -118,5 +77,21 @@ public class AlgorithmApply {
 
     public void setGmt_modify(String gmt_modify) {
         this.gmt_modify = gmt_modify;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getAlgoName() {
+        return algoName;
+    }
+
+    public void setAlgoName(String algoName) {
+        this.algoName = algoName;
     }
 }
