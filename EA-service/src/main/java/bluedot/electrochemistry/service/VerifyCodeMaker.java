@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.utils;
+package bluedot.electrochemistry.service;
 
 /**
  * @author Senn
