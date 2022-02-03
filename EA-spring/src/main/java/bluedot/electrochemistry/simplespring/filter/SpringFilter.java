@@ -23,7 +23,7 @@ public interface SpringFilter {
      * @param response response
      * @param returnValue 返回值参数 无则null
      */
-    default boolean afterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) {
+    default boolean afterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) throws Exception {
         return true;
     }
 

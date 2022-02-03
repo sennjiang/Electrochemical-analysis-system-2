@@ -281,7 +281,6 @@ public class DispatcherServlet extends HttpServlet {
      * @param clazz clazz
      */
     private void loadFilterBean(Class<?> clazz) {
-        LOGGER.debug("load filter bean name : " + clazz.getName());
         if (clazz.isAnnotationPresent(Filter.class)) {
             int level = clazz.getAnnotation(Filter.class).value();
             filterAdapter.addBeforeFilter(clazz, level);

@@ -31,7 +31,7 @@ public class FilterAdapter {
         }
     }
 
-    public void doAfterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) {
+    public void doAfterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) throws Exception {
         for (FilterDefinition next : afterFilters) {
             SpringFilter filter = next.getFilter();
             LOGGER.debug("do after filter filter name :  " + filter.getClass().getName());

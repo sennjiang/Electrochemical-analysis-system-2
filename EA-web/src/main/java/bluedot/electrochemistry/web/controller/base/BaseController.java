@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.web.controller.base;
 
+import bluedot.electrochemistry.web.core.HttpStatus;
+
 /**
  * @author Senn
  * @create 2022/1/20 20:47
@@ -13,6 +15,7 @@ public abstract class BaseController {
     public Result renderError(String msg) {
         Result result = new Result();
         result.setMessage(msg);
+        result.setCode(HttpStatus.NOT_FOUND);
         return result;
     }
 
@@ -22,19 +25,20 @@ public abstract class BaseController {
     public Result renderBadRequest() {
         Result result = new Result();
         result.setMessage("bad request.");
+        result.setCode(HttpStatus.BAD_REQUEST);
         return result;
     }
 
     /**
      *
      * @param msg 失败的消息
-     * @param code 响应码
+     * @param status 响应码
      * @return Result
      */
-    public Result renderError(String msg, int code) {
+    public Result renderError(String msg, HttpStatus status) {
         Result result = new Result();
         result.setMessage(msg);
-        result.setCode(code);
+        result.setCode(status);
         return result;
     }
 
@@ -43,7 +47,7 @@ public abstract class BaseController {
      */
     public Result renderSuccess() {
         Result result = new Result();
-        result.setCode(200);
+        result.setCode(HttpStatus.OK);
         return result;
     }
     /**
@@ -53,7 +57,7 @@ public abstract class BaseController {
      */
     public Result renderSuccess(String message) {
         Result result = new Result();
-        result.setCode(200);
+        result.setCode(HttpStatus.OK);
         result.setMessage(message);
         return result;
     }
@@ -67,7 +71,7 @@ public abstract class BaseController {
     public Result renderSuccess(String message, Object object) {
         Result result = new Result();
         result.setData(object);
-        result.setCode(200);
+        result.setCode(HttpStatus.OK);
         result.setMessage(message);
         return result;
     }
@@ -82,7 +86,7 @@ public abstract class BaseController {
     public Result renderSuccess(String message, int length , Object object) {
         Result result = new Result();
         result.setData(object);
-        result.setCode(200);
+        result.setCode(HttpStatus.OK);
         return result;
     }
 

@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.web.controller.base;
 
+import bluedot.electrochemistry.web.core.HttpStatus;
+
 /**
  * @author Senn
  * @createDate 2021/12/16 20:36
@@ -27,6 +29,9 @@ public class Result {
 
     public void setCode(int num) {
         codeNum += num;
+    }
+    public void setCode(HttpStatus status) {
+        codeNum += status.value();
     }
 
     public void setSize(int num) {
