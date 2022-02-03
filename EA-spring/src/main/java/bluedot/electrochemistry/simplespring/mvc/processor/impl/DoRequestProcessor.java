@@ -1,8 +1,8 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
-import bluedot.electrochemistry.common.ConverterUtil;
-import bluedot.electrochemistry.common.LogUtil;
-import bluedot.electrochemistry.common.StringUtil;
+import bluedot.electrochemistry.utils.ConverterUtil;
+import bluedot.electrochemistry.utils.LogUtil;
+import bluedot.electrochemistry.utils.StringUtil;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.Param;

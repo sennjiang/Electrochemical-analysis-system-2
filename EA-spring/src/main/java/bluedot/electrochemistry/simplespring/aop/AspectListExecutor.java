@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.simplespring.aop;
 
-import bluedot.electrochemistry.common.LogUtil;
-import bluedot.electrochemistry.common.ValidationUtil;
+import bluedot.electrochemistry.utils.LogUtil;
+import bluedot.electrochemistry.utils.ValidationUtil;
 import bluedot.electrochemistry.simplespring.aop.aspect.AspectInfo;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;

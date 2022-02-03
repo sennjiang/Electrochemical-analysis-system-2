@@ -1,6 +1,5 @@
 package bluedot.electrochemistry.service.file.main.Impl;
 
-import bluedot.electrochemistry.service.factory.MapperFactory;
 import bluedot.electrochemistry.service.file.FileFactor;
 import bluedot.electrochemistry.service.file.FileResult;
 import bluedot.electrochemistry.service.file.FileTask;
@@ -15,8 +14,6 @@ import java.io.File;
  * @Create 2022/1/29 18:01
  */
 public class FileServiceImpl implements FileService {
-
-    private MapperFactory mapperFactory;
 
     private FileTask<?> fileTask;
 

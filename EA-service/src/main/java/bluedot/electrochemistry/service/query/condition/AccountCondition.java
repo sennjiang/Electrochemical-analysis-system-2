@@ -91,7 +91,7 @@ public class AccountCondition extends DefaultCondition {
     }
 
     public void setStatus(String status) {
-        if (this.status == null) {
+        if (this.status == null  && status == null) {
             this.tag += 2;
         }
         this.status = status;
@@ -102,7 +102,7 @@ public class AccountCondition extends DefaultCondition {
     }
 
     public void setNearly(String nearly) {
-        if (this.nearly == null) {
+        if (this.nearly == null  && nearly == null) {
             this.tag += 4;
         }
         this.nearly = nearly;
@@ -114,7 +114,7 @@ public class AccountCondition extends DefaultCondition {
     }
 
     public void setContent(String content) {
-        if (this.content == null) {
+        if (this.content == null && content == null) {
             this.tag += 1;
         }
         this.content = content;

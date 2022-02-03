@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.simplespring.mvc.file;
 
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.utils.LogUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;

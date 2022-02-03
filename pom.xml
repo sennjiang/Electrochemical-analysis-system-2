@@ -14,6 +14,7 @@
         <module>EA-service</module>
         <module>EA-mybatis</module>
         <module>EA-utils</module>
+        <module>EA-commons</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,7 +1,6 @@
 package bluedot.electrochemistry.service.query.main;
 
-import bluedot.electrochemistry.common.LogUtil;
-import bluedot.electrochemistry.service.factory.MapperFactory;
+import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.QueryParam;
 import bluedot.electrochemistry.service.query.SearchResult;
@@ -22,18 +21,6 @@ import java.util.ArrayList;
 public class QueryServiceImpl implements QueryService {
 
     private static final Logger LOGGER = LogUtil.getLogger(QueryServiceImpl.class);
-
-    @Autowired
-    MapperFactory mapperFactory;
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void destroy() {
-
-    }
 
     @Override
     public SearchResult<?> doService(Conditional condition) throws IllegalIndexException {

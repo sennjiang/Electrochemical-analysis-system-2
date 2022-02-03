@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.simplespring.filter;
 
-import bluedot.electrochemistry.common.ClassUtil;
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.utils.ClassUtil;
+import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

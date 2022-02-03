@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.web.core;
-import bluedot.electrochemistry.common.ClassUtil;
-import bluedot.electrochemistry.common.LogUtil;
-import bluedot.electrochemistry.common.ValidationUtil;
+import bluedot.electrochemistry.utils.ClassUtil;
+import bluedot.electrochemistry.utils.LogUtil;
+import bluedot.electrochemistry.utils.ValidationUtil;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;

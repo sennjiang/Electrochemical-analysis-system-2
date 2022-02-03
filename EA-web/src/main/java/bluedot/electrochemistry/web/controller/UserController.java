@@ -1,30 +1,30 @@
 package bluedot.electrochemistry.web.controller;
 
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.commons.dao.BaseMapper;
+import bluedot.electrochemistry.commons.entity.Right;
+import bluedot.electrochemistry.commons.entity.User;
+import bluedot.electrochemistry.commons.sender.MailSender;
 import bluedot.electrochemistry.service.VerifyCodeMaker;
-import bluedot.electrochemistry.service.dao.BaseMapper;
 import bluedot.electrochemistry.service.edit.EditParam;
-import bluedot.electrochemistry.service.edit.main.EditService;
 import bluedot.electrochemistry.service.edit.EditType;
-import bluedot.electrochemistry.service.factory.MapperFactory;
-import bluedot.electrochemistry.service.pojo.domain.Right;
-import bluedot.electrochemistry.service.pojo.domain.User;
-import bluedot.electrochemistry.service.sender.MailSender;
+import bluedot.electrochemistry.service.edit.main.EditService;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
+import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.web.controller.base.BaseController;
+import bluedot.electrochemistry.web.factory.MapperFactory;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
 import javax.mail.MessagingException;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * @author Senn
@@ -40,8 +40,7 @@ public class UserController extends BaseController {
     @Autowired
     EditService editService;
 
-    MailSender mailSender = new MailSender();
-
+    private final MailSender mailSender = new MailSender();
 
     private static final Logger LOGGER = LogUtil.getLogger(UserController.class);
 
@@ -53,11 +52,11 @@ public class UserController extends BaseController {
         }
         BaseMapper mapper = factory.createMapper();
         User user = mapper.loginByEmail(account);
-        if (user.getStatus() == 0) {
-            return renderError("账号已冻结，请申请解冻！！");
-        }
         if (!user.getPassword().equals(password)) {
             return renderError("账号密码错误！请重新登录");
+        }
+        if (user.getStatus() == 0) {
+            return renderError("账号已冻结，请申请解冻！！");
         }
         user.setPassword("");
         return renderSuccess("登录成功！！",user);

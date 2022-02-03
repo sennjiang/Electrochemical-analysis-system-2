@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="bluedot.electrochemistry.commons.dao.BaseMapper">
+
+    <select id="checkEmail" resultType="java.lang.Integer">
+
+    </select>
+    <select id="loginByEmail" resultType="bluedot.electrochemistry.commons.entity.User">
+
+    </select>
+    <select id="changePassword" resultType="java.lang.Integer">
+
+    </select>
+    <select id="getRights" resultType="bluedot.electrochemistry.commons.entity.Right">
+
+    </select>
+</mapper>

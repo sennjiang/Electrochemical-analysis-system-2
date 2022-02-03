@@ -1,11 +1,11 @@
 package bluedot.electrochemistry.web.controller;
 
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.commons.entity.AlgorithmLibraryApply;
+import bluedot.electrochemistry.utils.LogUtil;
+import bluedot.electrochemistry.commons.entity.AlgorithmApply;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.edit.main.EditService;
-import bluedot.electrochemistry.service.pojo.domain.AlgorithmApply;
-import bluedot.electrochemistry.service.pojo.domain.AlgorithmLibraryApply;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
@@ -13,7 +13,6 @@ import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.web.controller.base.Result;
-import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 
 /**

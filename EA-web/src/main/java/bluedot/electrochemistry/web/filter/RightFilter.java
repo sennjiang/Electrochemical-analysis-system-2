@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.web.filter;
 
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.BeforeFilter;
 import bluedot.electrochemistry.simplespring.filter.SpringFilter;

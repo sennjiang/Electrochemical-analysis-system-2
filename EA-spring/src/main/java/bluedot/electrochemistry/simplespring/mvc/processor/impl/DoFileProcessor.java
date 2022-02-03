@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
-import bluedot.electrochemistry.common.LogUtil;
+import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.file.CommonsMultipartFile;

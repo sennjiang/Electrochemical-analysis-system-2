@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.simplespring.inject;
 
-import bluedot.electrochemistry.common.ClassUtil;
-import bluedot.electrochemistry.common.LogUtil;
-import bluedot.electrochemistry.common.StringUtil;
-import bluedot.electrochemistry.common.ValidationUtil;
+import bluedot.electrochemistry.utils.ClassUtil;
+import bluedot.electrochemistry.utils.LogUtil;
+import bluedot.electrochemistry.utils.StringUtil;
+import bluedot.electrochemistry.utils.ValidationUtil;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import org.slf4j.Logger;
