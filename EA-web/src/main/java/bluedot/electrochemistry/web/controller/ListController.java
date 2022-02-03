@@ -8,8 +8,11 @@ import bluedot.electrochemistry.service.query.condition.AccountCondition;
 import bluedot.electrochemistry.service.query.main.QueryService;
 import bluedot.electrochemistry.simplespring.core.annotation.Controller;
 import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
+import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.util.JsonUtil;
+import bluedot.electrochemistry.web.controller.base.BaseController;
+import bluedot.electrochemistry.web.controller.base.Result;
 
 /**
  * @author Senn
@@ -17,16 +20,27 @@ import bluedot.electrochemistry.simplespring.util.JsonUtil;
  */
 @Controller
 @RequestMapping("/list")
-public class ListController {
+public class ListController extends BaseController {
 
     @Autowired
     QueryService searchService;
 
     @RequestMapping("/users")
-    String getAccountList(AccountCondition condition) throws IllegalIndexException {
+    Result getAccountList(@RequestParam("content") String content,
+                          @RequestParam("status") String status,
+                          @RequestParam("nearly") String nearly,
+                          @RequestParam("pageStart") String pageStart,
+                          @RequestParam("pageSize") String pageSize) throws IllegalIndexException {
+        if (pageStart == null || pageSize == null) return renderBadRequest();
+        AccountCondition condition = new AccountCondition();
+        condition.setPageStart(Integer.parseInt(pageStart));
+        condition.setPageSize(Integer.parseInt(pageSize));
         condition.setType(SelectType.LIST);
+        condition.setContent(content);
+        condition.setStatus(status);
+        condition.setNearly(nearly);
         SearchResult<?> searchResult = searchService.doService(condition);
-        return JsonUtil.toJson(searchResult);
+        return renderSuccess("执行成功",searchResult.getCount(),searchResult.getList());
     }
 
     @RequestMapping("/algorithms")

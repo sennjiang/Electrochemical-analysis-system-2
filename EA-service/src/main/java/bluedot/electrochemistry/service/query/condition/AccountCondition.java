@@ -36,13 +36,13 @@ public class AccountCondition extends DefaultCondition {
     private final Table table = Table.USER;
 
     @Param
-    private Integer status;
+    private String status;
 
     /**
      * 近几天 如 近三天 nearly = 3
      */
     @Param
-    private Integer nearly;
+    private String nearly;
 
     /**
      * 标记属性
@@ -86,22 +86,22 @@ public class AccountCondition extends DefaultCondition {
         return table;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         if (this.status == null) {
             this.tag += 2;
         }
         this.status = status;
     }
 
-    public Integer getNearly() {
+    public String getNearly() {
         return nearly;
     }
 
-    public void setNearly(Integer nearly) {
+    public void setNearly(String nearly) {
         if (this.nearly == null) {
             this.tag += 4;
         }
