@@ -6,8 +6,8 @@ import bluedot.electrochemistry.simplespring.core.annotation.BeforeFilter;
 import bluedot.electrochemistry.simplespring.filter.SpringFilter;
 import org.slf4j.Logger;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Senn
@@ -18,15 +18,16 @@ public class RightFilter implements SpringFilter {
 
     private static final Logger LOGGER =  LogUtil.getLogger(RightFilter.class);
 
-    RequestURLAdapter adapter = new RequestURLAdapter();
+    private final RequestURLAdapter adapter = new RequestURLAdapter();
 
     @Override
-    public boolean beforeFilter(ServletRequest request, ServletResponse response) {
+    public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("do right filter .. ");
-        if (adapter.isWhiteUrl("/user/login")) {
 
+        if (adapter.isWhiteUrl(request.getPathInfo())) {
+            return true;
         }else {
-            //权限
+            //TODO 权限查询
         }
         return true;
     }

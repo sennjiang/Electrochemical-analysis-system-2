@@ -1,7 +1,7 @@
 package bluedot.electrochemistry.simplespring.filter;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Senn
@@ -13,7 +13,7 @@ public interface SpringFilter {
      * @param request request
      * @param response response
      */
-    default boolean beforeFilter(ServletRequest request, ServletResponse response) {
+    default boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) {
         return true;
     }
 
@@ -23,7 +23,7 @@ public interface SpringFilter {
      * @param response response
      * @param returnValue 返回值参数 无则null
      */
-    default boolean afterFilter(ServletRequest request, ServletResponse response, Object returnValue) {
+    default boolean afterFilter(HttpServletRequest request, HttpServletResponse response, Object returnValue) {
         return true;
     }
 
