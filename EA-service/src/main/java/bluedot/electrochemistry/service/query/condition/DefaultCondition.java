@@ -87,11 +87,4 @@ public abstract class DefaultCondition implements Conditional{
         this.pageSize = pageSize;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

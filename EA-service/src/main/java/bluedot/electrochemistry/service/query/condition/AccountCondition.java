@@ -14,12 +14,23 @@ import java.util.Map;
  */
 public class AccountCondition extends DefaultCondition {
 
-    private static final Map<String,String> sqlMap = new HashMap<>();
+    private static final Map<Integer,String> sqlMap = new HashMap<>();
+
+    private static final String SQL_LIMIT = "limit ? , ? ;";
+
+    private static final String SQL_SELECT = "select * from user ";
+
+
 
     static {
-        sqlMap.put("content"," content = ? ");
-        sqlMap.put("status"," status = ? ");
-        sqlMap.put("nearly"," DATE_SUB(CURDATE(), INTERVAL ? DAY) <= date(user.gmt_create) ");
+        sqlMap.put(1, "where content = ? ");
+        sqlMap.put(2, "where status = ? ");
+        sqlMap.put(4, "DATE_SUB(CURDATE(), INTERVAL ? DAY) <= date(user.gmt_create) ");
+        sqlMap.put(3, "where content = ? and status = ?");
+        sqlMap.put(5, "where content = ? and DATE_SUB(CURDATE(), INTERVAL ? DAY) <= date(user.gmt_create)");
+        sqlMap.put(6, "where status = ? and DATE_SUB(CURDATE(), INTERVAL ? DAY) <= date(user.gmt_create)");
+        sqlMap.put(7, "where content = ? and status = ? and DATE_SUB(CURDATE(), INTERVAL ? DAY) <= date(user.gmt_create) ");
+
     }
 
     private final Table table = Table.USER;
@@ -33,33 +44,15 @@ public class AccountCondition extends DefaultCondition {
     @Param
     private Integer nearly;
 
-
-    public AccountCondition(String content , Integer pageStart , Integer pageSize , Integer status) {
-        this.content = content;
-        this.pageStart = pageStart;
-        this.pageSize = pageSize;
-        this.status = status;
-    }
+    /**
+     * 标记属性
+     */
+    private int tag = 0;
 
     @Override
     public String decodeCondition() {
-        if (checkCondition()) {
-            StringBuilder sb = new StringBuilder("select * from user where");
-            if (content != null) {
-                sb.append(sqlMap.get("content"));
-            }
-            if (status != null) {
-                sb.append(SQL_AND);
-                sb.append(sqlMap.get("status"));
-            }
-            if (nearly != null) {
-                sb.append(SQL_AND);
-                sb.append(sqlMap.get("nearly"));
-            }
-            sb.append("limit ? , ? ;");
-            return sb.toString();
-        }
-        return null;
+        if (tag == 0) return SQL_SELECT + SQL_LIMIT;
+        return SQL_SELECT + sqlMap.getOrDefault(tag, null) + SQL_LIMIT;
     }
 
     @Override
@@ -98,6 +91,9 @@ public class AccountCondition extends DefaultCondition {
     }
 
     public void setStatus(Integer status) {
+        if (this.status == null) {
+            this.tag += 2;
+        }
         this.status = status;
     }
 
@@ -106,6 +102,21 @@ public class AccountCondition extends DefaultCondition {
     }
 
     public void setNearly(Integer nearly) {
+        if (this.nearly == null) {
+            this.tag += 4;
+        }
         this.nearly = nearly;
+    }
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        if (this.content == null) {
+            this.tag += 1;
+        }
+        this.content = content;
     }
 }
