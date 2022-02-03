@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.file.processor;
 
-import bluedot.electrochemistry.service.pojo.domain.Algorithm;
+import bluedot.electrochemistry.commons.entity.Algorithm;
 
 import java.io.File;
 

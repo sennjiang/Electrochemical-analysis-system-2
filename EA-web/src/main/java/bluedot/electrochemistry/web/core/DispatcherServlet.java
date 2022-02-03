@@ -1,4 +1,5 @@
 package bluedot.electrochemistry.web.core;
+import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.utils.ValidationUtil;
@@ -85,6 +86,7 @@ public class DispatcherServlet extends HttpServlet {
 //        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
 
         beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
+        beanContainer.addBean(MapperFactory.class,new MapperFactory());
 
         new DependencyInject().doDependencyInject();
 

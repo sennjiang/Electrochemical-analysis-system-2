@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.file.processor;
 
-import bluedot.electrochemistry.service.pojo.domain.EaFile;
+import bluedot.electrochemistry.commons.entity.EaFile;
 
 import java.io.File;
 

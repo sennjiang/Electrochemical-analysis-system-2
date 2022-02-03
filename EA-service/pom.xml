@@ -38,6 +38,12 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.blue</groupId>
+            <artifactId>EA-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>
