@@ -1,5 +1,7 @@
-package bluedot.electrochemistry.web.sqlfactorybuilder;
+package bluedot.electrochemistry.commons.sqlfactorybuilder;
 
+import bluedot.electrochemistry.commons.Lifecycle;
+import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.simplemybatis.session.Configuration;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
@@ -16,7 +18,7 @@ import java.io.InputStream;
  * @author Senn
  * @create 2022/1/24 19:37
  */
-public class SqlSessionFactoryBuilder {
+public class SqlSessionFactoryBuilder implements Lifecycle {
 
     private static final Logger LOGGER = LogUtils.getLogger();
     /**
@@ -45,6 +47,17 @@ public class SqlSessionFactoryBuilder {
         //将sqlFactory注入到IoC容器中
         LOGGER.debug("load bean: " + factory.getClass().getName());
         BeanContainer.getInstance().addBean(factory.getClass(), factory);
+        init();
         return factory;
+    }
+
+    @Override
+    public void init() {
+        new MapperFactory().init();
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

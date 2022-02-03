@@ -16,7 +16,7 @@ import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.web.controller.base.BaseController;
-import bluedot.electrochemistry.web.factory.MapperFactory;
+import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
