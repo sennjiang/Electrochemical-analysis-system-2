@@ -23,4 +23,12 @@ public class SearchResult<E> {
     public List<E> getList() {
         return list;
     }
+
+    public SelectType getType() {
+        return type;
+    }
+
+    public void setType(SelectType type) {
+        this.type = type;
+    }
 }

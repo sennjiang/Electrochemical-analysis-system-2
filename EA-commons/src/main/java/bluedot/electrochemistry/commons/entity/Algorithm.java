@@ -11,8 +11,8 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
 public class Algorithm {
     private Integer id;
     private Integer userId;
-    private String name;
-    private String uuid;
+    private String algoName;
+    private String path;
     /**
      * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
      */
@@ -45,20 +45,20 @@ public class Algorithm {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getAlgoName() {
+        return algoName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAlgoName(String algoName) {
+        this.algoName = algoName;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getPath() {
+        return path;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getGmt_create() {

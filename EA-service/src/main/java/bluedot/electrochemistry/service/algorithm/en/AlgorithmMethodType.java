@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.service.algorithm.en;
 
-public enum MethodType {
-    COMPILE_AND_RUN;
+public enum AlgorithmMethodType {
+    COMPILE,
+    RUN;
 }

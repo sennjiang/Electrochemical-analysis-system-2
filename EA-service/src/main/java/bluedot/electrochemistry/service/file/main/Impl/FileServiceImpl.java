@@ -8,6 +8,7 @@ import bluedot.electrochemistry.service.file.main.FileService;
 import bluedot.electrochemistry.service.file.processor.FileProcessor;
 
 import java.io.File;
+import java.util.concurrent.*;
 
 /**
  * @Author zero
@@ -15,7 +16,20 @@ import java.io.File;
  */
 public class FileServiceImpl implements FileService {
 
-    private FileTask<?> fileTask;
+    private static final Executor threadPool = new ThreadPoolExecutor(10,
+            100,
+            10,
+            TimeUnit.MINUTES,
+            new LinkedBlockingQueue<>(),
+            new ThreadFactory() {
+                int index = 0;
+
+                @Override
+                public Thread newThread(Runnable r) {
+                    return new Thread(r, "file_thread_" + index++);
+                }
+            },
+            new ThreadPoolExecutor.AbortPolicy());
 
     @Override
     public FileResult doService(FileFactor factor) {

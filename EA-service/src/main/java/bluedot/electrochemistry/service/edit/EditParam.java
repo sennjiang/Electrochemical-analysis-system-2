@@ -24,7 +24,7 @@ public class EditParam<T> {
     public EditParam(T[] ts, EditType type) {
         this.ts = ts;
         this.type = type;
-        new EditParam(ts,type, EditMultiType.SINGLE);
+        new EditParam<T>(ts,type, EditMultiType.SINGLE);
     }
 
     public EditParam(T[] ts, EditType type, EditMultiType multiType) {

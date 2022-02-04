@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.service.algorithm;
 
-import bluedot.electrochemistry.service.algorithm.en.MethodType;
+import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
 
 import java.util.Arrays;
 
@@ -11,13 +11,13 @@ import java.util.Arrays;
  * @Create 2022/1/29 16:09
  */
 public class AlgorithmFactor {
-    private MethodType type;    //方法类型
-    private int id;             //算法文件id
+    private AlgorithmMethodType type;    //方法类型
+    private String id;             //算法文件id
     private String name;        //算法文件名
-    private float[] xs;         //横坐标数据
-    private float[] ys;         //纵坐标数据
+    private String[] xs;         //横坐标数据
+    private String[] ys;         //纵坐标数据
 
-    public AlgorithmFactor(MethodType type, int id, String name, float[] xs, float[] ys) {
+    public AlgorithmFactor(AlgorithmMethodType type, String id, String name, String[] xs, String[] ys) {
         this.type = type;
         this.id = id;
         this.name = name;
@@ -25,19 +25,19 @@ public class AlgorithmFactor {
         this.ys = ys;
     }
 
-    public MethodType getType() {
+    public AlgorithmMethodType getType() {
         return type;
     }
 
-    public void setType(MethodType type) {
+    public void setType(AlgorithmMethodType type) {
         this.type = type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -49,19 +49,19 @@ public class AlgorithmFactor {
         this.name = name;
     }
 
-    public float[] getXs() {
+    public String[] getXs() {
         return xs;
     }
 
-    public void setXs(float[] xs) {
+    public void setXs(String[] xs) {
         this.xs = xs;
     }
 
-    public float[] getYs() {
+    public String[] getYs() {
         return ys;
     }
 
-    public void setYs(float[] ys) {
+    public void setYs(String[] ys) {
         this.ys = ys;
     }
 
