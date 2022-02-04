@@ -113,7 +113,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/add")
     public Result addUser(User user) {
-        return null;
+        return renderSuccess();
     }
 
     @WhiteMapping("/send/email/message")
@@ -128,13 +128,13 @@ public class UserController extends BaseController {
     @WhiteMapping("/freeze")
     public Result freeze(String email,String message) {
         //TODO freeze
-        return renderBadRequest();
+        return renderSuccess();
     }
 
     @WhiteMapping("/unfreeze")
     public Result unfreeze(String[] emails) {
         //TODO unfreeze
-        return renderBadRequest();
+        return renderSuccess();
     }
 
     @RequestMapping("/rights")

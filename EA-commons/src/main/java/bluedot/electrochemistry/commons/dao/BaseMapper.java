@@ -19,5 +19,6 @@ public interface BaseMapper {
 
     List<Right> getRights(String id);
 
+    String getFilePathById(String id);
 
 }

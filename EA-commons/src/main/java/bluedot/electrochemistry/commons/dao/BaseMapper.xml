@@ -13,4 +13,7 @@
     <select id="getRights" resultType="bluedot.electrochemistry.commons.entity.Right">
 
     </select>
+    <select id="getFilePathById" resultType="java.lang.String">
+
+    </select>
 </mapper>
