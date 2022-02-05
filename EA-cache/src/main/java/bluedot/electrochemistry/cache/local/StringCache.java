@@ -12,26 +12,30 @@ import java.util.concurrent.TimeUnit;
  * @author Senn
  * @create 2022/2/4 20:40
  */
-public class AccessCache implements Cacheable<String> {
+public class StringCache implements Cacheable<String, String> {
 
-    private CacheLoader<String, String> cacheLoader;
+    private LoadingCache<String, String> CACHE;
 
-    private int initialCapacity;
+    private static StringCache accessCache;
 
-    private final LoadingCache<String, String> CACHE = CacheBuilder
-            .newBuilder()
-            .initialCapacity(initialCapacity)
-            .maximumSize(200)
-            .recordStats()
-            .expireAfterAccess(10, TimeUnit.MINUTES)
-            .concurrencyLevel(Runtime.getRuntime().availableProcessors())
-            .build(cacheLoader);
-
-    public AccessCache(int initialCapacity, CacheLoader<String, String> cacheLoader) {
-        this.initialCapacity = initialCapacity;
-        this.cacheLoader = cacheLoader;
+    private StringCache() {
     }
 
+    public static StringCache getInstance() {
+        if (accessCache == null) throw new RuntimeException("StringCache not init...");
+        return accessCache;
+    }
+
+    public void init(CacheLoader<String, String> cacheLoader) {
+        this.CACHE = CacheBuilder
+                .newBuilder()
+                .initialCapacity(100)
+                .maximumSize(200)
+                .recordStats()
+                .expireAfterAccess(20, TimeUnit.MINUTES)
+                .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+                .build(cacheLoader);
+    }
 
     @Override
     public String get(String key) throws ExecutionException {
@@ -46,6 +50,11 @@ public class AccessCache implements Cacheable<String> {
     @Override
     public void put(String key , String object) {
         CACHE.put(key, object);
+    }
+
+    @Override
+    public long size() {
+        return CACHE.size();
     }
 
     @Override

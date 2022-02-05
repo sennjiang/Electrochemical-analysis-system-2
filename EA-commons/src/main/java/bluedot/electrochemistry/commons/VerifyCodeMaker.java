@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.service;
+package bluedot.electrochemistry.commons;
 
 import java.util.UUID;
 

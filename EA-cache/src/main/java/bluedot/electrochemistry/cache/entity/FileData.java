@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.commons.entity;
+package bluedot.electrochemistry.cache.entity;
 
 /**
  * @author Senn
