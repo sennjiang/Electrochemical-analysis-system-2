@@ -20,6 +20,8 @@ public class RightFilter implements SpringFilter {
 
     private final RequestURLAdapter adapter = new RequestURLAdapter();
 
+
+
     @Override
     public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("do right filter .. ");

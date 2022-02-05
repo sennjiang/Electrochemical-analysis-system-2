@@ -1,4 +1,5 @@
 package bluedot.electrochemistry.web.core;
+import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.LogUtil;
@@ -87,6 +88,9 @@ public class DispatcherServlet extends HttpServlet {
 
         beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
         beanContainer.addBean(MapperFactory.class,new MapperFactory());
+
+        //本地缓存 初始化
+        new CacheExecutorFactory().init();
 
         new DependencyInject().doDependencyInject();
 

@@ -4,7 +4,7 @@ import bluedot.electrochemistry.commons.dao.BaseMapper;
 import bluedot.electrochemistry.commons.entity.Right;
 import bluedot.electrochemistry.commons.entity.User;
 import bluedot.electrochemistry.commons.sender.MailSender;
-import bluedot.electrochemistry.service.VerifyCodeMaker;
+import bluedot.electrochemistry.commons.VerifyCodeMaker;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.edit.main.EditService;

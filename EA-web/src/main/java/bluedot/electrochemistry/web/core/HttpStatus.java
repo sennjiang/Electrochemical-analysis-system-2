@@ -332,6 +332,8 @@ public enum HttpStatus {
 	 */
 	UNAVAILABLE_FOR_LEGAL_REASONS(451, "Unavailable For Legal Reasons"),
 
+	BAD_REQUEST_RESULT(455, "Bad Request Result"),
+
 	// --- 5xx Server Error ---
 
 	/**

@@ -1,10 +1,11 @@
 package bluedot.electrochemistry.cache.local;
 
 import bluedot.electrochemistry.cache.Cacheable;
-import bluedot.electrochemistry.commons.entity.FileData;
+import bluedot.electrochemistry.cache.entity.FileData;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -12,25 +13,32 @@ import java.util.concurrent.TimeUnit;
  * @author Senn
  * @create 2022/2/4 20:44
  */
-public class FileDataCache implements Cacheable<FileData> {
+public class FileDataCache implements Cacheable<String, FileData> {
 
-    private CacheLoader<String, FileData> cacheLoader;
+    private static volatile FileDataCache fileDataCache;
 
-    private int initialCapacity;
+    private static LoadingCache<String, FileData> CACHE;
 
-    private final LoadingCache<String, FileData> CACHE = CacheBuilder
-            .newBuilder()
-            .initialCapacity(initialCapacity)
-            .maximumSize(200)
-            .recordStats()
-            .expireAfterAccess(10, TimeUnit.MINUTES)
-            .concurrencyLevel(Runtime.getRuntime().availableProcessors())
-            .build(cacheLoader);
+    public static FileDataCache getInstance() {
+        if (fileDataCache == null) {
+           throw new RuntimeException("file cache not init...");
+        }
+        return fileDataCache;
+    }
+
+    public static void init(CacheLoader<String, FileData> cacheLoader) {
+        CACHE = CacheBuilder
+                .newBuilder()
+                .initialCapacity(100)
+                .maximumSize(500)
+                .recordStats()
+                .expireAfterAccess(20, TimeUnit.MINUTES)
+                .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+                .build(cacheLoader);
+    }
 
 
-    public FileDataCache(int initialCapacity, CacheLoader<String, FileData> cacheLoader) {
-        this.initialCapacity = initialCapacity;
-        this.cacheLoader = cacheLoader;
+    private FileDataCache() {
     }
 
     @Override
@@ -46,6 +54,11 @@ public class FileDataCache implements Cacheable<FileData> {
     @Override
     public void put(String key , FileData fileData) {
         CACHE.put(key, fileData);
+    }
+
+    @Override
+    public long size() {
+        return CACHE.size();
     }
 
     @Override
