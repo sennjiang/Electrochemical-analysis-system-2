@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.commons.dao;
 
+import bluedot.electrochemistry.commons.entity.EaFile;
 import bluedot.electrochemistry.commons.entity.Right;
 import bluedot.electrochemistry.commons.entity.User;
 
@@ -19,6 +20,6 @@ public interface BaseMapper {
 
     List<Right> getRights(String id);
 
-    String getFilePathById(String id);
+    EaFile getFileById(String id);
 
 }
