@@ -2,6 +2,7 @@ package bluedot.electrochemistry.commons.dao;
 
 import bluedot.electrochemistry.commons.entity.EaFile;
 import bluedot.electrochemistry.commons.entity.Right;
+import bluedot.electrochemistry.commons.entity.Role;
 import bluedot.electrochemistry.commons.entity.User;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface BaseMapper {
 
     EaFile getFileById(String id);
 
+    List<String> getRolesById(String account);
 }

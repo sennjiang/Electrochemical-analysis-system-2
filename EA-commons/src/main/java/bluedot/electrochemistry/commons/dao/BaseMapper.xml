@@ -16,4 +16,7 @@
     <select id="getFileById" resultType="bluedot.electrochemistry.commons.entity.EaFile">
 
     </select>
+    <select id="getRolesById" resultType="java.lang.String">
+
+    </select>
 </mapper>
