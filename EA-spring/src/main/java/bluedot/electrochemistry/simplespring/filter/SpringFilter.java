@@ -2,6 +2,7 @@ package bluedot.electrochemistry.simplespring.filter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Senn
@@ -13,7 +14,7 @@ public interface SpringFilter {
      * @param request request
      * @param response response
      */
-    default boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) {
+    default boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
         return true;
     }
 

@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.web.filter;
 
+import bluedot.electrochemistry.cache.local.StringArrayCache;
+import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.BeforeFilter;
@@ -8,6 +10,7 @@ import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Senn
@@ -20,17 +23,25 @@ public class RightFilter implements SpringFilter {
 
     private final RequestURLAdapter adapter = new RequestURLAdapter();
 
-
+    StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
 
     @Override
-    public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) {
+    public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
         LOGGER.info("do right filter .. ");
 
         if (adapter.isWhiteUrl(request.getPathInfo())) {
             return true;
         }else {
-            //TODO 权限查询
+            String requestURI = request.getRequestURI();
+            String[] userIds = request.getParameterValues("userId");
+            String[] roles = arrayCache.get(userIds[0]);
+            for (String role : roles) {
+                String[] strings = arrayCache.get(role);
+                for (String string : strings) {
+                    if (requestURI.equals(string)) return true;
+                }
+            }
         }
-        return true;
+        return false;
     }
 }

@@ -1,8 +1,11 @@
 package bluedot.electrochemistry.web.controller;
 
+import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.commons.dao.BaseMapper;
 import bluedot.electrochemistry.commons.entity.Right;
+import bluedot.electrochemistry.commons.entity.Role;
 import bluedot.electrochemistry.commons.entity.User;
+import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.sender.MailSender;
 import bluedot.electrochemistry.commons.VerifyCodeMaker;
 import bluedot.electrochemistry.service.edit.EditParam;
@@ -34,6 +37,8 @@ import java.util.regex.Pattern;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
+    StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
+
     @Autowired
     MapperFactory factory;
 
@@ -58,6 +63,8 @@ public class UserController extends BaseController {
         if (user.getStatus() == 0) {
             return renderError("账号已冻结，请申请解冻！！");
         }
+        List<String> roles = mapper.getRolesById(account);
+        arrayCache.put(account, roles.toArray(new String[0]));
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }
