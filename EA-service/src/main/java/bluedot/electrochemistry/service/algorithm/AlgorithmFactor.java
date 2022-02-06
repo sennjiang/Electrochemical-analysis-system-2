@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.service.algorithm;
 
+import bluedot.electrochemistry.cache.entity.FileData;
 import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
 
 import java.util.Arrays;
@@ -13,17 +14,8 @@ import java.util.Arrays;
 public class AlgorithmFactor {
     private AlgorithmMethodType type;    //方法类型
     private String id;             //算法文件id
-    private String name;        //算法文件名
-    private String[] xs;         //横坐标数据
-    private String[] ys;         //纵坐标数据
-
-    public AlgorithmFactor(AlgorithmMethodType type, String id, String name, String[] xs, String[] ys) {
-        this.type = type;
-        this.id = id;
-        this.name = name;
-        this.xs = xs;
-        this.ys = ys;
-    }
+    private String path;        //算法文件名
+    private FileData fileData;
 
     public AlgorithmMethodType getType() {
         return type;
@@ -41,38 +33,37 @@ public class AlgorithmFactor {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPath() {
+        return path;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public FileData getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(FileData fileData) {
+        this.fileData = fileData;
     }
 
     public String[] getXs() {
-        return xs;
-    }
-
-    public void setXs(String[] xs) {
-        this.xs = xs;
+        return fileData.getX();
     }
 
     public String[] getYs() {
-        return ys;
-    }
-
-    public void setYs(String[] ys) {
-        this.ys = ys;
+        return fileData.getY();
     }
 
     @Override
     public String toString() {
         return "AlgorithmFactor{" +
                 "type=" + type +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", xs=" + Arrays.toString(xs) +
-                ", ys=" + Arrays.toString(ys) +
+                ", id='" + id + '\'' +
+                ", path='" + path + '\'' +
+                ", fileData=" + fileData +
                 '}';
     }
 }

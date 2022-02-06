@@ -1,6 +1,12 @@
 package bluedot.electrochemistry.web.controller;
 
+import bluedot.electrochemistry.cache.entity.FileData;
+import bluedot.electrochemistry.cache.local.FileDataCache;
 import bluedot.electrochemistry.commons.entity.AlgorithmLibraryApply;
+import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
+import bluedot.electrochemistry.service.algorithm.AlgorithmFactor;
+import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
+import bluedot.electrochemistry.service.algorithm.main.AlgorithmService;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.commons.entity.AlgorithmApply;
 import bluedot.electrochemistry.service.edit.EditParam;
@@ -15,6 +21,9 @@ import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.ExecutionException;
+
 /**
  * 算法-控制器
  * @Author zero
@@ -24,6 +33,11 @@ import org.slf4j.Logger;
 @RequestMapping("/algorithm")
 public class AlgorithmController extends BaseController {
 
+    FileDataCache fileDataCache = CacheExecutorFactory.createFileCache();
+
+    @Autowired
+    AlgorithmService algorithmService;
+
     @Autowired
     EditService editService;
 
@@ -31,10 +45,15 @@ public class AlgorithmController extends BaseController {
 
     @RequestMapping("/use")
     public Result algorithmUse(@RequestParam("algoId") String algoId,
-                               @RequestParam("fileId")String fileId){
+                               @RequestParam("fileId")String fileId) throws ExecutionException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         if (algoId == null || fileId == null) return renderBadRequest();
-        //TODO 数据从缓存中拿取
-        return null;
+        FileData fileData = fileDataCache.get(fileId);
+        AlgorithmFactor factor = new AlgorithmFactor();
+        factor.setType(AlgorithmMethodType.RUN);
+        factor.setId(algoId);
+        factor.setFileData(fileData);
+        AlgorithmFactor factor1 = algorithmService.doService(factor);
+        return renderSuccess("处理完成",factor1.getFileData());
     }
 
     @RequestMapping("/user/apply")
@@ -54,15 +73,26 @@ public class AlgorithmController extends BaseController {
         return b?renderSuccess("申请成功！") : renderError("申请失败！！");
     }
 
-    @RequestMapping("/user/apply")
-    public Result deleteUserApply(@RequestParam("id") String id){
+    @RequestMapping("/user/agree")
+    public Result agreeUserApply(@RequestParam("id") String id){
         if (id == null) return renderBadRequest();
         AlgorithmApply algorithmApply = new AlgorithmApply();
-        algorithmApply.setUserId(Integer.parseInt(id));
+        algorithmApply.setId(Integer.parseInt(id));
         algorithmApply.setStatus(1);
         boolean b = editService.doEdit(new EditParam<AlgorithmApply>(new AlgorithmApply[]{algorithmApply}, EditType.INSERT));
-        return b?renderSuccess("申请成功！") : renderError("申请失败！！");
+        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
     }
+
+    @RequestMapping("/user/reject")
+    public Result rejectUserApply(@RequestParam("id") String id){
+        if (id == null) return renderBadRequest();
+        AlgorithmApply algorithmApply = new AlgorithmApply();
+        algorithmApply.setId(Integer.parseInt(id));
+        algorithmApply.setStatus(2);
+        boolean b = editService.doEdit(new EditParam<AlgorithmApply>(new AlgorithmApply[]{algorithmApply}, EditType.INSERT));
+        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
+    }
+
 
     @RequestMapping("/library/apply")
     public Result addLibraryApply(@RequestParam("id") String id,
@@ -80,5 +110,25 @@ public class AlgorithmController extends BaseController {
         boolean b = editService.doEdit(new EditParam<>(new AlgorithmLibraryApply[]{algorithmLibraryApply}, EditType.INSERT));
         return b?renderSuccess("申请成功！!") : renderError("申请失败！！");
     }
+
+    @RequestMapping("/library/reject")
+    public Result rejectLibraryApply(@RequestParam("id") String id){
+        if (id == null) return renderBadRequest();
+        AlgorithmLibraryApply apply = new AlgorithmLibraryApply();
+        apply.setId(Integer.parseInt(id));
+        apply.setStatus(2);
+        boolean b = editService.doEdit(new EditParam<AlgorithmLibraryApply>(new AlgorithmLibraryApply[]{apply}, EditType.INSERT));
+        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
+    }
+    @RequestMapping("/library/agree")
+    public Result agreeLibraryApply(@RequestParam("id") String id){
+        if (id == null) return renderBadRequest();
+        AlgorithmLibraryApply apply = new AlgorithmLibraryApply();
+        apply.setId(Integer.parseInt(id));
+        apply.setStatus(1);
+        boolean b = editService.doEdit(new EditParam<AlgorithmLibraryApply>(new AlgorithmLibraryApply[]{apply}, EditType.INSERT));
+        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
+    }
+
 
 }

@@ -60,7 +60,7 @@ public class AlgorithmServiceImpl implements AlgorithmService {
      * @return boolean
      */
     private boolean compile(AlgorithmFactor algorithmFactor){
-        File sonPath = new File(algorithmFactor.getId()+"/"+algorithmFactor.getName());
+        File sonPath = new File(algorithmFactor.getId()+"/"+algorithmFactor.getPath());
         try {
             JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
             File file = new File(getCompilePath(sonPath));
@@ -77,8 +77,8 @@ public class AlgorithmServiceImpl implements AlgorithmService {
             } else {
                 URL url = file.toURI().toURL();
                 URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
-                //todo 类名
-                Class<?> clz = urlClassLoader.loadClass(algorithmFactor.getName());
+                //TODO 类名
+                Class<?> clz = urlClassLoader.loadClass(algorithmFactor.getPath());
                 Object obj = clz.newInstance();
                 algorithmCacheMap.put(String.valueOf(algorithmFactor.getId()),obj);
             }
