@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.commons.factory;
 
 import bluedot.electrochemistry.cache.entity.FileData;
+import bluedot.electrochemistry.cache.local.CodeCache;
 import bluedot.electrochemistry.cache.local.FileDataCache;
 import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.cache.local.StringCache;
@@ -33,6 +34,10 @@ public class CacheExecutorFactory implements Lifecycle {
         return StringArrayCache.getInstance();
     }
 
+    public static CodeCache createCodeCache() {
+        return CodeCache.getInstance();
+    }
+
     @Override
     public void init() {
         FileDataCache.init(new CacheLoader<String, FileData>() {
@@ -45,6 +50,12 @@ public class CacheExecutorFactory implements Lifecycle {
                 FileInputStream reader = new FileInputStream(file);
                 //TODO get fileData from file.
                 return new FileData();
+            }
+        });
+        CodeCache.init(new CacheLoader<String, String>() {
+            @Override
+            public String load(String s) throws Exception {
+                return null;
             }
         });
     }

@@ -29,10 +29,11 @@ public class FileDataCache implements Cacheable<String, FileData> {
     public static void init(CacheLoader<String, FileData> cacheLoader) {
         CACHE = CacheBuilder
                 .newBuilder()
+                .softValues()
                 .initialCapacity(100)
                 .maximumSize(500)
                 .recordStats()
-                .expireAfterAccess(20, TimeUnit.MINUTES)
+                .expireAfterAccess(30, TimeUnit.MINUTES)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build(cacheLoader);
     }

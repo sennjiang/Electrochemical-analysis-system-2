@@ -1,11 +1,9 @@
 package bluedot.electrochemistry.cache.local;
 
 import bluedot.electrochemistry.cache.Cacheable;
-import bluedot.electrochemistry.cache.entity.FileData;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +23,7 @@ public class StringArrayCache implements Cacheable<String, String[]> {
 
     public static StringArrayCache getInstance() {
         if (stringArrayCache == null) {
-            throw new RuntimeException("file cache not init...");
+            throw new RuntimeException("string array cache not init...");
         }
         return stringArrayCache;
     }
@@ -34,9 +32,9 @@ public class StringArrayCache implements Cacheable<String, String[]> {
         this.CACHE = CacheBuilder
                 .newBuilder()
                 .initialCapacity(100)
-                .maximumSize(200)
+                .maximumSize(1000)
                 .recordStats()
-                .expireAfterAccess(20, TimeUnit.MINUTES)
+                .expireAfterAccess(30, TimeUnit.MINUTES)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build(cacheLoader);
         stringArrayCache = new StringArrayCache();
