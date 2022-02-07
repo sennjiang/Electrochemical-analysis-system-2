@@ -13,7 +13,7 @@
         <module>EA-cache</module>
         <module>EA-service</module>
         <module>EA-mybatis</module>
-        <module>EA-utils</module>
+        <module>EA-util</module>
         <module>EA-commons</module>
     </modules>
     <packaging>pom</packaging>
