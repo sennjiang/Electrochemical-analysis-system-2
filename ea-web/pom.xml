@@ -10,11 +10,11 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>EA-web</artifactId>
+  <artifactId>ea-web</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>EA-web Maven Webapp</name>
+  <name>ea-web Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -28,7 +28,7 @@
 
     <dependency>
       <groupId>com.blue</groupId>
-      <artifactId>EA-commons</artifactId>
+      <artifactId>ea-commons</artifactId>
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
@@ -36,26 +36,26 @@
 
       <dependency>
           <groupId>com.blue</groupId>
-          <artifactId>EA-spring</artifactId>
+          <artifactId>ea-spring</artifactId>
           <version>1.0-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
       <dependency>
           <groupId>com.blue</groupId>
-          <artifactId>EA-service</artifactId>
+          <artifactId>ea-service</artifactId>
           <version>1.0-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
     <dependency>
       <groupId>com.blue</groupId>
-      <artifactId>EA-mybatis</artifactId>
+      <artifactId>ea-mybatis</artifactId>
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.blue</groupId>
-      <artifactId>EA-util</artifactId>
+      <artifactId>ea-util</artifactId>
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>

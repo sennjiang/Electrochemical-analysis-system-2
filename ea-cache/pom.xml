@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>EA-cache</artifactId>
+    <artifactId>ea-cache</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>com.blue</groupId>
-            <artifactId>EA-utils</artifactId>
+            <artifactId>ea-util</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

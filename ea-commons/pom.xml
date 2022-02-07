@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>EA-commons</artifactId>
+    <artifactId>ea-commons</artifactId>
 
     <dependencies>
         <!--email-->
@@ -20,25 +20,25 @@
         </dependency>
         <dependency>
             <groupId>com.blue</groupId>
-            <artifactId>EA-util</artifactId>
+            <artifactId>ea-util</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.blue</groupId>
-            <artifactId>EA-spring</artifactId>
+            <artifactId>ea-spring</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.blue</groupId>
-            <artifactId>EA-mybatis</artifactId>
+            <artifactId>ea-mybatis</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.blue</groupId>
-            <artifactId>EA-cache</artifactId>
+            <artifactId>ea-cache</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
