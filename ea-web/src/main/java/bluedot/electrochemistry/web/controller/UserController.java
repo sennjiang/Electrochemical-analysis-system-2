@@ -1,13 +1,15 @@
 package bluedot.electrochemistry.web.controller;
 
+import bluedot.electrochemistry.cache.Cacheable;
 import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.commons.dao.BaseMapper;
 import bluedot.electrochemistry.commons.entity.Right;
-import bluedot.electrochemistry.commons.entity.Role;
 import bluedot.electrochemistry.commons.entity.User;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
-import bluedot.electrochemistry.commons.sender.MailSender;
 import bluedot.electrochemistry.commons.VerifyCodeMaker;
+import bluedot.electrochemistry.commons.sender.MailSender;
+import bluedot.electrochemistry.commons.sender.handler.Mail;
+import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.edit.main.EditService;
@@ -39,13 +41,16 @@ public class UserController extends BaseController {
 
     StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
 
+    Cacheable<String, String> cacheable = CacheExecutorFactory.createCodeCache();
+
+//    @Autowired TODO open
+    SenderHandler senderHandler;
+
     @Autowired
     MapperFactory factory;
 
     @Autowired
     EditService editService;
-
-    private final MailSender mailSender = new MailSender();
 
     private static final Logger LOGGER = LogUtil.getLogger(UserController.class);
 
@@ -64,7 +69,7 @@ public class UserController extends BaseController {
             return renderError("账号已冻结，请申请解冻！！");
         }
         List<String> roles = mapper.getRolesById(account);
-        arrayCache.put(account, roles.toArray(new String[0]));
+        arrayCache.put(user.getId(), roles.toArray(new String[0]));
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }
@@ -124,11 +129,11 @@ public class UserController extends BaseController {
     }
 
     @WhiteMapping("/send/email/message")
-    public Result sendEmail(String email,String message) throws MessagingException {
+    public Result sendEmail(String email, String message) throws MessagingException {
         if (email == null) {
             return renderBadRequest();
         }
-        boolean b = mailSender.sendMessage(email, message);
+        boolean b = senderHandler.putMessage(new Mail(email,message));
         return b ? renderSuccess() : null;
     }
 
@@ -164,8 +169,8 @@ public class UserController extends BaseController {
             return renderBadRequest();
         }
         String emailCode = VerifyCodeMaker.getVerifyCode();
-
-        boolean b = mailSender.sendMessage(email, "[电化学分析系统]您的验证码为:" + emailCode);
+        cacheable.put(email, emailCode);
+        boolean b =  senderHandler.putMessage(new Mail(email,"[电化学分析系统]您的验证码为:" + emailCode));
         return b ? renderSuccess() : null;
     }
 

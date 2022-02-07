@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.web.core;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
+import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.utils.ValidationUtil;
@@ -85,10 +86,11 @@ public class DispatcherServlet extends HttpServlet {
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
         //TODO 初始化mybatis异常
 //        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
-
         beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
         beanContainer.addBean(MapperFactory.class,new MapperFactory());
 
+        //初始化 邮件处理器 TODO open
+//        new SenderHandler().init();
         //本地缓存 初始化
         new CacheExecutorFactory().init();
 
