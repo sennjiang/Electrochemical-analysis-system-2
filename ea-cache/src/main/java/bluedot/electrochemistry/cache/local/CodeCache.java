@@ -10,29 +10,29 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Senn
- * @create 2022/2/4 20:40
+ * @create 2022/2/7 19:42
  */
-public class StringCache implements Cacheable<String, String> {
+public class CodeCache implements Cacheable<String, String> {
 
-    private LoadingCache<String, String> CACHE;
+    private static LoadingCache<String, String> CACHE;
 
-    private static StringCache accessCache;
+    private static CodeCache codeCache;
 
-    private StringCache() {
+    private CodeCache() {
     }
 
-    public static StringCache getInstance() {
-        if (accessCache == null) throw new RuntimeException("StringCache not init...");
-        return accessCache;
+    public static CodeCache getInstance() {
+        if (codeCache == null) throw new RuntimeException("StringCache not init...");
+        return codeCache;
     }
 
-    public void init(CacheLoader<String, String> cacheLoader) {
-        this.CACHE = CacheBuilder
+    public static void init(CacheLoader<String, String> cacheLoader) {
+        CACHE = CacheBuilder
                 .newBuilder()
                 .initialCapacity(100)
-                .maximumSize(200)
+                .maximumSize(1000)
                 .recordStats()
-                .expireAfterAccess(30, TimeUnit.MINUTES)
+                .expireAfterAccess(3, TimeUnit.MINUTES)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build(cacheLoader);
     }

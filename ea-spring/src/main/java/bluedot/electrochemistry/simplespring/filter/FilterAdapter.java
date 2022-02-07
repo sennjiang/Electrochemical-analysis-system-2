@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Senn
@@ -25,8 +26,12 @@ public class FilterAdapter {
         for (FilterDefinition next : beforeFilters) {
             SpringFilter filter = next.getFilter();
             LOGGER.debug("do before filter filter name :  " + filter.getClass().getName());
-            if (!filter.beforeFilter(request, response)) {
-                throw new RuntimeException("do before filter fail ");
+            try {
+                if (!filter.beforeFilter(request, response)) {
+                    throw new RuntimeException("do before filter fail ");
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
         }
     }

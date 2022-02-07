@@ -10,6 +10,8 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
 @Param
 public class User {
 
+    private String id;
+
     private String name;
 
     private Integer age;
@@ -42,6 +44,14 @@ public class User {
      * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
      */
     private String gmt_modify;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
