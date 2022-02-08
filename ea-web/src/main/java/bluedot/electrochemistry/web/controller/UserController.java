@@ -7,9 +7,11 @@ import bluedot.electrochemistry.commons.entity.Right;
 import bluedot.electrochemistry.commons.entity.User;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.VerifyCodeMaker;
-import bluedot.electrochemistry.commons.sender.MailSender;
-import bluedot.electrochemistry.commons.sender.handler.Mail;
+import bluedot.electrochemistry.commons.factory.SenderProcessorFactory;
+import bluedot.electrochemistry.commons.sender.handler.Message;
+import bluedot.electrochemistry.commons.sender.handler.SendType;
 import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
+import bluedot.electrochemistry.commons.sender.processor.SenderProcessor;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.edit.main.EditService;
@@ -44,7 +46,7 @@ public class UserController extends BaseController {
     Cacheable<String, String> cacheable = CacheExecutorFactory.createCodeCache();
 
 //    @Autowired TODO open
-    SenderHandler senderHandler;
+    SenderProcessor senderProcessor = SenderProcessorFactory.createSenderProcessor();
 
     @Autowired
     MapperFactory factory;
@@ -133,7 +135,7 @@ public class UserController extends BaseController {
         if (email == null) {
             return renderBadRequest();
         }
-        boolean b = senderHandler.putMessage(new Mail(email,message));
+        boolean b = senderProcessor.sender(new Message(email,message, SendType.VERIFY_CODE));
         return b ? renderSuccess() : null;
     }
 
@@ -159,7 +161,7 @@ public class UserController extends BaseController {
 
 
     /**
-     * TODO 验证码 保存
+     * TODO 验证码 保存 Redis
      * @param email 邮箱
      * @return Result
      */
@@ -170,7 +172,7 @@ public class UserController extends BaseController {
         }
         String emailCode = VerifyCodeMaker.getVerifyCode();
         cacheable.put(email, emailCode);
-        boolean b =  senderHandler.putMessage(new Mail(email,"[电化学分析系统]您的验证码为:" + emailCode));
+        boolean b =  senderProcessor.sender(new Message(email,emailCode, SendType.VERIFY_CODE));
         return b ? renderSuccess() : null;
     }
 

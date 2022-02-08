@@ -8,6 +8,7 @@ import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
 
 import javax.mail.MessagingException;
+import java.util.Properties;
 import java.util.concurrent.*;
 
 /**
@@ -18,7 +19,9 @@ public class SenderHandler implements Lifecycle {
 
     private static final Logger LOGGER = LogUtil.getLogger(SenderHandler.class);
 
-    ArrayBlockingQueue<Mail> queue = new ArrayBlockingQueue<>(100);
+    private static Properties config;
+
+    ArrayBlockingQueue<Message> queue = new ArrayBlockingQueue<>(100);
 
     ExecutorService executors =
             new ThreadPoolExecutor(3,
@@ -35,17 +38,19 @@ public class SenderHandler implements Lifecycle {
                         }
                     },new ThreadPoolExecutor.CallerRunsPolicy());
 
-    @Override
-    public void init() {
-        SenderTask task = new SenderTask(new MailSender("klpjxau@163.com", "NWDATKARUUTXXKJY"));
-        executors.execute(task);
-        SenderHandler senderHandler = new SenderHandler();
-        BeanContainer.getInstance().addBean(SenderHandler.class, senderHandler);
+    public SenderHandler(Properties properties) {
+        config = properties;
     }
 
-    @Override
-    public void destroy() {
-
+    public boolean putMessage(Message mail){
+        return queue.offer(mail);
+    }
+    public boolean putMessage(Message mail, long timeout, TimeUnit unit){
+        try {
+            return queue.offer(mail, timeout, unit);
+        } catch (InterruptedException e) {
+            return false;
+        }
     }
 
     private class SenderTask implements Runnable{
@@ -59,26 +64,31 @@ public class SenderHandler implements Lifecycle {
         @Override
         public void run() {
             try {
-                Mail mail;
+                Message mail;
                 while (true) {
-                    Thread.sleep(50);
                     mail = queue.take();
-                    sender.sendMessage(mail.getAccount(), mail.getMessage());
+                    int index = 0;
+                    boolean flag = false;
+                    while (index++ < 3 && !flag) {
+                        Thread.sleep(100);
+                        flag = sender.sendMessage(mail.getAccount(), mail.getContent());
+                    }
                 }
             } catch (InterruptedException | MessagingException e) {
                 //do nothing
             }
         }
     }
-
-    public boolean putMessage(Mail mail){
-        return queue.offer(mail);
+    @Override
+    public void init() {
+        //TODO 发送处理器的初始化
+//        SenderTask task = new SenderTask(new MailSender("klpjxau@163.com", "NWDATKARUUTXXKJY"));
+//        executors.execute(task);
+//        BeanContainer.getInstance().addBean(SenderHandler.class, senderHandler);
     }
-    public boolean putMessage(Mail mail, long timeout, TimeUnit unit){
-        try {
-            return queue.offer(mail, timeout, unit);
-        } catch (InterruptedException e) {
-            return false;
-        }
+
+    @Override
+    public void destroy() {
+
     }
 }
