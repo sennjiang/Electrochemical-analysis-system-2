@@ -4,7 +4,6 @@ import bluedot.electrochemistry.commons.Lifecycle;
 import bluedot.electrochemistry.commons.sender.MailSender;
 import bluedot.electrochemistry.commons.sender.Sender;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
-import bluedot.electrochemistry.simplespring.core.annotation.Repository;
 import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
 
@@ -34,7 +33,7 @@ public class SenderHandler implements Lifecycle {
                         public Thread newThread(Runnable r) {
                             return new Thread(r, "sender-thread-" + index);
                         }
-                    });
+                    },new ThreadPoolExecutor.CallerRunsPolicy());
 
     @Override
     public void init() {
