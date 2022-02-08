@@ -3,6 +3,7 @@ import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
 import bluedot.electrochemistry.utils.ClassUtil;
+import bluedot.electrochemistry.utils.ConfigUtil;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.utils.ValidationUtil;
 import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
@@ -70,7 +71,7 @@ public class DispatcherServlet extends HttpServlet {
 
 
         //读取配置文件，保存属性到contextConfig
-        doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
+        contextConfig = ConfigUtil.doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
 
         //初始化容器
         beanContainer = BeanContainer.getInstance();
@@ -131,32 +132,7 @@ public class DispatcherServlet extends HttpServlet {
 
     }
 
-    /**
-     * 加载配置文件
-     *
-     * @param contextConfigLocation properties配置文件
-     */
-    private void doLoadConfig(String contextConfigLocation) {
-        //直接通过类路径找到框架主配置文件的路径
-        //并将配置文件内容读取到properties对象中
-        LOGGER.info("Loading configLocation--->path:{} ", contextConfigLocation);
-        InputStream is = null;
-        try {
-            is = this.getClass().getClassLoader().getResourceAsStream(contextConfigLocation);
-            contextConfig.load(is);
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
 
     @Override
     public void destroy() {
