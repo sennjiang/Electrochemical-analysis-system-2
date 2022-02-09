@@ -15,12 +15,12 @@ public class FileTask<T> implements Callable<T> {
 
     File file;
 
-    public FileTask(FileProcessor<?> processor) {
+    public FileTask(File file, FileProcessor<T> processor) {
         this.processor = processor;
     }
 
     @Override
     public T call() throws Exception {
-        return null;
+        return (T) processor.fileUploads(file);
     }
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.*;
  */
 public class FileServiceImpl implements FileService {
 
-    private static final Executor threadPool = new ThreadPoolExecutor(10,
+    private static final ExecutorService threadPool = new ThreadPoolExecutor(10,
             100,
             10,
             TimeUnit.MINUTES,
@@ -62,6 +62,15 @@ public class FileServiceImpl implements FileService {
     }
 
     private boolean uploadFile(File[] files, FileProcessor<?> processor){
+        if (files.length ==  1) {
+            FileTask<?> objectFileTask = new FileTask<>(files[0] , processor);
+            Future<?> submit = threadPool.submit(objectFileTask);
+            try {
+                Object o = submit.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
 
         return false;
     }

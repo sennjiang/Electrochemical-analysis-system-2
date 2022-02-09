@@ -67,7 +67,7 @@ public class AlgorithmController extends BaseController {
         algorithmApply.setStatus(0);
         algorithmApply.setApplyType(0);
         algorithmApply.setAlgoType(Integer.parseInt(algoType));
-        //TODO 写入文件
+        //TODO 写入文件 预处理
         algorithmApply.setPath("TODO");
         boolean b = editService.doEdit(new EditParam<AlgorithmApply>(new AlgorithmApply[]{algorithmApply}, EditType.INSERT));
         return b?renderSuccess("申请成功！") : renderError("申请失败！！");
