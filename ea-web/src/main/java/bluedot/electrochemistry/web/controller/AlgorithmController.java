@@ -52,8 +52,8 @@ public class AlgorithmController extends BaseController {
         factor.setType(AlgorithmMethodType.RUN);
         factor.setId(algoId);
         factor.setFileData(fileData);
-        AlgorithmFactor factor1 = algorithmService.doService(factor);
-        return renderSuccess("处理完成",factor1.getFileData());
+        algorithmService.doService(factor);
+        return renderSuccess("处理完成",factor.getFileData());
     }
 
     @RequestMapping("/user/apply")

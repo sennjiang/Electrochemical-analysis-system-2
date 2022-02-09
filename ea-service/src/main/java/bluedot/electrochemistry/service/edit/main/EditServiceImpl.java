@@ -8,6 +8,8 @@ import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 
+import java.util.Objects;
+
 /**
  * @author Senn
  * @create 2022/1/13 13:52
@@ -20,7 +22,7 @@ public class EditServiceImpl implements EditService{
 
     @Override
     public boolean doEdit(EditParam<?> param) {
-        if (param == null || param.getMultiType() == null || param.getType() == null) return false;
+        if (Objects.isNull(param) || param.isNull()) return false;
         if (param.getMultiType() == EditMultiType.SINGLE) {
             return doSingleEdit(param);
         }else if (param.getMultiType() == EditMultiType.MULTITUDE) {

@@ -1,6 +1,7 @@
 package bluedot.electrochemistry.service.algorithm;
 
 import bluedot.electrochemistry.cache.entity.FileData;
+import bluedot.electrochemistry.commons.NotNullable;
 import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
  * @Author zero
  * @Create 2022/1/29 16:09
  */
-public class AlgorithmFactor {
+public class AlgorithmFactor implements NotNullable {
     private AlgorithmMethodType type;    //方法类型
     private String id;             //算法文件id
     private String path;        //算法文件名
@@ -65,5 +66,10 @@ public class AlgorithmFactor {
                 ", path='" + path + '\'' +
                 ", fileData=" + fileData +
                 '}';
+    }
+
+    @Override
+    public boolean isNull() {
+        return id == null || type == null || fileData.getX() == null || fileData.getY() == null;
     }
 }

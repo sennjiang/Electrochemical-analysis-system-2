@@ -6,7 +6,7 @@ import java.util.Arrays;
  * @author Senn
  * @create 2022/2/4 20:45
  */
-public class FileData {
+public class FileData{
     private String[] x;
     private String[] y;
 

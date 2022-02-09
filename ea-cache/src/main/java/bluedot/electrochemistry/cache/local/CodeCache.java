@@ -22,7 +22,7 @@ public class CodeCache implements Cacheable<String, String> {
     }
 
     public static CodeCache getInstance() {
-        if (codeCache == null) throw new RuntimeException("StringCache not init...");
+        if (codeCache == null) throw new RuntimeException("codeCache not init...");
         return codeCache;
     }
 
@@ -35,6 +35,7 @@ public class CodeCache implements Cacheable<String, String> {
                 .expireAfterAccess(3, TimeUnit.MINUTES)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build(cacheLoader);
+        codeCache = new CodeCache();
     }
 
     @Override

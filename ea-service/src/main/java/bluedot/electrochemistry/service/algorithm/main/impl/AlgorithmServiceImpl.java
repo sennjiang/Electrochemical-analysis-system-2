@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.service.algorithm.main.impl;
 
 import bluedot.electrochemistry.service.algorithm.AlgorithmFactor;
-import bluedot.electrochemistry.service.algorithm.AlgorithmResult;
 import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
 import bluedot.electrochemistry.service.algorithm.main.AlgorithmService;
+import bluedot.electrochemistry.simplespring.core.annotation.Service;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -14,14 +14,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
  * @Author zero
  * @Create 2022/1/29 16:25
  */
+@Service
 public class AlgorithmServiceImpl implements AlgorithmService {
 
     private static final String ALGORITHM_METHOD_NAME = "start";
@@ -44,14 +45,13 @@ public class AlgorithmServiceImpl implements AlgorithmService {
     private final Map<String,Object> algorithmCacheMap = new ConcurrentHashMap<>();
 
     @Override
-    public AlgorithmFactor doService(AlgorithmFactor algorithmFactor) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        if (algorithmFactor.getId() == null || algorithmFactor.getType() == null || algorithmFactor.getXs() == null || algorithmFactor.getYs() == null) return null;
+    public void doService(AlgorithmFactor algorithmFactor) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        if (Objects.isNull(algorithmFactor) || algorithmFactor.isNull()) return;
         if (algorithmFactor.getType() == AlgorithmMethodType.COMPILE) {
             compile(algorithmFactor);
         }else if (algorithmFactor.getType() == AlgorithmMethodType.RUN){
-            return run(algorithmFactor);
+            run(algorithmFactor);
         }
-        return null;
     }
 
     /**

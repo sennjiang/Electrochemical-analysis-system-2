@@ -36,6 +36,7 @@ public class FileDataCache implements Cacheable<String, FileData> {
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build(cacheLoader);
+        fileDataCache = new FileDataCache();
     }
 
 

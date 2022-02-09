@@ -26,10 +26,6 @@ public class CacheExecutorFactory implements Lifecycle {
         return FileDataCache.getInstance();
     }
 
-    public static StringCache createStringCache() {
-        return StringCache.getInstance();
-    }
-
     public static StringArrayCache createStringArrayCache() {
         return StringArrayCache.getInstance();
     }
@@ -56,6 +52,12 @@ public class CacheExecutorFactory implements Lifecycle {
             @Override
             public String load(String s) throws Exception {
                 return null;
+            }
+        });
+        StringArrayCache.init(new CacheLoader<String, String[]>() {
+            @Override
+            public String[] load(String s) throws Exception {
+                return new String[0];
             }
         });
     }

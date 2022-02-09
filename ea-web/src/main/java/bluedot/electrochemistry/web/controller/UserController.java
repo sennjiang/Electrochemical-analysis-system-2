@@ -130,15 +130,6 @@ public class UserController extends BaseController {
         return renderSuccess();
     }
 
-    @WhiteMapping("/send/email/message")
-    public Result sendEmail(String email, String message) throws MessagingException {
-        if (email == null) {
-            return renderBadRequest();
-        }
-        boolean b = senderProcessor.sender(new Message(email,message, SendType.VERIFY_CODE));
-        return b ? renderSuccess() : null;
-    }
-
     @WhiteMapping("/freeze")
     public Result freeze(String email,String message) {
         //TODO freeze

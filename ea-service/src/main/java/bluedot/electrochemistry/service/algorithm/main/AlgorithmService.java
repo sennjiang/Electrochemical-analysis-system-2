@@ -12,6 +12,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 public interface AlgorithmService {
 
-    AlgorithmFactor doService(AlgorithmFactor algorithmFactor) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException;
+    void doService(AlgorithmFactor algorithmFactor) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
 }

@@ -76,6 +76,9 @@ public class DispatcherServlet extends HttpServlet {
         //初始化容器
         beanContainer = BeanContainer.getInstance();
 
+        //本地缓存 初始化
+        new CacheExecutorFactory().init();
+
         loadBeans(contextConfig.getProperty("spring.controllerPackage"));
 
         loadBeans(contextConfig.getProperty("spring.scanPackage"));
@@ -92,8 +95,7 @@ public class DispatcherServlet extends HttpServlet {
 
         //初始化 邮件处理器 TODO open
 //        new SenderHandler().init();
-        //本地缓存 初始化
-        new CacheExecutorFactory().init();
+
 
         new DependencyInject().doDependencyInject();
 
@@ -173,16 +175,15 @@ public class DispatcherServlet extends HttpServlet {
                 //如果类对象中存在注解则加载进bean容器中
                 if (clazz.isAnnotationPresent(annotation)) {
                     LOGGER.debug("load bean: " + clazz.getName());
-                    BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
                     //如果注解为Configuration，则需要将该类中被@Bean标记的方法返回的对象也加载进容器中
                     if (Configuration.class == annotation) {
                         loadConfigurationBean(clazz);
-                    }
-                    if (Controller.class == annotation) {
+                    }else if (Controller.class == annotation) {
                         loadControllerBean(clazz);
-                    }
-                    if (Filter.class == annotation || BeforeFilter.class == annotation || AfterFilter.class == annotation) {
+                    }else if (Filter.class == annotation || BeforeFilter.class == annotation || AfterFilter.class == annotation) {
                         loadFilterBean(clazz);
+                    }else {
+                        BeanContainer.getInstance().addBean(clazz, ClassUtil.newInstance(clazz, true));
                     }
                 }
             }

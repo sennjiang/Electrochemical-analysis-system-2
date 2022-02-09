@@ -16,7 +16,7 @@ public class StringArrayCache implements Cacheable<String, String[]> {
 
     private static StringArrayCache stringArrayCache;
 
-    private LoadingCache<String, String[]> CACHE;
+    private static LoadingCache<String, String[]> CACHE;
 
     private StringArrayCache() {
     }
@@ -28,8 +28,8 @@ public class StringArrayCache implements Cacheable<String, String[]> {
         return stringArrayCache;
     }
 
-    public void init(CacheLoader<String, String[]> cacheLoader) {
-        this.CACHE = CacheBuilder
+    public static void init(CacheLoader<String, String[]> cacheLoader) {
+        CACHE = CacheBuilder
                 .newBuilder()
                 .initialCapacity(100)
                 .maximumSize(1000)

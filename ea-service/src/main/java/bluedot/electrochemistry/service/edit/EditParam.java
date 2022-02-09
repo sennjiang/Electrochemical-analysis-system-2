@@ -1,10 +1,12 @@
 package bluedot.electrochemistry.service.edit;
 
+import bluedot.electrochemistry.commons.NotNullable;
+
 /**
  * @author Senn
  * @create 2022/1/13 13:50
  */
-public class EditParam<T> {
+public class EditParam<T> implements NotNullable {
 
     /**
      * 实体类
@@ -55,5 +57,10 @@ public class EditParam<T> {
 
     public void setType(EditType type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean isNull() {
+        return ts == null || type == null || multiType == null;
     }
 }
