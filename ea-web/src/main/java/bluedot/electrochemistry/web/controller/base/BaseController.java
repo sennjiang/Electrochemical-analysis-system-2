@@ -15,7 +15,7 @@ public abstract class BaseController {
     public Result renderError(String msg) {
         Result result = new Result();
         result.setMessage(msg);
-        result.setCode(HttpStatus.NOT_FOUND);
+        result.setCode(HttpStatus.BAD_REQUEST);
         return result;
     }
 
