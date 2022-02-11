@@ -20,7 +20,8 @@
 - 日志管理: slf4j + log4j2
 - 测试框架: junit4 / testng
 - 前端框架: Vue + Element-UI
-
+### 缓存队列设计
+![img_2.png](img_2.png)
 ### 日志服务
 **我们将使用slf4j+log4j2的模式**
 
