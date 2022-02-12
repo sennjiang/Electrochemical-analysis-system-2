@@ -13,10 +13,10 @@ import java.util.Arrays;
  * @Create 2022/1/29 16:09
  */
 public class AlgorithmFactor implements NotNullable {
-    private AlgorithmMethodType type;    //方法类型
-    private String id;             //算法文件id
-    private String path;        //算法文件名
-    private FileData fileData;
+    private AlgorithmMethodType type;       //方法类型
+    private String id;                      //算法文件id
+    private String path;                    //算法文件名
+    private FileData fileData;              //文件数据
 
     public AlgorithmMethodType getType() {
         return type;

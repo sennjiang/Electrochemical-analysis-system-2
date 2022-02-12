@@ -6,7 +6,7 @@ import bluedot.electrochemistry.service.algorithm.AlgorithmResult;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * 算法业务
+ * 算法业务接口
  * @Author zero
  * @Create 2022/1/29 16:13
  */
