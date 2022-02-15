@@ -4,7 +4,6 @@ import bluedot.electrochemistry.service.algorithm.AlgorithmFactor;
 import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
 import bluedot.electrochemistry.service.algorithm.main.AlgorithmService;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
