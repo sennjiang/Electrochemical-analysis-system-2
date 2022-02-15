@@ -44,7 +44,11 @@ public class ListController extends BaseController {
     }
 
     @RequestMapping("/algorithms")
-    String getAlgorithmList(AccountCondition condition, int pageStart, int pageSize) throws IllegalIndexException {
+    String getAlgorithmList(@RequestParam("content") String content,
+                            @RequestParam("status") String status,
+                            @RequestParam("nearly") String nearly,
+                            @RequestParam("pageStart") String pageStart,
+                            @RequestParam("pageSize") String pageSize) throws IllegalIndexException {
        return "";
     }
 

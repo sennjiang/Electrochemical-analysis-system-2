@@ -118,7 +118,6 @@ public class UserController extends BaseController {
     @WhiteMapping("/verify/email")
     public Result verifyEmail(String email) {
         if (email == null) return renderBadRequest();
-
         BaseMapper mapper = factory.createMapper();
         Integer integer = mapper.checkEmail(email);
         if (integer <= 0) return renderSuccess("账号不存在");

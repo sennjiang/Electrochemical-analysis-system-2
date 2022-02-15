@@ -56,14 +56,52 @@ public class AlgorithmController extends BaseController {
         return renderSuccess("处理完成",factor.getFileData());
     }
 
-    @RequestMapping("/user/apply")
-    public Result addUserApply(@RequestParam("id") String id,
+
+
+    /**
+     * 删除我的算法中 来自算法库的算法
+     * @param userId 用户id
+     * @param algoId 算法库中的算法id
+     * @return Result
+     */
+    @RequestMapping("/delete")
+    public Result deleteUserAlgo(@RequestParam("userId") String userId,
+                                        @RequestParam("algoId") String algoId){
+        return renderBadRequest();
+    }
+
+    /**
+     * 添加算法库的算法到我的算法中
+     * @param userId 用户id
+     * @param algoId 算法库中的算法id
+     * @return Result
+     */
+    @RequestMapping("/library/add")
+    public Result addLibraryToUser(@RequestParam("userId") String userId,
+                                   @RequestParam("algoLibId") String algoId){
+        return renderBadRequest();
+    }
+
+    /**
+     * 删除我的算法中 来自算法库的算法
+     * @param userId 用户id
+     * @param algoId 算法库中的算法id
+     * @return Result
+     */
+    @RequestMapping("/library/delete")
+    public Result deleteLibraryFromUser(@RequestParam("userId") String userId,
+                                     @RequestParam("algoLibId") String algoId){
+        return renderBadRequest();
+    }
+
+    @RequestMapping("/apply")
+    public Result addUserApply(@RequestParam("userId") String userId,
                                @RequestParam("algoName") String algoName,
                                @RequestParam("algoType") String algoType,
                                MultipartFile multipartFile){
-        if (id == null || algoName == null || algoType == null || multipartFile.isEmpty()) return renderBadRequest();
+        if (userId == null || algoName == null || algoType == null || multipartFile.isEmpty()) return renderBadRequest();
         AlgorithmApply algorithmApply = new AlgorithmApply();
-        algorithmApply.setUserId(Integer.parseInt(id));
+        algorithmApply.setUserId(Integer.parseInt(userId));
         algorithmApply.setStatus(0);
         algorithmApply.setApplyType(0);
         algorithmApply.setAlgoType(Integer.parseInt(algoType));
@@ -73,8 +111,8 @@ public class AlgorithmController extends BaseController {
         return b?renderSuccess("申请成功！") : renderError("申请失败！！");
     }
 
-    @RequestMapping("/user/agree")
-    public Result agreeUserApply(@RequestParam("id") String id){
+    @RequestMapping("/apply/check")
+    public Result agreeUserApply(@RequestParam("id") String id, @RequestParam("status") int status){
         if (id == null) return renderBadRequest();
         AlgorithmApply algorithmApply = new AlgorithmApply();
         algorithmApply.setId(Integer.parseInt(id));
@@ -83,24 +121,12 @@ public class AlgorithmController extends BaseController {
         return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
     }
 
-    @RequestMapping("/user/reject")
-    public Result rejectUserApply(@RequestParam("id") String id){
-        if (id == null) return renderBadRequest();
-        AlgorithmApply algorithmApply = new AlgorithmApply();
-        algorithmApply.setId(Integer.parseInt(id));
-        algorithmApply.setStatus(2);
-        boolean b = editService.doEdit(new EditParam<AlgorithmApply>(new AlgorithmApply[]{algorithmApply}, EditType.INSERT));
-        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
-    }
-
-
     @RequestMapping("/library/apply")
-    public Result addLibraryApply(@RequestParam("id") String id,
-                                  @RequestParam("userId") String userId,
+    public Result addLibraryApply(@RequestParam("userId") String userId,
                                   @RequestParam("algoId") String algoId,
-                                  @RequestParam("author")String author,
-                                  @RequestParam("algoName")String algoName){
-        if (id == null || userId == null || algoId == null || author == null || algoName == null) return renderBadRequest();
+                                  @RequestParam("author") String author,
+                                  @RequestParam("algoName") String algoName){
+        if (userId == null || algoId == null || author == null || algoName == null) return renderBadRequest();
         AlgorithmLibraryApply algorithmLibraryApply = new AlgorithmLibraryApply();
         algorithmLibraryApply.setUserId(Integer.parseInt(userId));
         algorithmLibraryApply.setAlgoId(Integer.parseInt(algoId));
@@ -111,21 +137,12 @@ public class AlgorithmController extends BaseController {
         return b?renderSuccess("申请成功！!") : renderError("申请失败！！");
     }
 
-    @RequestMapping("/library/reject")
-    public Result rejectLibraryApply(@RequestParam("id") String id){
-        if (id == null) return renderBadRequest();
+    @RequestMapping("/library/apply/check")
+    public Result agreeLibraryApply(@RequestParam("id") String id, @RequestParam("status") int status){
+        if (id == null || status == 0) return renderBadRequest();
         AlgorithmLibraryApply apply = new AlgorithmLibraryApply();
         apply.setId(Integer.parseInt(id));
-        apply.setStatus(2);
-        boolean b = editService.doEdit(new EditParam<AlgorithmLibraryApply>(new AlgorithmLibraryApply[]{apply}, EditType.INSERT));
-        return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
-    }
-    @RequestMapping("/library/agree")
-    public Result agreeLibraryApply(@RequestParam("id") String id){
-        if (id == null) return renderBadRequest();
-        AlgorithmLibraryApply apply = new AlgorithmLibraryApply();
-        apply.setId(Integer.parseInt(id));
-        apply.setStatus(1);
+        apply.setStatus(status);
         boolean b = editService.doEdit(new EditParam<AlgorithmLibraryApply>(new AlgorithmLibraryApply[]{apply}, EditType.INSERT));
         return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
     }
