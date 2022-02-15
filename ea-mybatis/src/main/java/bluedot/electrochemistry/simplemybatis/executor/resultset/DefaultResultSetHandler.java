@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 15:11
  */
 public class DefaultResultSetHandler implements ResultSetHandler {
     /**

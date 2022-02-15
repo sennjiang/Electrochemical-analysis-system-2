@@ -24,7 +24,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author xxbb
+ * sqlSession会话工厂-默认实现类
+ *
+ * @Author zero
+ * @Create 2022/2/10 14:57
  */
 
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
@@ -79,6 +82,10 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
         return instance;
     }
 
+    /**
+     * 获取sqlSession(暂用default)
+     * @return sqlSession
+     */
     @Override
     public SqlSession openSession() {
         return new DefaultSqlSession(this.configuration);

@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * 直接进行数据库操作的接口
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 17:59
  */
 public interface Executor {
     /**

@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 /**
  * 数据库连接池接口
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 16:19
  */
 @SuppressWarnings("all")
 public interface MyDataSource extends DataSource {

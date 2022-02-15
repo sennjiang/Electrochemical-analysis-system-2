@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 每个线程获取不同的Logger对象
- * @author xxbb
+ *
+ * @Author zero
+ * @Create 2022/2/10 13:59
  */
 public class LogUtils {
     /**

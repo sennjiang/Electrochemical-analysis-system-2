@@ -66,6 +66,7 @@ public class AlgorithmServiceImpl implements AlgorithmService {
      * @return boolean  编译是否成功
      */
     private boolean compile(AlgorithmFactor algorithmFactor){
+        //获取子路径
         File sonPath = new File(algorithmFactor.getId()+"/"+algorithmFactor.getPath());
         try {
             JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
@@ -96,12 +97,14 @@ public class AlgorithmServiceImpl implements AlgorithmService {
     }
 
     /**
-     * 获取编译路径
+     * 获取指定子目录的编译路径, 因为当前只有一台服务器，
+     * 所以这里获取的编译路径不是专门的服务器路径
      * @param file 子目录
      * @return 编译路径
      */
     private String getCompilePath(File file) {
-
+        StringBuffer sb = new StringBuffer(this.getClass().getResource("/").getPath());
+        System.out.println(sb);
         return null;
     }
 

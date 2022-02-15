@@ -13,7 +13,8 @@ import java.util.Properties;
 /**
  * mybatis框架核心配置类
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 15:21
  */
 public class Configuration {
     /**
@@ -26,6 +27,8 @@ public class Configuration {
     protected final MapperRegistry mapperRegistry = new MapperRegistry();
     /**
      * mapper中的sql信息
+     * 泛型中 : <String, MappedStatement>
+     *     <sql标签的id/ mapper.xml映射文件中信息的封装类>
      */
     protected final Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
     /**
@@ -80,6 +83,11 @@ public class Configuration {
         return this.mappedStatementMap.get(statement);
     }
 
+    /**
+     * 获取连接池对象
+     *
+     * @return 数据库连接池对象
+     */
     public MyDataSource getDataSource() {
         return dataSource;
     }

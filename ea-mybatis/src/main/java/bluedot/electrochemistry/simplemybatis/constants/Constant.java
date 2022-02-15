@@ -3,7 +3,8 @@ package bluedot.electrochemistry.simplemybatis.constants;
 /**
  * 配置文件和标签的名称常量
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 16:40
  */
 public interface Constant {
     /**

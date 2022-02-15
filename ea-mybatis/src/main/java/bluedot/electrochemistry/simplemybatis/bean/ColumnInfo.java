@@ -1,9 +1,9 @@
 package bluedot.electrochemistry.simplemybatis.bean;
 
 /**
- * 封装数据库表的一个字段的信息
- *
- * @author xxbb
+ * 数据库表中一个字段信息的包装类
+ * @Author zero
+ * @Create 2022/2/10 13:29
  */
 public class ColumnInfo {
     /**

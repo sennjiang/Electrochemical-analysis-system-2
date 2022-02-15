@@ -4,7 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 14:19
  */
 public class DefaultParameterHandler implements ParameterHandler {
     /**

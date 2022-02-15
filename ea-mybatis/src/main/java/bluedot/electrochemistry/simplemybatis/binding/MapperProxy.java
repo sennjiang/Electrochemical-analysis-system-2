@@ -11,17 +11,24 @@ import java.util.Collection;
 
 /**
  * 代理类
- *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 13:40
  */
 public class MapperProxy<T> implements InvocationHandler {
 
 
     private final SqlSession sqlSession;
 
+    /**
+     * 被代理的接口
+     */
     private final Class<T> mapperInterface;
 
-
+    /**
+     * 构造方法
+     * @param sqlSession 当前的sqlSession对象
+     * @param mapperInterface 需要被代理的接口类
+     */
     public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface) {
         this.sqlSession = sqlSession;
         this.mapperInterface = mapperInterface;

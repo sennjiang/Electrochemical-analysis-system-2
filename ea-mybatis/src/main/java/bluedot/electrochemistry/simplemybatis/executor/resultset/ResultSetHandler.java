@@ -4,10 +4,10 @@ import java.sql.ResultSet;
 import java.util.List;
 
 /**
- * 、
  * 结果集处理
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 14:55
  */
 public interface ResultSetHandler {
     /**
