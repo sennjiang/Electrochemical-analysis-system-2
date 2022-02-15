@@ -3,7 +3,8 @@ package bluedot.electrochemistry.simplemybatis.session;
 /**
  * sqlSession会话工厂
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 14:50
  */
 public interface SqlSessionFactory {
     /**

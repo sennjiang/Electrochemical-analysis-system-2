@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 13:29
  */
 public interface StatementHandler {
     /**

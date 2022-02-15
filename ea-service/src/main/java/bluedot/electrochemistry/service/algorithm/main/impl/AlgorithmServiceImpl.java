@@ -19,14 +19,17 @@ import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
+ * 算法业务实现类
  * @Author zero
  * @Create 2022/1/29 16:25
  */
 @Service
 public class AlgorithmServiceImpl implements AlgorithmService {
 
+    //算法文件的默认入口方法名
     private static final String ALGORITHM_METHOD_NAME = "start";
 
+    //线程池
     private static final Executor threadPool = new ThreadPoolExecutor(10,
             100,
             10,
@@ -44,6 +47,7 @@ public class AlgorithmServiceImpl implements AlgorithmService {
 
     private final Map<String,Object> algorithmCacheMap = new ConcurrentHashMap<>();
 
+    //入口方法
     @Override
     public void doService(AlgorithmFactor algorithmFactor) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         if (Objects.isNull(algorithmFactor) || algorithmFactor.isNull()) return;
@@ -55,11 +59,13 @@ public class AlgorithmServiceImpl implements AlgorithmService {
     }
 
     /**
+     * 算法文件编译
      * TODO 算法地址 昵称 修改后 可能会出问题
-     * @param algorithmFactor algorithmFactor
-     * @return boolean
+     * @param algorithmFactor 算法业务参数封装类
+     * @return boolean  编译是否成功
      */
     private boolean compile(AlgorithmFactor algorithmFactor){
+        //获取子路径
         File sonPath = new File(algorithmFactor.getId()+"/"+algorithmFactor.getPath());
         try {
             JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
@@ -89,18 +95,33 @@ public class AlgorithmServiceImpl implements AlgorithmService {
         return true;
     }
 
-    //TODO file 是子目录
+    /**
+     * 获取指定子目录的编译路径, 因为当前只有一台服务器，
+     * 所以这里获取的编译路径不是专门的服务器路径
+     * @param file 子目录
+     * @return 编译路径
+     */
     private String getCompilePath(File file) {
-
+        StringBuffer sb = new StringBuffer(this.getClass().getResource("/").getPath());
+        System.out.println(sb);
         return null;
     }
-    private AlgorithmFactor run(AlgorithmFactor algorithmFactor) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Object o = algorithmCacheMap.get(algorithmFactor.getId());
-        if (o == null) compile(algorithmFactor);
-        o = algorithmCacheMap.get(algorithmFactor.getId());
-        if (o == null) return null;
-        Method start = o.getClass().getMethod(ALGORITHM_METHOD_NAME, String[].class, String[].class);
-        start.invoke(o, algorithmFactor.getXs(), algorithmFactor.getYs());
-        return null;
+
+    /**
+     * 算法文件运行
+     * @param algorithmFactor 算法业务参数封装类
+     * @return boolean 运行是否成功
+     * @throws NoSuchMethodException 未找到方法异常
+     * @throws InvocationTargetException 调用目标异常
+     * @throws IllegalAccessException 非法访问异常
+     */
+    private boolean run(AlgorithmFactor algorithmFactor) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Object obj = algorithmCacheMap.get(algorithmFactor.getId());
+        if (obj == null) compile(algorithmFactor);
+        obj = algorithmCacheMap.get(algorithmFactor.getId());
+        if (obj == null) return false;
+        Method start = obj.getClass().getMethod(ALGORITHM_METHOD_NAME, String[].class, String[].class);
+        start.invoke(obj, algorithmFactor.getXs(), algorithmFactor.getYs());
+        return false;
     }
 }

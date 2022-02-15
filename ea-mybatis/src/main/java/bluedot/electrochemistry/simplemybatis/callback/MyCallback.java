@@ -14,7 +14,8 @@ import java.util.List;
  * 回调接口
  * 使用默认实现的方式，方便在调用该接口时不必重写全部的方法
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 10:21
  */
 public interface MyCallback extends Callback {
     /**

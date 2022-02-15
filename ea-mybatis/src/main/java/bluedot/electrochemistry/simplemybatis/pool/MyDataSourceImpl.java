@@ -15,7 +15,8 @@ import java.util.concurrent.Executors;
 /**
  * 数据库连接池
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 17:40
  */
 public class MyDataSourceImpl implements MyDataSource {
     /**
@@ -58,7 +59,7 @@ public class MyDataSourceImpl implements MyDataSource {
      */
     private static Configuration configuration;
     /**
-     * 存储连接的集合
+     * 存储连接的集合, 因为连接对象增删比较频繁，所以选用底层是链表结构的容器
      */
     private LinkedList<Connection> conns = new LinkedList<>();
     /**

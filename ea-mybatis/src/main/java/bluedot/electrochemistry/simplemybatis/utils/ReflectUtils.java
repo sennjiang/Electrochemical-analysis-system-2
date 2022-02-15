@@ -5,7 +5,8 @@ import java.lang.reflect.Method;
 /**
  * 反射调用类的set，get方法
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 12:57
  */
 public class ReflectUtils {
     /**
@@ -24,7 +25,7 @@ public class ReflectUtils {
             res = method.invoke(object);
         } catch (Exception e) {
             throw new RuntimeException("[" + Thread.currentThread().getName() + "]" +
-                    "com.xxbb.smybatis.utils.ReflectUtils" + "--->" +
+                    "bluedot.electrochemistry.simplemybatis.utils.ReflectUtils" + "--->" +
                     e.getMessage());
         }
         return res;
@@ -47,7 +48,7 @@ public class ReflectUtils {
         } catch (Exception e) {
             LogUtils.getLogger().error("通过反射将数据库字段值注入类属性失败:",e);
             throw new RuntimeException("[" + Thread.currentThread().getName() + "]" +
-                    "com.xxbb.smybatis.utils.ReflectUtils" + "--->" + "value=" +
+                    "bluedot.electrochemistry.simplemybatis.utils.ReflectUtils" + "--->" + "value=" +
                     value.getClass());
         }
 

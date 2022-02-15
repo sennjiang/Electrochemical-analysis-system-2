@@ -22,7 +22,8 @@ import java.util.List;
 /**
  * mysql的执行器，操作数据库
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 9:53
  */
 public class SimpleExecutor implements Executor {
 
@@ -42,6 +43,7 @@ public class SimpleExecutor implements Executor {
      * 日志对象
      */
     private static final Logger LOGGER = LogUtils.getLogger();
+
     public SimpleExecutor(Configuration configuration) {
         dataSource = configuration.getDataSource();
         try {
@@ -60,7 +62,7 @@ public class SimpleExecutor implements Executor {
      *
      * @param mappedStatement  封装sql信息的对象
      * @param parameter        参数
-     * @param executorCallback 会调接口
+     * @param executorCallback 回调接口
      * @return List结果集或受影响的行数
      */
     private Object executeTemplate(MappedStatement mappedStatement, Object parameter, MyCallback executorCallback)  {

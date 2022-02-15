@@ -21,7 +21,8 @@ import java.util.List;
 /**
  * 默认的sql会话实现类
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 15:51
  */
 public class DefaultSqlSession implements SqlSession {
     /**
@@ -32,6 +33,9 @@ public class DefaultSqlSession implements SqlSession {
      * 执行器
      */
     private final Executor executor;
+    /**
+     * 日志对象
+     */
     private final Logger logger = LogUtils.getLogger();
 
     public DefaultSqlSession(Configuration configuration) {

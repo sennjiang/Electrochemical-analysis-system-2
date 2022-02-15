@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 封装数据库表的结构信息
- *
- * @author xxbb
+ * 数据库表的结构信息的封装类
+ * @Author zero
+ * @Create 2022/2/10 13:28
  */
 public class TableInfo {
     /**

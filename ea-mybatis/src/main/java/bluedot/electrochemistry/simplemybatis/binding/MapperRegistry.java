@@ -8,7 +8,8 @@ import java.util.Map;
 /**
  * mapper注册类
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 15:27
  */
 public class MapperRegistry {
     /**

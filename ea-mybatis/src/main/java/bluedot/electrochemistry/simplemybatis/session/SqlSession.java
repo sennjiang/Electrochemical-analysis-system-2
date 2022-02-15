@@ -5,9 +5,10 @@ import bluedot.electrochemistry.simplemybatis.executor.Executor;
 import java.util.List;
 
 /**
- * 进行数据库操作的主要接口
+ * 与数据库交互的会话，完成必要数据库增删改查功能，进行数据库操作的主要接口
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 14:57
  */
 public interface SqlSession {
     /**

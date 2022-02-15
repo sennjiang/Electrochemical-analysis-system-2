@@ -1,9 +1,10 @@
 package bluedot.electrochemistry.simplemybatis.mapping;
 
 /**
- * 封装mapper.xml映射文件中的信息，一个对象封装一条sql语句相关信息
+ * mapper.xml映射文件中信息的封装类，一个对象封装一条sql语句相关信息
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 15:31
  */
 public class MappedStatement {
     /**
@@ -15,7 +16,7 @@ public class MappedStatement {
      */
     private String id;
     /**
-     * sql标签的的类型：select/insert/update/delete
+     * sql标签的的类型：select/insert/update/delete，todo 写成枚举类
      */
     private String sqlType;
     /**

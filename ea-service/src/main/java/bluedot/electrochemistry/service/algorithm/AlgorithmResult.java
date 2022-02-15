@@ -1,8 +1,9 @@
 package bluedot.electrochemistry.service.algorithm;
 
 /**
- * @author Senn
- * @create 2022/2/4 19:18
+ * 算法业务返回参数包装类
+ * @Author zero
+ * @Create 2022/1/29 16:12
  */
 public class AlgorithmResult {
 

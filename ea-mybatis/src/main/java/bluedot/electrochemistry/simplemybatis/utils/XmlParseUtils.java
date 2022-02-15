@@ -13,7 +13,8 @@ import java.util.Iterator;
 /**
  * 解析配置了sql语句的mapper.xml文件
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 9:20
  */
 public class XmlParseUtils {
     /**
@@ -87,10 +88,6 @@ public class XmlParseUtils {
                 //注册一个该mapper对象接口类的代理工厂
                 configuration.addMapper(Class.forName(namespace));
             }
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

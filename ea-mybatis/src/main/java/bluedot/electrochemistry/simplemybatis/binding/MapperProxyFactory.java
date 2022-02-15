@@ -7,7 +7,8 @@ import java.lang.reflect.Proxy;
 /**
  * mapper代理对象工厂
  *
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/10 15:47
  */
 public class MapperProxyFactory<T> {
 

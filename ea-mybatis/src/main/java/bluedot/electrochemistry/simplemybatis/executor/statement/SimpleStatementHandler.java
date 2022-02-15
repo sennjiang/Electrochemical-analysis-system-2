@@ -12,7 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author xxbb
+ * @Author zero
+ * @Create 2022/2/11 13:41
  */
 public class SimpleStatementHandler implements StatementHandler {
     /**
