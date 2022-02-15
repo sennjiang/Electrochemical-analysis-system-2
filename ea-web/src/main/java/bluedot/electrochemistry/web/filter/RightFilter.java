@@ -2,6 +2,7 @@ package bluedot.electrochemistry.web.filter;
 
 import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
+import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.annotation.BeforeFilter;
@@ -21,15 +22,15 @@ public class RightFilter implements SpringFilter {
 
     private static final Logger LOGGER =  LogUtil.getLogger(RightFilter.class);
 
-    private final RequestURLAdapter adapter = new RequestURLAdapter();
+    private final RequestURLAdapter adapter = (RequestURLAdapter) BeanContainer.getInstance().getBean(RequestURLAdapter.class);
 
     StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
 
     @Override
     public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
         LOGGER.info("do right filter .. ");
-
         if (adapter.isWhiteUrl(request.getPathInfo())) {
+            LOGGER.info("a white url do nothing ...");
             return true;
         }else {
             String requestURI = request.getRequestURI();
