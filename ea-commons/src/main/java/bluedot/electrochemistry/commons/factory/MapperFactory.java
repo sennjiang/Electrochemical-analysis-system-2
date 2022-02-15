@@ -14,7 +14,7 @@ import org.slf4j.Logger;
  */
 public class MapperFactory implements Lifecycle {
 
-    private SqlSessionFactory sqlSessionFactory;
+    private static SqlSessionFactory sqlSessionFactory;
 
     private static final Logger LOGGER = LogUtils.getLogger();
     
@@ -28,8 +28,8 @@ public class MapperFactory implements Lifecycle {
     public void init() {
         sqlSessionFactory = (SqlSessionFactory) BeanContainer.getInstance().getBean(SqlSessionFactory.class);
         LOGGER.debug("load bean: " + MapperFactory.class.getName());
-        MapperFactory mapperFactory = new MapperFactory();
-        BeanContainer.getInstance().addBean(MapperFactory.class, mapperFactory);
+        MapperFactory factory = new MapperFactory();
+        BeanContainer.getInstance().addBean(MapperFactory.class, factory);
     }
 
     @Override

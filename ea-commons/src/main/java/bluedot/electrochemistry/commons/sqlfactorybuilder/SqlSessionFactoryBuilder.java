@@ -45,8 +45,8 @@ public class SqlSessionFactoryBuilder implements Lifecycle {
         }
         SqlSessionFactory factory = DefaultSqlSessionFactory.getInstance(new Configuration());
         //将sqlFactory注入到IoC容器中
-        LOGGER.debug("load bean: " + factory.getClass().getName());
-        BeanContainer.getInstance().addBean(factory.getClass(), factory);
+        LOGGER.debug("load bean: " + SqlSessionFactory.class.getName());
+        BeanContainer.getInstance().addBean(SqlSessionFactory.class, factory);
         init();
         return factory;
     }

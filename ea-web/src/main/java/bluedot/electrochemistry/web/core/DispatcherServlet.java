@@ -87,9 +87,9 @@ public class DispatcherServlet extends HttpServlet {
 //        new AspectWeaver().doAspectOrientedProgramming();
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
         //TODO 初始化mybatis异常
-//        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
-        beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
-        beanContainer.addBean(MapperFactory.class,new MapperFactory());
+        new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
+//        beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
+//        beanContainer.addBean(MapperFactory.class,new MapperFactory());
 
         //初始化 邮件处理器 TODO open
 //        new SenderHandler().init();
