@@ -1,12 +1,12 @@
 package bluedot.electrochemistry.web.core;
+
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
-import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
+import bluedot.electrochemistry.commons.sqlfactorybuilder.SqlSessionFactoryBuilder;
+import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.ConfigUtil;
 import bluedot.electrochemistry.utils.LogUtil;
-import bluedot.electrochemistry.utils.ValidationUtil;
-import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
 import bluedot.electrochemistry.simplespring.core.SpringConstant;
@@ -19,6 +19,7 @@ import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoRequestProcess
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.DoFileProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.PreRequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.impl.StaticResourceRequestProcessor;
+import bluedot.electrochemistry.utils.ValidationUtil;
 import org.slf4j.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,8 +67,6 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) {
         LOGGER.info("ready init in dispatcherServlet");
-
-
 
         //读取配置文件，保存属性到contextConfig
         contextConfig = ConfigUtil.doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
@@ -111,11 +109,6 @@ public class DispatcherServlet extends HttpServlet {
         DoRequestProcessor doRequestProcessor = new DoRequestProcessor();
         doRequestProcessor.setFilterAdapter(filterAdapter);
         PROCESSORS.add(doRequestProcessor);
-
-
-
-
-
     }
 
     @Override
