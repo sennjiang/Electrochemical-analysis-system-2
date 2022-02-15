@@ -8,13 +8,13 @@
     <artifactId>Electrochemical-analysis-system-2</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>EA-web</module>
-        <module>EA-spring</module>
-        <module>EA-cache</module>
-        <module>EA-service</module>
-        <module>EA-mybatis</module>
-        <module>EA-util</module>
-        <module>EA-commons</module>
+        <module>ea-web</module>
+        <module>ea-spring</module>
+        <module>ea-cache</module>
+        <module>ea-service</module>
+        <module>ea-mybatis</module>
+        <module>ea-util</module>
+        <module>ea-commons</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -76,7 +76,6 @@
             <artifactId>cglib</artifactId>
             <version>3.3.0</version>
         </dependency>
-
 
     </dependencies>
 
