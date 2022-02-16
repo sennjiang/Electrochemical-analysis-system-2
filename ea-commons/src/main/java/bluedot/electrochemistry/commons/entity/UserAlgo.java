@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.commons.entity;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Senn
  * @create 2022/2/10 20:15
@@ -12,10 +14,8 @@ public class UserAlgo {
     Integer algoId;
 
     Integer algoType;
-    /**
-     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
-     */
-    private String gmt_create;
+
+    private LocalDateTime gmt_create;
 
     public Integer getId() {
         return id;
@@ -49,11 +49,11 @@ public class UserAlgo {
         this.algoType = algoType;
     }
 
-    public String getGmt_create() {
+    public LocalDateTime getGmt_create() {
         return gmt_create;
     }
 
-    public void setGmt_create(String gmt_create) {
+    public void setGmt_create(LocalDateTime gmt_create) {
         this.gmt_create = gmt_create;
     }
 }

@@ -2,6 +2,8 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Senn
  * @create 2022/1/28 18:53
@@ -18,15 +20,10 @@ public class UserApply {
      * 2 审核未通过
      */
     private Integer status;
-    /**
-     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
-     */
-    private String gmt_create;
 
-    /**
-     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
-     */
-    private String gmt_modify;
+    private LocalDateTime gmt_create;
+
+    private LocalDateTime gmt_modify;
 
     public Integer getId() {
         return id;
@@ -68,19 +65,19 @@ public class UserApply {
         this.status = status;
     }
 
-    public String getGmt_create() {
+    public LocalDateTime getGmt_create() {
         return gmt_create;
     }
 
-    public void setGmt_create(String gmt_create) {
+    public void setGmt_create(LocalDateTime gmt_create) {
         this.gmt_create = gmt_create;
     }
 
-    public String getGmt_modify() {
+    public LocalDateTime getGmt_modify() {
         return gmt_modify;
     }
 
-    public void setGmt_modify(String gmt_modify) {
+    public void setGmt_modify(LocalDateTime gmt_modify) {
         this.gmt_modify = gmt_modify;
     }
 }
