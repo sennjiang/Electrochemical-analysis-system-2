@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @create 2022/2/2 19:14
  */
 @Param
-public class AlgorithmLibraryApply {
+public class AlgorithmsLibraryApply {
     private Integer id;
     private Integer userId;
     private Integer algoId;

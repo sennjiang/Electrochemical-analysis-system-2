@@ -2,7 +2,7 @@ package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.cache.entity.FileData;
 import bluedot.electrochemistry.cache.local.FileDataCache;
-import bluedot.electrochemistry.commons.entity.AlgorithmLibraryApply;
+import bluedot.electrochemistry.commons.entity.AlgorithmsLibraryApply;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.service.algorithm.AlgorithmFactor;
 import bluedot.electrochemistry.service.algorithm.en.AlgorithmMethodType;
@@ -127,23 +127,23 @@ public class AlgorithmController extends BaseController {
                                   @RequestParam("author") String author,
                                   @RequestParam("algoName") String algoName){
         if (userId == null || algoId == null || author == null || algoName == null) return renderBadRequest();
-        AlgorithmLibraryApply algorithmLibraryApply = new AlgorithmLibraryApply();
-        algorithmLibraryApply.setUserId(Integer.parseInt(userId));
-        algorithmLibraryApply.setAlgoId(Integer.parseInt(algoId));
-        algorithmLibraryApply.setAlgoName(algoName);
-        algorithmLibraryApply.setAuthor(author);
-        algorithmLibraryApply.setStatus(0);
-        boolean b = editService.doEdit(new EditParam<>(new AlgorithmLibraryApply[]{algorithmLibraryApply}, EditType.INSERT));
+        AlgorithmsLibraryApply algorithmsLibraryApply = new AlgorithmsLibraryApply();
+        algorithmsLibraryApply.setUserId(Integer.parseInt(userId));
+        algorithmsLibraryApply.setAlgoId(Integer.parseInt(algoId));
+        algorithmsLibraryApply.setAlgoName(algoName);
+        algorithmsLibraryApply.setAuthor(author);
+        algorithmsLibraryApply.setStatus(0);
+        boolean b = editService.doEdit(new EditParam<>(new AlgorithmsLibraryApply[]{algorithmsLibraryApply}, EditType.INSERT));
         return b?renderSuccess("申请成功！!") : renderError("申请失败！！");
     }
 
     @RequestMapping("/library/apply/check")
     public Result agreeLibraryApply(@RequestParam("id") String id, @RequestParam("status") int status){
         if (id == null || status == 0) return renderBadRequest();
-        AlgorithmLibraryApply apply = new AlgorithmLibraryApply();
+        AlgorithmsLibraryApply apply = new AlgorithmsLibraryApply();
         apply.setId(Integer.parseInt(id));
         apply.setStatus(status);
-        boolean b = editService.doEdit(new EditParam<AlgorithmLibraryApply>(new AlgorithmLibraryApply[]{apply}, EditType.INSERT));
+        boolean b = editService.doEdit(new EditParam<AlgorithmsLibraryApply>(new AlgorithmsLibraryApply[]{apply}, EditType.INSERT));
         return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
     }
 
