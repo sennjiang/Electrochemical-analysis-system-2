@@ -1,8 +1,8 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<form action="/user/user" method="post" >
-    <input type="text" name="username"/>
+<form action="/user/login" method="post" >
+    <input type="text" name="account"/>
     <input type="password" name="password"/>
     <button type="submit">login</button>
 </form>

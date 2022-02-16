@@ -5,7 +5,7 @@
 
     </select>
     <select id="loginByEmail" resultType="bluedot.electrochemistry.commons.entity.User">
-
+        select * from user where email = #{account};
     </select>
     <select id="changePassword" resultType="java.lang.Integer">
 

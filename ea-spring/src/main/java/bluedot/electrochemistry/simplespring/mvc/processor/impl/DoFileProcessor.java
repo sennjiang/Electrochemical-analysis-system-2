@@ -33,6 +33,7 @@ public class DoFileProcessor implements RequestProcessor {
 
         String header = request.getHeader("Content-Type");
         if (header == null || !header.contains(REQUEST_FILE_HEAD)) {
+            requestProcessorChain.setRequestParams(requestProcessorChain.getRequest().getParameterMap());
             LOGGER.debug("do fileProcessor there is not a file upload request !");
             return true;
         }
@@ -40,7 +41,6 @@ public class DoFileProcessor implements RequestProcessor {
 
         MultipartFile[] files = doFileUpload(request, requestProcessorChain.getRequestParams());
 
-        requestProcessorChain.setRequestParams(requestProcessorChain.getRequest().getParameterMap());
         requestProcessorChain.setRequestFiles(files);
         return true;
     }

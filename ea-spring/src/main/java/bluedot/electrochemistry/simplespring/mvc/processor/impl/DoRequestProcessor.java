@@ -43,23 +43,21 @@ public class DoRequestProcessor implements RequestProcessor {
 
     @Override
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
-
+        String requestPath = requestProcessorChain.getRequestPath();
+        LOGGER.info("request path --> {}", requestPath);
         if (filterAdapter.needDoBefore()) {
             filterAdapter.doBeforeFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
         }
-
-        String requestPath = requestProcessorChain.getRequestPath();
-        LOGGER.info("request path --> {}",requestPath);
         Method method = null;
         if (urlAdapter.isWhiteUrl(requestPath)) {
             method = urlAdapter.getWhiteUrl(requestPath);
-        }else {
+        } else {
             method = urlAdapter.getUrl(requestPath);
         }
-        if (method == null) throw new RuntimeException("No such request path !!");
+        if (method == null) throw new RuntimeException("No such request method !!");
         Class<?> aClass = urlAdapter.getClass(requestPath);
         //获取方法参数
-        Object[] params = doMethodParam(method,requestProcessorChain,requestProcessorChain.getRequestParams());
+        Object[] params = doMethodParam(method, requestProcessorChain, requestProcessorChain.getRequestParams());
         //获取执行对象
         Object o = beanContainer.getBean(aClass);
         //最终执行
@@ -74,7 +72,6 @@ public class DoRequestProcessor implements RequestProcessor {
     }
 
     private Object[] doMethodParam(Method method, RequestProcessorChain chain, Map<String, String[]> parameterMap) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        HttpServletRequest request = chain.getRequest();
 
         Parameter[] parameterTypes = method.getParameters();
 
@@ -83,12 +80,13 @@ public class DoRequestProcessor implements RequestProcessor {
         }
         int length = parameterTypes.length;
         Object[] params = new Object[length];
-        for (int i = 0 ; i <  length ; i ++) {
+        for (int i = 0; i < length; i++) {
             Parameter parameterType = parameterTypes[i];
+            //文件类型
             if (parameterType.getType() == MultipartFile[].class) {
                 params[i] = chain.getRequestFiles();
                 continue;
-            }else if (parameterType.getType() == MultipartFile.class) {
+            } else if (parameterType.getType() == MultipartFile.class) {
                 params[i] = chain.getRequestFiles()[0];
                 continue;
             }
@@ -105,31 +103,31 @@ public class DoRequestProcessor implements RequestProcessor {
             //@RequestParam 或 基础类型
             if (ConverterUtil.isPrimitive(parameterType.getType()) || parameterType.isAnnotationPresent(RequestParam.class) || parameterType.getType().isArray()) {
 
-                String[] strings =  getRequestParam(parameterType,parameterMap);
+                String[] strings = getRequestParam(parameterType, parameterMap);
                 if (strings == null) {
                     params[i] = null;
                     continue;
                 }
                 //基本类型;
                 if (!parameterType.getType().isArray()) {
-                    params[i] = ConverterUtil.convert(parameterType.getType(),strings[0]);
-                }else {
-                    //TOTO 参数为 基本类型数组 未处理
+                    params[i] = ConverterUtil.convert(parameterType.getType(), strings[0]);
+                } else {
+                    //TODO 参数为 基本类型数组 未处理
                     params[i] = strings;
                 }
 
-            }else {
+            } else {
                 Class<?> type = parameterType.getType();
                 Object o = type.newInstance();
                 Field[] declaredFields = type.getDeclaredFields();
                 if (type.isAnnotationPresent(Param.class)) {
                     for (Field field : declaredFields) {
-                        setParamByField(field, parameterMap,o);
+                        setParamByField(field, parameterMap, o);
                     }
-                }else {
+                } else {
                     for (Field field : declaredFields) {
                         if (field.isAnnotationPresent(Param.class)) {
-                            setParamByField(field,parameterMap,o);
+                            setParamByField(field, parameterMap, o);
                         }
                     }
                 }
@@ -147,17 +145,18 @@ public class DoRequestProcessor implements RequestProcessor {
         Method curMethod = o.getClass().getMethod(methodName, field.getClass());
         curMethod.setAccessible(true);
         Object convert = ConverterUtil.convert(field.getClass(), strings[0]);
-        curMethod.invoke(o,convert);
+        curMethod.invoke(o, convert);
     }
 
     /**
      * 注入属性
-     * @param field  属性对象
+     *
+     * @param field        属性对象
      * @param parameterMap 请求参数map
-     * @param o 对象
-     * @throws NoSuchMethodException  无此方法
+     * @param o            对象
+     * @throws NoSuchMethodException     无此方法
      * @throws InvocationTargetException 反射执行失败
-     * @throws IllegalAccessException 方法处理
+     * @throws IllegalAccessException    方法处理
      */
     private void setParamByField(Field field, Map<String, String[]> parameterMap, Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String fieldName = getFieldName(field);
@@ -172,6 +171,7 @@ public class DoRequestProcessor implements RequestProcessor {
 
     /**
      * 获取属性名称
+     *
      * @param field 属性对象
      * @return 属性名称
      */
@@ -191,18 +191,19 @@ public class DoRequestProcessor implements RequestProcessor {
 
     /**
      * 获取基础变量 数组(RequestParam) 或者 加了注解 RequestParam
+     *
      * @param parameterType Parameter参数对象
-     * @param parameterMap Request parameterMap 请求参数对象
+     * @param parameterMap  Request parameterMap 请求参数对象
      * @return String[] 请求值
      */
-    private String[] getRequestParam(Parameter parameterType, Map<String, String[]>  parameterMap) {
+    private String[] getRequestParam(Parameter parameterType, Map<String, String[]> parameterMap) {
         String paramName = EMPTY_STRING;
         RequestParam requestParam = parameterType.getAnnotation(RequestParam.class);
         if (requestParam != null) {
             paramName = requestParam.value()[0];
         }
         if (EMPTY_STRING.equals(paramName)) {
-            parameterType.getName();
+            paramName = parameterType.getName();
         }
         return parameterMap.get(paramName);
     }
