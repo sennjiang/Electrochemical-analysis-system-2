@@ -1,18 +1,17 @@
 package bluedot.electrochemistry.commons.entity;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Senn
  * @create 2022/2/10 20:10
  */
 public class AlgoFile {
-    Integer id;
-    Integer algoId;
-    Integer original;
-    Integer result;
-    /**
-     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
-     */
-    private String gmt_create;
+    private Integer id;
+    private Integer algoId;
+    private Integer original;
+    private Integer result;
+    private LocalDateTime gmtCreate;
 
     public Integer getId() {
         return id;
@@ -46,11 +45,11 @@ public class AlgoFile {
         this.result = result;
     }
 
-    public String getGmt_create() {
-        return gmt_create;
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(String gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 }
