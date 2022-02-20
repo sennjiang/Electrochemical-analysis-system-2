@@ -71,7 +71,7 @@ public class UserController extends BaseController {
             return renderError("账号已冻结，请申请解冻！！");
         }
         List<String> roles = mapper.getRolesById(account);
-        arrayCache.put(user.getId(), roles.toArray(new String[0]));
+        arrayCache.put(String.valueOf(user.getId()), roles.toArray(new String[0]));
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }
