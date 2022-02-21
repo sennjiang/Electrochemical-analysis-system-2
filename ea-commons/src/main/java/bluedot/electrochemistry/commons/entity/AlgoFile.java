@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.commons.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -11,7 +11,7 @@ public class AlgoFile {
     private Integer algoId;
     private Integer original;
     private Integer result;
-    private LocalDateTime gmtCreate;
+    private Timestamp gmtCreate;
 
     public Long getId() {
         return id;
@@ -45,11 +45,12 @@ public class AlgoFile {
         this.result = result;
     }
 
-    public LocalDateTime getGmtCreate() {
+    public Timestamp getGmtCreate() {
         return gmtCreate;
     }
 
-    public void setGmtCreate(LocalDateTime gmtCreate) {
+    public void setGmtCreate(Timestamp gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
+
 }

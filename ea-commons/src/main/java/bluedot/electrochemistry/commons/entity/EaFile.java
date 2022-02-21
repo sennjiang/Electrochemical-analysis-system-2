@@ -2,7 +2,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -47,9 +47,9 @@ public class EaFile {
      */
     private String tangency;
 
-    private LocalDateTime gmt_create;
+    private Timestamp gmt_create;
 
-    private LocalDateTime gmt_modify;
+    private Timestamp gmt_modify;
 
     public Long getId() {
         return id;
@@ -155,19 +155,19 @@ public class EaFile {
         this.tangency = tangency;
     }
 
-    public LocalDateTime getGmt_create() {
+    public Timestamp getGmt_create() {
         return gmt_create;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
+    public void setGmt_create(Timestamp gmt_create) {
         this.gmt_create = gmt_create;
     }
 
-    public LocalDateTime getGmt_modify() {
+    public Timestamp getGmt_modify() {
         return gmt_modify;
     }
 
-    public void setGmt_modify(LocalDateTime gmt_modify) {
+    public void setGmt_modify(Timestamp gmt_modify) {
         this.gmt_modify = gmt_modify;
     }
 }

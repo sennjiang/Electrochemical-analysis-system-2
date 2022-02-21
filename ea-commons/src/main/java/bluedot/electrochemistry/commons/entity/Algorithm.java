@@ -3,7 +3,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -15,7 +15,7 @@ public class Algorithm {
     private Long userId;
     private String algoName;
     private String path;
-    private LocalDateTime gmt_create;
+    private Timestamp gmt_create;
     /**
      * 算法类型
      * 0：曲线平滑算法
@@ -60,11 +60,11 @@ public class Algorithm {
         this.path = path;
     }
 
-    public LocalDateTime getGmt_create() {
+    public Timestamp getGmt_create() {
         return gmt_create;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
+    public void setGmt_create(Timestamp gmt_create) {
         this.gmt_create = gmt_create;
     }
 

@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.commons.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -43,12 +44,12 @@ public class UserFileConfig {
     /**
      * 修改时间
      */
-    private LocalDateTime gmtModify;
+    private Timestamp gmtModify;
 
     public UserFileConfig() {
     }
 
-    public UserFileConfig(Long id, Integer fileCount, Integer binCount, Long userId, Integer deleteType, Integer alogCount, LocalDateTime gmtModify) {
+    public UserFileConfig(Long id, Integer fileCount, Integer binCount, Long userId, Integer deleteType, Integer alogCount, Timestamp gmtModify) {
         this.id = id;
         this.fileCount = fileCount;
         this.binCount = binCount;
@@ -106,11 +107,11 @@ public class UserFileConfig {
         this.alogCount = alogCount;
     }
 
-    public LocalDateTime getGmtModify() {
+    public Timestamp getGmtModify() {
         return gmtModify;
     }
 
-    public void setGmtModify(LocalDateTime gmtModify) {
+    public void setGmtModify(Timestamp gmtModify) {
         this.gmtModify = gmtModify;
     }
 
