@@ -11,7 +11,7 @@ public class AlgorithmsLibrary {
     /**
      * 算法库编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 作者昵称（默认用户昵称 可改）
@@ -56,7 +56,7 @@ public class AlgorithmsLibrary {
     public AlgorithmsLibrary() {
     }
 
-    public AlgorithmsLibrary(Integer id, String author, String name, String path, String type, Integer saveTimes, Integer useTimes, LocalDateTime gmtCreate) {
+    public AlgorithmsLibrary(Long id, String author, String name, String path, String type, Integer saveTimes, Integer useTimes, LocalDateTime gmtCreate) {
         this.id = id;
         this.author = author;
         this.name = name;
@@ -67,11 +67,11 @@ public class AlgorithmsLibrary {
         this.gmtCreate = gmtCreate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

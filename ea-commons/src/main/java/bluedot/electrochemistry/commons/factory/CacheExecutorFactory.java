@@ -41,7 +41,7 @@ public class CacheExecutorFactory implements Lifecycle {
             public FileData load(String id) throws Exception {
                 MapperFactory factory = (MapperFactory) BeanContainer.getInstance().getBean(MapperFactory.class);
                 BaseMapper mapper = factory.createMapper();
-                EaFile useFile = mapper.getFileById(id);
+                EaFile useFile = mapper.getFileById(Integer.parseInt(id));
                 File file = new File(fileRootPath +useFile.getId() +  useFile.getPath());
                 FileInputStream reader = new FileInputStream(file);
                 //TODO get fileData from file.

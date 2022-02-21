@@ -7,37 +7,37 @@ import java.time.LocalDateTime;
  * @create 2022/2/10 20:15
  */
 public class UserAlgo {
-    Integer id;
+    Long id;
 
-    Integer userId;
+    Long userId;
 
-    Integer algoId;
+    Long algoId;
 
     Integer algoType;
 
     private LocalDateTime gmt_create;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getAlgoId() {
+    public Long getAlgoId() {
         return algoId;
     }
 
-    public void setAlgoId(Integer algoId) {
+    public void setAlgoId(Long algoId) {
         this.algoId = algoId;
     }
 

@@ -10,33 +10,33 @@ import java.time.LocalDateTime;
  */
 @Param
 public class UserRole {
-    private Integer id;
-    private Integer userId;
-    private Integer roleId;
+    private Long id;
+    private Long userId;
+    private Long roleId;
 
     private LocalDateTime gmt_create;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 

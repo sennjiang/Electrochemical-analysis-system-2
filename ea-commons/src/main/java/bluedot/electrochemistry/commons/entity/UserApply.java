@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
  */
 @Param
 public class UserApply {
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     private String freeze_reason;
     private String unfreeze_reason;
     /**
@@ -25,19 +25,19 @@ public class UserApply {
 
     private LocalDateTime gmt_modify;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

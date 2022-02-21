@@ -11,7 +11,7 @@ public class UserFileConfig {
     /**
      * 编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 个人文件数量
@@ -26,7 +26,7 @@ public class UserFileConfig {
     /**
      * 用户编号
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 删除类型，映射关系如下：
@@ -48,7 +48,7 @@ public class UserFileConfig {
     public UserFileConfig() {
     }
 
-    public UserFileConfig(Integer id, Integer fileCount, Integer binCount, Integer userId, Integer deleteType, Integer alogCount, LocalDateTime gmtModify) {
+    public UserFileConfig(Long id, Integer fileCount, Integer binCount, Long userId, Integer deleteType, Integer alogCount, LocalDateTime gmtModify) {
         this.id = id;
         this.fileCount = fileCount;
         this.binCount = binCount;
@@ -58,11 +58,11 @@ public class UserFileConfig {
         this.gmtModify = gmtModify;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,11 +82,11 @@ public class UserFileConfig {
         this.binCount = binCount;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

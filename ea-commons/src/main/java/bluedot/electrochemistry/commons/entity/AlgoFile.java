@@ -7,17 +7,17 @@ import java.time.LocalDateTime;
  * @create 2022/2/10 20:10
  */
 public class AlgoFile {
-    private Integer id;
+    private Long id;
     private Integer algoId;
     private Integer original;
     private Integer result;
     private LocalDateTime gmtCreate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

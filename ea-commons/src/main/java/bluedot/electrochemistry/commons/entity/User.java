@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Param
 public class User {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -38,11 +38,11 @@ public class User {
 
     private LocalDateTime gmt_modify;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

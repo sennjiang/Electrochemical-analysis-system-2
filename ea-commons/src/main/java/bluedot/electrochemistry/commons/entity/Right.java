@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
  */
 @Param
 public class Right {
-    private Integer id;
+    private Long id;
     private String route;
     private LocalDateTime gmt_create;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
