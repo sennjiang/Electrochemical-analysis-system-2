@@ -40,9 +40,9 @@ public class AlgorithmApply {
      */
     private String path;
 
-    private Timestamp gmt_create;
+    private Timestamp gmtCreate;
 
-    private Timestamp gmt_modify;
+    private Timestamp gmtModify;
 
     public Long getId() {
         return id;
@@ -100,19 +100,19 @@ public class AlgorithmApply {
         this.path = path;
     }
 
-    public Timestamp getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(Timestamp gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public Timestamp getGmt_modify() {
-        return gmt_modify;
+    public Timestamp getGmtModify() {
+        return gmtModify;
     }
 
-    public void setGmt_modify(Timestamp gmt_modify) {
-        this.gmt_modify = gmt_modify;
+    public void setGmtModify(Timestamp gmtModify) {
+        this.gmtModify = gmtModify;
     }
 }

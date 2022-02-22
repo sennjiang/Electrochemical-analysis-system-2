@@ -22,7 +22,7 @@ public class SystemFile {
      * 此次备份的备注信息
      */
     private String note;
-    private Timestamp gmt_create;
+    private Timestamp gmtCreate;
 
     public Long getId() {
         return id;
@@ -64,11 +64,12 @@ public class SystemFile {
         this.note = note;
     }
 
-    public Timestamp getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(Timestamp gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
+
 }

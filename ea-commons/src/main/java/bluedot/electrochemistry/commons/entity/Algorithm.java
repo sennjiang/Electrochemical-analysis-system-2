@@ -15,7 +15,7 @@ public class Algorithm {
     private Long userId;
     private String algoName;
     private String path;
-    private Timestamp gmt_create;
+    private Timestamp gmtCreate;
     /**
      * 算法类型
      * 0：曲线平滑算法
@@ -60,12 +60,12 @@ public class Algorithm {
         this.path = path;
     }
 
-    public Timestamp getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(Timestamp gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
     public Integer getType() {

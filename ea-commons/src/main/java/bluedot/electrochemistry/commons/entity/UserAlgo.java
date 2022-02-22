@@ -15,7 +15,7 @@ public class UserAlgo {
 
     private Integer algoType;
 
-    private Timestamp gmt_create;
+    private Timestamp gmtCreate;
 
     public Long getId() {
         return id;
@@ -49,11 +49,11 @@ public class UserAlgo {
         this.algoType = algoType;
     }
 
-    public Timestamp getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(Timestamp gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 }
