@@ -2,6 +2,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -10,8 +11,8 @@ import java.time.LocalDateTime;
  */
 @Param
 public class SystemFile {
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     /**
      * 记录此次备份的名称
      */
@@ -21,21 +22,21 @@ public class SystemFile {
      * 此次备份的备注信息
      */
     private String note;
-    private LocalDateTime gmt_create;
+    private Timestamp gmtCreate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -63,11 +64,12 @@ public class SystemFile {
         this.note = note;
     }
 
-    public LocalDateTime getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
+
 }

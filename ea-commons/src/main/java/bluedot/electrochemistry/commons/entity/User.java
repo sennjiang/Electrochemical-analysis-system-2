@@ -3,7 +3,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Param
 public class User {
 
-    private String id;
+    private Long id;
 
     private String name;
 
@@ -21,7 +21,7 @@ public class User {
      */
     private Integer sex;
 
-    private LocalDateTime birthday;
+    private Timestamp birthday;
 
     private String email;
 
@@ -34,15 +34,15 @@ public class User {
      */
     private Integer status;
 
-    private LocalDateTime gmt_create;
+    private Timestamp gmtCreate;
 
-    private LocalDateTime gmt_modify;
+    private Timestamp gmtModify;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class User {
         this.sex = sex;
     }
 
-    public LocalDateTime getBirthday() {
+    public Timestamp getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
 
@@ -102,19 +102,19 @@ public class User {
         this.status = status;
     }
 
-    public LocalDateTime getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public LocalDateTime getGmt_modify() {
-        return gmt_modify;
+    public Timestamp getGmtModify() {
+        return gmtModify;
     }
 
-    public void setGmt_modify(LocalDateTime gmt_modify) {
-        this.gmt_modify = gmt_modify;
+    public void setGmtModify(Timestamp gmtModify) {
+        this.gmtModify = gmtModify;
     }
 }

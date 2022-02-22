@@ -3,20 +3,19 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
+import java.sql.Timestamp;
+
 /**
  * @author Senn
  * @create 2022/1/28 19:04
  */
 @Param
 public class Algorithm {
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     private String algoName;
     private String path;
-    /**
-     * 转换 timestamp 为 String yyyy-MM-dd:HH:mm:ss
-     */
-    private String gmt_create;
+    private Timestamp gmtCreate;
     /**
      * 算法类型
      * 0：曲线平滑算法
@@ -29,19 +28,19 @@ public class Algorithm {
      */
     private Integer isUsed;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -61,12 +60,12 @@ public class Algorithm {
         this.path = path;
     }
 
-    public String getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(String gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
     public Integer getType() {

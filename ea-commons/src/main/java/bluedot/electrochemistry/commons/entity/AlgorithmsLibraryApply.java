@@ -2,7 +2,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
  */
 @Param
 public class AlgorithmsLibraryApply {
-    private Integer id;
-    private Integer userId;
-    private Integer algoId;
+    private Long id;
+    private Long userId;
+    private Long algoId;
 
     private String author;
 
@@ -25,31 +25,31 @@ public class AlgorithmsLibraryApply {
      */
     private Integer status;
 
-    private LocalDateTime gmt_create;
+    private Timestamp gmtCreate;
 
-    private LocalDateTime gmt_modify;
+    private Timestamp gmtModify;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getAlgoId() {
+    public Long getAlgoId() {
         return algoId;
     }
 
-    public void setAlgoId(Integer algoId) {
+    public void setAlgoId(Long algoId) {
         this.algoId = algoId;
     }
 
@@ -61,20 +61,20 @@ public class AlgorithmsLibraryApply {
         this.status = status;
     }
 
-    public LocalDateTime getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public LocalDateTime getGmt_modify() {
-        return gmt_modify;
+    public Timestamp getGmtModify() {
+        return gmtModify;
     }
 
-    public void setGmt_modify(LocalDateTime gmt_modify) {
-        this.gmt_modify = gmt_modify;
+    public void setGmtModify(Timestamp gmtModify) {
+        this.gmtModify = gmtModify;
     }
 
     public String getAuthor() {

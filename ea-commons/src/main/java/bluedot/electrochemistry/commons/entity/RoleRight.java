@@ -2,7 +2,7 @@ package bluedot.electrochemistry.commons.entity;
 
 import bluedot.electrochemistry.simplespring.core.annotation.Param;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
@@ -10,40 +10,40 @@ import java.time.LocalDateTime;
  */
 @Param
 public class RoleRight {
-    private Integer id;
-    private Integer roleId;
-    private Integer rightId;
-    private LocalDateTime gmt_create;
+    private Long id;
+    private Long roleId;
+    private Long rightId;
+    private Timestamp gmtCreate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
-    public Integer getRightId() {
+    public Long getRightId() {
         return rightId;
     }
 
-    public void setRightId(Integer rightId) {
+    public void setRightId(Long rightId) {
         this.rightId = rightId;
     }
 
-    public LocalDateTime getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 }

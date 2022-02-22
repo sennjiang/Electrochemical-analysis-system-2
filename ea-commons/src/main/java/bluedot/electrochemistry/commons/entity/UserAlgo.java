@@ -1,43 +1,43 @@
 package bluedot.electrochemistry.commons.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
  * @create 2022/2/10 20:15
  */
 public class UserAlgo {
-    Integer id;
+    private Long id;
 
-    Integer userId;
+    private Long userId;
 
-    Integer algoId;
+    private Long algoId;
 
-    Integer algoType;
+    private Integer algoType;
 
-    private LocalDateTime gmt_create;
+    private Timestamp gmtCreate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getAlgoId() {
+    public Long getAlgoId() {
         return algoId;
     }
 
-    public void setAlgoId(Integer algoId) {
+    public void setAlgoId(Long algoId) {
         this.algoId = algoId;
     }
 
@@ -49,11 +49,11 @@ public class UserAlgo {
         this.algoType = algoType;
     }
 
-    public LocalDateTime getGmt_create() {
-        return gmt_create;
+    public Timestamp getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(LocalDateTime gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(Timestamp gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 }
