@@ -1,23 +1,23 @@
 package bluedot.electrochemistry.commons.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * @author Senn
  * @create 2022/2/10 20:10
  */
 public class AlgoFile {
-    private Integer id;
+    private Long id;
     private Integer algoId;
     private Integer original;
     private Integer result;
-    private LocalDateTime gmtCreate;
+    private Timestamp gmtCreate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,11 +45,12 @@ public class AlgoFile {
         this.result = result;
     }
 
-    public LocalDateTime getGmtCreate() {
+    public Timestamp getGmtCreate() {
         return gmtCreate;
     }
 
-    public void setGmtCreate(LocalDateTime gmtCreate) {
+    public void setGmtCreate(Timestamp gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
+
 }

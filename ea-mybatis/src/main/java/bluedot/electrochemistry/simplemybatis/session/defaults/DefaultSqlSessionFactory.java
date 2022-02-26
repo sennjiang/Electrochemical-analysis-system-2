@@ -13,15 +13,14 @@ import bluedot.electrochemistry.simplemybatis.utils.ValidationUtils;
 import bluedot.electrochemistry.simplemybatis.utils.XmlParseUtils;
 import org.slf4j.Logger;
 
-import java.io.File;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * sqlSession会话工厂-默认实现类
@@ -94,18 +93,19 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     /**
      * 解析mapper.xml中的信息封装进Configuration对象的mappedStatementMap中
      *
-     * @param dirName mapper.xml所在的文件夹名
+     * @param dirName mapper.xml所在的文件夹名 / 在jar包中的文件全路径
      */
     private void loadMappersInfo(String dirName) {
         logger.debug("dirName:{} ",dirName);
         String resource = Objects.requireNonNull
                 (DefaultSqlSessionFactory.class.getClassLoader().getResource(dirName)).getPath();
         logger.debug("加载资源路径" + resource);
-        File mapperDir = new File(resource);
+        File mapper = new File(resource);
+        logger.debug("file.getPath()-----" + mapper.getPath());
         //判断该路径是否为文件夹
-        if (mapperDir.isDirectory()) {
+        if (mapper.isDirectory()) {
             //获取文件夹下所有文件
-            File[] mappers = mapperDir.listFiles();
+            File[] mappers = mapper.listFiles();
             //非空判断
             if (ValidationUtils.isNotEmpty(mappers)) {
                 for (File file : mappers) {
@@ -115,11 +115,45 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
                     } else if (file.getName().endsWith(Constant.MAPPER_FILE_SUFFIX)) {
                         //获取以.xml为后缀的文件,存入Configuration对象的mappedStatementMap中
                         //并注册一个该mapper接口类的代理工厂
-                        XmlParseUtils.mapperParser(file, this.configuration);
+                        try {
+                            XmlParseUtils.mapperParser(new FileInputStream(file), this.configuration);
+                        } catch (FileNotFoundException e) {
+                            logger.error("创建文件输入流出错："+e.getMessage());
+                        }
                     }
                 }
             }
-
+        //判断是否是存在于jar中的配置
+        }else if (Configuration.getProperty(Constant.MAPPER_JAR).equals("true")) {
+            logger.debug("加载jar中资源ing:");
+            //获取jar包全路径
+            StringBuffer sb = new StringBuffer(resource);
+            //去处前缀file:\
+            sb.delete(0,6);
+            //去处后缀！/.../..
+            sb.delete(sb.indexOf("!"),sb.length());
+            logger.debug("获得jar包全路径："+sb.toString());
+            try {
+                JarFile jarFile = new JarFile(sb.toString());
+                //加载jar中文件条例
+                Enumeration<JarEntry> entrys = jarFile.entries();
+                JarEntry jarEntry;
+                String name;
+                while (entrys.hasMoreElements()) {
+                    // 获取jar中的一个条例
+                    jarEntry = entrys.nextElement();
+                    //获取条例路径名称
+                    name = jarEntry.getName();
+                    //仅加载名称结尾为.xml的文件
+                    if (name.endsWith(Constant.MAPPER_FILE_SUFFIX)) {
+                        InputStream inputStream = jarFile.getInputStream(jarEntry);
+                        XmlParseUtils.mapperParser(inputStream, this.configuration);
+                    }
+                }
+                logger.debug("jar中xml文件已经全部加载成功!");
+            } catch (IOException e) {
+                logger.error("获取jar资源路径失败"+e.getMessage());
+            }
         }
     }
 

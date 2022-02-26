@@ -8,6 +8,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 
 /**
@@ -24,7 +26,7 @@ public class XmlParseUtils {
      * @param configuration 配置文件
      */
     @SuppressWarnings("rawtypes")
-    public static void mapperParser(File filename, Configuration configuration) {
+    public static void mapperParser(InputStream filename, Configuration configuration) {
         try {
             //创建读取器
             SAXReader saxReader = new SAXReader();

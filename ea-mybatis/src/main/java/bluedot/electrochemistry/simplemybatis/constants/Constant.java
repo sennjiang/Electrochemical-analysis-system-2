@@ -18,6 +18,10 @@ public interface Constant {
      */
     String MAPPER_LOCATION = "mapper.location";
     /**
+     *是否将xml文件放在jar包中
+     */
+    String MAPPER_JAR = "mapper.jar";
+    /**
      * 与数据库表对应的po类所在的包
      */
     String PO_LOCATION = "po.location";

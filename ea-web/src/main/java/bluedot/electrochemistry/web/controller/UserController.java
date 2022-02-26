@@ -71,7 +71,7 @@ public class UserController extends BaseController {
             return renderError("账号已冻结，请申请解冻！！");
         }
         List<String> roles = mapper.getRolesById(account);
-        arrayCache.put(user.getId(), roles.toArray(new String[0]));
+        arrayCache.put(String.valueOf(user.getId()), roles.toArray(new String[0]));
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }
@@ -98,7 +98,7 @@ public class UserController extends BaseController {
         if (id == null || password == null) return renderBadRequest();
 
         BaseMapper mapper = factory.createMapper();
-        Integer integer = mapper.changePassword(id, password);
+        Integer integer = mapper.changePassword(Long.valueOf(id), password);
         if (integer == 1) return renderSuccess("修改密码成功！");
         return renderError("修改密码异常");
     }
@@ -145,7 +145,7 @@ public class UserController extends BaseController {
     public Result getRights(@RequestParam("id") String id) {
         if (id == null) return renderBadRequest();
         BaseMapper mapper = factory.createMapper();
-        List<Right> rights = mapper.getRights(id);
+        List<Right> rights = mapper.getRights(Long.valueOf(id));
         return renderSuccess("",rights);
     }
 

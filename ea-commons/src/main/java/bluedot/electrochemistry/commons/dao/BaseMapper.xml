@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper namespace="bluedot.electrochemistry.commons.dao.BaseMapper">
 
-    <select id="checkEmail" resultType="java.lang.Integer">
+    <select id="checkEmail" resultType="java.lang.Long">
 
     </select>
     <select id="loginByEmail" resultType="bluedot.electrochemistry.commons.entity.User">
         select * from user where email = #{account};
     </select>
-    <select id="changePassword" resultType="java.lang.Integer">
+    <select id="changePassword" resultType="java.lang.Long">
 
     </select>
     <select id="getRights" resultType="bluedot.electrochemistry.commons.entity.Right">

@@ -9,8 +9,8 @@ import bluedot.electrochemistry.simplespring.core.annotation.Param;
  */
 @Param
 public class Operation {
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     /**
      * tinyint 转 info error warm
      * 0：info
@@ -19,19 +19,19 @@ public class Operation {
      */
     private String level;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

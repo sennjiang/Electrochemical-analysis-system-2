@@ -101,7 +101,7 @@ public class AlgorithmController extends BaseController {
                                MultipartFile multipartFile){
         if (userId == null || algoName == null || algoType == null || multipartFile.isEmpty()) return renderBadRequest();
         AlgorithmApply algorithmApply = new AlgorithmApply();
-        algorithmApply.setUserId(Integer.parseInt(userId));
+        algorithmApply.setUserId(Long.valueOf(userId));
         algorithmApply.setStatus(0);
         algorithmApply.setApplyType(0);
         algorithmApply.setAlgoType(Integer.parseInt(algoType));
@@ -115,7 +115,7 @@ public class AlgorithmController extends BaseController {
     public Result agreeUserApply(@RequestParam("id") String id, @RequestParam("status") int status){
         if (id == null) return renderBadRequest();
         AlgorithmApply algorithmApply = new AlgorithmApply();
-        algorithmApply.setId(Integer.parseInt(id));
+        algorithmApply.setId(Long.valueOf(id));
         algorithmApply.setStatus(1);
         boolean b = editService.doEdit(new EditParam<AlgorithmApply>(new AlgorithmApply[]{algorithmApply}, EditType.INSERT));
         return b ? renderSuccess("申请成功！") : renderError("申请失败！！");
@@ -128,8 +128,8 @@ public class AlgorithmController extends BaseController {
                                   @RequestParam("algoName") String algoName){
         if (userId == null || algoId == null || author == null || algoName == null) return renderBadRequest();
         AlgorithmsLibraryApply algorithmsLibraryApply = new AlgorithmsLibraryApply();
-        algorithmsLibraryApply.setUserId(Integer.parseInt(userId));
-        algorithmsLibraryApply.setAlgoId(Integer.parseInt(algoId));
+        algorithmsLibraryApply.setUserId(Long.valueOf(userId));
+        algorithmsLibraryApply.setAlgoId(Long.valueOf(algoId));
         algorithmsLibraryApply.setAlgoName(algoName);
         algorithmsLibraryApply.setAuthor(author);
         algorithmsLibraryApply.setStatus(0);
@@ -141,7 +141,7 @@ public class AlgorithmController extends BaseController {
     public Result agreeLibraryApply(@RequestParam("id") String id, @RequestParam("status") int status){
         if (id == null || status == 0) return renderBadRequest();
         AlgorithmsLibraryApply apply = new AlgorithmsLibraryApply();
-        apply.setId(Integer.parseInt(id));
+        apply.setId(Long.valueOf(id));
         apply.setStatus(status);
         boolean b = editService.doEdit(new EditParam<AlgorithmsLibraryApply>(new AlgorithmsLibraryApply[]{apply}, EditType.INSERT));
         return b ? renderSuccess("申请成功！") : renderError("申请失败！！");

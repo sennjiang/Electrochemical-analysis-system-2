@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.commons.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * 算法库表PO类
@@ -11,7 +11,7 @@ public class AlgorithmsLibrary {
     /**
      * 算法库编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 作者昵称（默认用户昵称 可改）
@@ -50,13 +50,13 @@ public class AlgorithmsLibrary {
     /**
      * 创建时间
      */
-    private LocalDateTime gmtCreate;
+    private Timestamp gmtCreate;
 
 
     public AlgorithmsLibrary() {
     }
 
-    public AlgorithmsLibrary(Integer id, String author, String name, String path, String type, Integer saveTimes, Integer useTimes, LocalDateTime gmtCreate) {
+    public AlgorithmsLibrary(Long id, String author, String name, String path, String type, Integer saveTimes, Integer useTimes, Timestamp gmtCreate) {
         this.id = id;
         this.author = author;
         this.name = name;
@@ -67,11 +67,11 @@ public class AlgorithmsLibrary {
         this.gmtCreate = gmtCreate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -123,11 +123,11 @@ public class AlgorithmsLibrary {
         this.useTimes = useTimes;
     }
 
-    public LocalDateTime getGmtCreate() {
+    public Timestamp getGmtCreate() {
         return this.gmtCreate;
     }
 
-    public void setGmtCreate(LocalDateTime gmtCreate) {
+    public void setGmtCreate(Timestamp gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
 

@@ -17,11 +17,11 @@ public interface BaseMapper {
 
     User loginByEmail(String account);
 
-    Integer changePassword(String id,String password);
+    Integer changePassword(Long id,String password);
 
-    List<Right> getRights(String id);
+    List<Right> getRights(Long id);
 
-    EaFile getFileById(String id);
+    EaFile getFileById(Long id);
 
     List<String> getRolesById(String account);
 }
