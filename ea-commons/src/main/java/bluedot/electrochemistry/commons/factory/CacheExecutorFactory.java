@@ -7,6 +7,7 @@ import bluedot.electrochemistry.commons.dao.BaseMapper;
 import bluedot.electrochemistry.commons.entity.EaFile;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import com.google.common.cache.CacheLoader;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,10 +18,16 @@ import java.io.FileInputStream;
  */
 public class CacheExecutorFactory implements Lifecycle {
 
-    private String fileRootPath;
+    private static Jedis jedis;
 
+    //获取文件缓存
     public static FileDataCache createFileCache() {
         return FileDataCache.getInstance();
+    }
+
+    //获取Redis缓存
+    public static Jedis createJedis() {
+        return jedis;
     }
 
     @Override
@@ -31,12 +38,14 @@ public class CacheExecutorFactory implements Lifecycle {
                 MapperFactory factory = (MapperFactory) BeanContainer.getInstance().getBean(MapperFactory.class);
                 BaseMapper mapper = factory.createMapper();
                 EaFile useFile = mapper.getFileById(Long.valueOf(id));
-                File file = new File(fileRootPath +useFile.getId() +  useFile.getPath());
+                File file = new File(useFile.getPath());
                 FileInputStream reader = new FileInputStream(file);
                 //TODO get fileData from file.
                 return new FileData();
             }
         });
+        jedis = new Jedis("124.222.216.219", 6379);
+        jedis.auth("bluedot");
     }
 
     @Override
