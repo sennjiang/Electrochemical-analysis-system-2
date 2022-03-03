@@ -24,6 +24,7 @@ import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.web.controller.base.Result;
 import org.slf4j.Logger;
+import redis.clients.jedis.Jedis;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -42,6 +43,8 @@ public class UserController extends BaseController {
 
 //    @Autowired TODO open
     SenderProcessor senderProcessor = SenderProcessorFactory.createSenderProcessor();
+
+    Jedis jedis = CacheExecutorFactory.createJedis();
 
     @Autowired
     MapperFactory factory;
@@ -65,6 +68,7 @@ public class UserController extends BaseController {
         if (user.getStatus() == 0) {
             return renderError("账号已冻结，请申请解冻！！");
         }
+        List<Right> rights = mapper.getRights(user.getId());
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }

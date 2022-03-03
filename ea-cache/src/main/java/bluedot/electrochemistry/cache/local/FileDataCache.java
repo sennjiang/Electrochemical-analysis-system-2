@@ -1,6 +1,6 @@
 package bluedot.electrochemistry.cache.local;
 
-import bluedot.electrochemistry.cache.Cacheable;
+
 import bluedot.electrochemistry.cache.entity.FileData;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author Senn
  * @create 2022/2/4 20:44
  */
-public class FileDataCache implements Cacheable<String, FileData> {
+public class FileDataCache {
 
     private static volatile FileDataCache fileDataCache;
 
@@ -43,37 +43,30 @@ public class FileDataCache implements Cacheable<String, FileData> {
     private FileDataCache() {
     }
 
-    @Override
     public FileData get(String key) throws ExecutionException {
         return CACHE.get(key);
     }
 
-    @Override
     public FileData getIfPresent(String key) {
         return CACHE.getIfPresent(key);
     }
 
-    @Override
     public void put(String key , FileData fileData) {
         CACHE.put(key, fileData);
     }
 
-    @Override
     public long size() {
         return CACHE.size();
     }
 
-    @Override
     public void invalidate(String key) {
         CACHE.invalidate(key);
     }
 
-    @Override
     public void invalidateAll() {
         CACHE.invalidateAll();
     }
 
-    @Override
     public void stats() {
         CACHE.stats();
     }
