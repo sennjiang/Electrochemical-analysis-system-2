@@ -1,6 +1,5 @@
 package bluedot.electrochemistry.web.filter;
 
-import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.simplespring.core.BeanContainer;
 import bluedot.electrochemistry.utils.LogUtil;
@@ -24,7 +23,6 @@ public class RightFilter implements SpringFilter {
 
     private final RequestURLAdapter adapter = (RequestURLAdapter) BeanContainer.getInstance().getBean(RequestURLAdapter.class);
 
-    StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
 
     @Override
     public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
@@ -33,15 +31,15 @@ public class RightFilter implements SpringFilter {
             LOGGER.info("a white url do nothing ...");
             return true;
         }else {
-            String requestURI = request.getRequestURI();
-            String[] userIds = request.getParameterValues("userId");
-            String[] roles = arrayCache.get(userIds[0]);
-            for (String role : roles) {
-                String[] strings = arrayCache.get(role);
-                for (String string : strings) {
-                    if (requestURI.equals(string)) return true;
-                }
-            }
+//            String requestURI = request.getRequestURI();
+//            String[] userIds = request.getParameterValues("userId");
+//            String[] roles = arrayCache.get(userIds[0]);
+//            for (String role : roles) {
+//                String[] strings = arrayCache.get(role);
+//                for (String string : strings) {
+//                    if (requestURI.equals(string)) return true;
+//                }
+//            }
         }
         return false;
     }

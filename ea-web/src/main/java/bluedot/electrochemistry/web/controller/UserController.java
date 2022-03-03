@@ -1,7 +1,6 @@
 package bluedot.electrochemistry.web.controller;
 
 import bluedot.electrochemistry.cache.Cacheable;
-import bluedot.electrochemistry.cache.local.StringArrayCache;
 import bluedot.electrochemistry.commons.dao.BaseMapper;
 import bluedot.electrochemistry.commons.entity.Right;
 import bluedot.electrochemistry.commons.entity.User;
@@ -10,7 +9,6 @@ import bluedot.electrochemistry.commons.VerifyCodeMaker;
 import bluedot.electrochemistry.commons.factory.SenderProcessorFactory;
 import bluedot.electrochemistry.commons.sender.handler.Message;
 import bluedot.electrochemistry.commons.sender.handler.SendType;
-import bluedot.electrochemistry.commons.sender.handler.SenderHandler;
 import bluedot.electrochemistry.commons.sender.processor.SenderProcessor;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
@@ -41,9 +39,6 @@ import java.util.regex.Pattern;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-    StringArrayCache arrayCache = CacheExecutorFactory.createStringArrayCache();
-
-    Cacheable<String, String> cacheable = CacheExecutorFactory.createCodeCache();
 
 //    @Autowired TODO open
     SenderProcessor senderProcessor = SenderProcessorFactory.createSenderProcessor();
@@ -70,8 +65,6 @@ public class UserController extends BaseController {
         if (user.getStatus() == 0) {
             return renderError("账号已冻结，请申请解冻！！");
         }
-        List<String> roles = mapper.getRolesById(account);
-        arrayCache.put(String.valueOf(user.getId()), roles.toArray(new String[0]));
         user.setPassword("");
         return renderSuccess("登录成功！！",user);
     }
@@ -161,7 +154,6 @@ public class UserController extends BaseController {
             return renderBadRequest();
         }
         String emailCode = VerifyCodeMaker.getVerifyCode();
-        cacheable.put(email, emailCode);
         boolean b =  senderProcessor.sender(new Message(email,emailCode, SendType.VERIFY_CODE));
         return b ? renderSuccess() : null;
     }
