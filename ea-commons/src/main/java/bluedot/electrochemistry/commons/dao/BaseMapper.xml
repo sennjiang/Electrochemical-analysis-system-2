@@ -17,6 +17,6 @@
 
     </select>
     <select id="getRolesById" resultType="java.lang.String">
-
+        select name from user where email = #{account};
     </select>
 </mapper>
