@@ -1,9 +1,8 @@
 package bluedot.electrochemistry.web.core;
 
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
-import bluedot.electrochemistry.commons.factory.MapperFactory;
 import bluedot.electrochemistry.commons.sqlfactorybuilder.SqlSessionFactoryBuilder;
-import bluedot.electrochemistry.simplemybatis.session.defaults.DefaultSqlSessionFactory;
+import bluedot.electrochemistry.simplemybatis.pool.MyDataSourceImpl;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.ConfigUtil;
 import bluedot.electrochemistry.utils.LogUtil;
@@ -32,10 +31,10 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * @author Senn
@@ -46,11 +45,6 @@ import java.util.Set;
 public class DispatcherServlet extends HttpServlet {
 
     private static final Logger LOGGER = LogUtil.getLogger(DispatcherServlet.class);
-
-    /**
-     * 保存application.properties配置文件中的内容
-     */
-    private Properties contextConfig = new Properties();
 
     /**
      * 请求处理器
@@ -68,8 +62,7 @@ public class DispatcherServlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         LOGGER.info("ready init in dispatcherServlet");
 
-        //读取配置文件，保存属性到contextConfig
-        contextConfig = ConfigUtil.doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
+        Properties contextConfig = ConfigUtil.doLoadConfig(servletConfig.getInitParameter("contextConfigLocation"));
 
         //初始化容器
         beanContainer = BeanContainer.getInstance();
@@ -85,16 +78,14 @@ public class DispatcherServlet extends HttpServlet {
         loadBeans(contextConfig.getProperty("spring.filterPackage"));
         //AOP织入
 //        new AspectWeaver().doAspectOrientedProgramming();
+
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
-        //TODO 初始化mybatis异常
         new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
-//        beanContainer.addBean(DefaultSqlSessionFactory.class,new DefaultSqlSessionFactory());
-//        beanContainer.addBean(MapperFactory.class,new MapperFactory());
 
         //初始化 邮件处理器 TODO open
 //        new SenderHandler().init();
 
-
+        //依赖注入
         new DependencyInject().doDependencyInject();
 
         //初始化请求处理器责任链
@@ -114,7 +105,6 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-
         LOGGER.info("ready service in dispatcherServlet");
 
         //1.创建责任链对象实例
@@ -133,21 +123,20 @@ public class DispatcherServlet extends HttpServlet {
     public void destroy() {
 
         LOGGER.info("close all resources...");
-//
-//        //关闭连接池
-//        MyDataSourceImpl.getInstance().close();
-//        //注销驱动
-//        Enumeration<Driver> drivers = DriverManager.getDrivers();
-//        Driver driver = null;
-//        while (drivers.hasMoreElements()) {
-//            try {
-//                driver = drivers.nextElement();
-//                DriverManager.deregisterDriver(driver);
-//                LogUtil.getLogger().debug("deregister success : driver {}", driver);
-//            } catch (SQLException e) {
-//                LogUtil.getLogger().error("deregister failed : driver {}", driver);
-//            }
-//        }
+        //关闭连接池
+        MyDataSourceImpl.getInstance().close();
+        //注销驱动
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        Driver driver = null;
+        while (drivers.hasMoreElements()) {
+            try {
+                driver = drivers.nextElement();
+                DriverManager.deregisterDriver(driver);
+                LogUtil.getLogger(DispatcherServlet.class).debug("deregister success : driver {}", driver);
+            } catch (SQLException e) {
+                LogUtil.getLogger(DispatcherServlet.class).error("deregister failed : driver {}", driver);
+            }
+        }
 
     }
 
