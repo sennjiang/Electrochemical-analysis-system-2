@@ -26,7 +26,7 @@ public class RightFilter implements SpringFilter {
 
     @Override
     public boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
-        LOGGER.info("do right filter .. ");
+        LOGGER.debug("do right filter .. ");
         if (adapter.isWhiteUrl(request.getPathInfo())) {
             LOGGER.info("a white url do nothing ...");
             return true;

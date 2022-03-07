@@ -4,6 +4,7 @@ import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
+import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ public class PreRequestProcessor implements RequestProcessor {
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, UserStatus");
         // 接受跨域的cookie
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        LOGGER.info("请求设置允许跨域");
+        LOGGER.debug("请求设置允许跨域");
 
 
         //设置请求编码
@@ -44,12 +45,16 @@ public class PreRequestProcessor implements RequestProcessor {
         String requestPath = requestProcessorChain.getRequestPath();
         LOGGER.debug("original requestPath: {}", requestPath);
         if (requestPath.length() > 1 && requestPath.endsWith(REQUEST_PATH_END)) {
-            requestProcessorChain.setRequestPath(requestPath.substring(0, requestPath.length() - 1));
+            requestPath = requestPath.substring(0, requestPath.length() - 1);
+            requestProcessorChain.setRequestPath(requestPath);
         }
         if (requestPath.endsWith(REQUEST_PATH_END) || "".equals(requestPath)) {
             requestProcessorChain.setResultRender(new DefaultResultRender());
             return false;
         }
+        //TODO 限流
+        //TODO 前置Filter
+
         LOGGER.debug("preprocess requestMethod: {}, requestPath: {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
         return true;
     }

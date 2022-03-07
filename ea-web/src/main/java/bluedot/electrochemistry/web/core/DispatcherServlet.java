@@ -3,6 +3,7 @@ package bluedot.electrochemistry.web.core;
 import bluedot.electrochemistry.commons.factory.CacheExecutorFactory;
 import bluedot.electrochemistry.commons.sqlfactorybuilder.SqlSessionFactoryBuilder;
 import bluedot.electrochemistry.simplemybatis.pool.MyDataSourceImpl;
+import bluedot.electrochemistry.simplespring.aop.AspectWeaver;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.ConfigUtil;
 import bluedot.electrochemistry.utils.LogUtil;
@@ -77,7 +78,7 @@ public class DispatcherServlet extends HttpServlet {
         filterAdapter = new FilterAdapter();
         loadBeans(contextConfig.getProperty("spring.filterPackage"));
         //AOP织入
-//        new AspectWeaver().doAspectOrientedProgramming();
+        new AspectWeaver().doAspectOrientedProgramming();
 
         //初始化简易mybatis框架，往IoC容器中注入SqlSessionFactory对象
         new SqlSessionFactoryBuilder().build(servletConfig.getInitParameter("contextConfigLocation"));
@@ -104,8 +105,6 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        LOGGER.info("ready service in dispatcherServlet");
 
         //1.创建责任链对象实例
         RequestProcessorChain requestProcessorChain = new RequestProcessorChain(PROCESSORS.iterator(), request, response);

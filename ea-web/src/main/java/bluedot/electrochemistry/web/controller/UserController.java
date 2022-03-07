@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import redis.clients.jedis.Jedis;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,10 +57,12 @@ public class UserController extends BaseController {
 
 
     @WhiteMapping("/login")
-    public Result login(@RequestParam("account") String account, @RequestParam("password") String password) {
+    public Result login(@RequestParam({"account"}) String account, @RequestParam("password") String password, HttpServletRequest request) {
         if (account == null || password == null) {
             return renderBadRequest();
         }
+        String id = request.getSession().getId();
+        System.out.println(id);
         BaseMapper mapper = factory.createMapper();
         User user = mapper.loginByEmail(account);
         if (!user.getPassword().equals(password)) {
@@ -68,9 +71,9 @@ public class UserController extends BaseController {
         if (user.getStatus() == 0) {
             return renderError("账号已冻结，请申请解冻！！");
         }
-        List<Right> rights = mapper.getRights(user.getId());
+//        List<Right> rights = mapper.getRights(user.getId());
         user.setPassword("");
-        return renderSuccess("登录成功！！",user);
+        return renderSuccess("登录成功！！", id);
     }
 
     @WhiteMapping("/register")
