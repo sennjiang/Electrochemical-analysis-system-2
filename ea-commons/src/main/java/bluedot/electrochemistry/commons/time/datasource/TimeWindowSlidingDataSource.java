@@ -25,8 +25,8 @@ public interface TimeWindowSlidingDataSource {
      *
      * @param timeSlices 时间分片
      * @param recordKey  记录参数
-     * @return
-     * @throws TimeWindowSlidingDataSourceException
+     * @return int
+     * @throws TimeWindowSlidingDataSourceException TimeWindowSlidingDataSourceException
      */
     int getAllocAdoptRecordTimes(int timeSlices, String recordKey) throws TimeWindowSlidingDataSourceException;
 
@@ -40,21 +40,6 @@ public interface TimeWindowSlidingDataSource {
      */
     void clearBetween(int fromIndex, int toIndex, int totalLength) throws TimeWindowSlidingDataSourceException;
 
-    /**
-     * 将index时间片计数清零
-     *
-     * @param index 索引
-     * @throws TimeWindowSlidingDataSourceException
-     */
-    void clearSingle(int index) throws TimeWindowSlidingDataSourceException;
-
-    /**
-     * 根据需求 可不使用该函数 该函数会在初始化阶段调用一次
-     *
-     * @throws TimeWindowSlidingDataSourceException 时间分片数据源操作异常
-     */
-    default void initTimeSlices() throws TimeWindowSlidingDataSourceException {
-    }
 
     static TimeWindowSlidingDataSource defaultDataSource() {
         return new TimeWindowSlidingDataSource() {
@@ -90,7 +75,7 @@ public interface TimeWindowSlidingDataSource {
                     toIndex += totalLength;
                 }
                 while (fromIndex <= toIndex) {
-                    Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(fromIndex));
+                    Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(fromIndex % totalLength));
                     if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0) {
                         timeWindowSlidingScopeMap.clear();
                     }
@@ -98,13 +83,6 @@ public interface TimeWindowSlidingDataSource {
                 }
             }
 
-            @Override
-            public void clearSingle(int index) throws TimeWindowSlidingDataSourceException {
-                Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(index));
-                if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0) {
-                    timeWindowSlidingScopeMap.clear();
-                }
-            }
         };
     }
 }

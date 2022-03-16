@@ -33,8 +33,6 @@ public class TimeWindowSliding {
      */
     private final int threshold;
 
-    private final int windowSize;
-
     /**
      * 最小每个时间片的时长，以毫秒为单位
      */
@@ -61,11 +59,9 @@ public class TimeWindowSliding {
         this.timeMillisPerSlice = timeMillisPerSlice;
         this.threshold = threshold;
         /* 低于一定窗口个数会丢失精准度 */
-        this.windowSize = Math.max(windowSize, DEFAULT_WINDOW_SIZE);
+        int windowSize1 = Math.max(windowSize, DEFAULT_WINDOW_SIZE);
         /* 保证每个时间窗至少有2个窗口存储 不会重叠 */
-        this.timeSliceSize = this.windowSize * 2 + 1;
-        /* 可以忽略这个操作 数据存储结构中定义的生命周期函数 如果接口有实现会调用 没有实现走默认实现直接return */
-        timeWindowSlidingDataSource.initTimeSlices();
+        this.timeSliceSize = windowSize1 * 2 + 1;
         /* 初始化参数校验 */
         this.verifier();
     }
@@ -81,7 +77,6 @@ public class TimeWindowSliding {
 
 
     public static void main(String[] args) throws InterruptedException {
-        //0.2秒一个时间片，窗口共5个
         TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), new DefaultBloomFilter(), 5, 1000, 50);
         for (int i = 0; i < 51; i++) {
             Thread.sleep(15);
@@ -99,7 +94,7 @@ public class TimeWindowSliding {
      * 判断是否允许进行访问，未超过阈值的话才会对某个时间片 + 1
      */
     public synchronized boolean allowLimitTimes(String key) {
-        if (bloomFilter.contains(key)) return false;
+        if (bloomFilter.contain(key)) return false;
         int index = locationIndex();
         int sum = 0;
         // cursor不等于index，将cursor设置为index
@@ -114,7 +109,7 @@ public class TimeWindowSliding {
 
         // 阈值判断
         if (sum < threshold) {
-            // 未超过阈值才+1
+            // 未超过阈值才 + 1
             this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
             return true;
         } else {
@@ -122,52 +117,6 @@ public class TimeWindowSliding {
             bloomFilter.add(key);
         }
         return false;
-    }
-
-    /**
-     * 返回平均每秒访问次数
-     */
-    public int allowNotLimitPerMin(String key) {
-        int index = locationIndex();
-        int sum = 0;
-        int nextIndex = index + 1;
-        this.timeWindowSlidingDataSource.clearSingle(nextIndex);
-        int from = index, to = index;
-        if (index < windowSize) {
-            from += windowSize + 1;
-            to += 2 * windowSize;
-        } else {
-            from = index - windowSize + 1;
-        }
-        while (from <= to) {
-            int targetIndex = from;
-            if (from >= timeSliceSize) {
-                targetIndex = from - 2 * windowSize;
-            }
-            sum += timeWindowSlidingDataSource.getAllocAdoptRecordTimes(targetIndex, key);
-            from++;
-        }
-        this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
-        return (sum + 1) / windowSize;
-    }
-
-    /**
-     * 返回每秒访问次数
-     */
-    public int allowNotLimit(String key) {
-        int index = locationIndex();
-        int sum = 0;
-        // cursor不等于index，将cursor设置为index
-        int oldCursor = cursor.getAndSet(index);
-        if (oldCursor != index) {
-            // 清零，访问量不大时会有时间片跳跃的情况
-            clearBetween(oldCursor, index);
-        }
-        for (int i = 0; i <= timeSliceSize; i++) {
-            sum += timeWindowSlidingDataSource.getAllocAdoptRecordTimes(i, key);
-        }
-        this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
-        return sum + 1;
     }
 
     /**
