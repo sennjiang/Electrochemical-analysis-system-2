@@ -13,9 +13,15 @@ public interface BloomFilter<T> {
     void add(T t);
 
     /**
+     * 删除
+     * @param t 元素
+     */
+    void remove(T t);
+
+    /**
      * 判断
      * @param t T
      * @return boolean
      */
-    public boolean contains(T t);
+    boolean contains(T t);
 }
