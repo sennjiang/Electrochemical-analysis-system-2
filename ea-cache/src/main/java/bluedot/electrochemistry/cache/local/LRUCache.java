@@ -29,7 +29,7 @@ public class LRUCache<K, V> {
     /**
      * 节点
      */
-    static class Node<K, V> {
+    public static class Node<K, V> {
         K key;
         V value;
         Node<K, V> pre;
@@ -39,26 +39,34 @@ public class LRUCache<K, V> {
             key = k;
             value = v;
         }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
     }
 
     /**
      * 冷节点
      */
-    static class ColdNode<K, V> extends Node<K, V> {
-        int interval;
+    public static class ColdNode<K, V> extends Node<K, V> {
+        long interval;
 
         public ColdNode() {
         }
 
-        public ColdNode(K k, V v, int interval) {
+        public ColdNode(K k, V v, long interval) {
             super(k, v);
             this.interval = interval;
         }
 
-        int getInterval() {
+        long getInterval() {
             return interval;
         }
-        void setInterval(int interval) {
+        void setInterval(long interval) {
             this.interval = interval;
         }
     }
@@ -117,6 +125,10 @@ public class LRUCache<K, V> {
      */
     private Node<K, V> tail;
 
+    private CacheIterator<K, V> hotEntry;
+
+    private CacheIterator<K, V> coldEntry;
+
     /**
      * 只能使用建造者模式创建
      */
@@ -141,6 +153,8 @@ public class LRUCache<K, V> {
         coldHead.pre = head;
         coldHead.next = tail;
         tail.pre = coldHead;
+        hotEntry = new CacheIterator<K, V>(head);
+        coldEntry = new CacheIterator<K, V>(coldHead);
     }
 
     /**
@@ -188,7 +202,7 @@ public class LRUCache<K, V> {
             if (node == null) {
                 ColdNode<K, V> newNode = new ColdNode<K, V>(key, value, localTime());
                 cache.put(key, newNode);
-                moveToColdHead(newNode);
+                addToHead(newNode, coldHead);
                 ++coldSize;
                 // 删除 尾节点 保持冷链表个数
                 while (coldSize > coldThreshold) {
@@ -279,7 +293,25 @@ public class LRUCache<K, V> {
      * 获取当前时间
      * @return localTime
      */
-    private int localTime() {
-        return (int) System.currentTimeMillis();
+    private long localTime() {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * 获取热点数据迭代器
+     * @return 热点数据迭代器
+     */
+    public CacheIterator<K, V> getHotEntry(){
+        hotEntry.setCapacity(hotSize);
+        return hotEntry;
+    }
+
+    /**
+     * 获取冷数据迭代器
+     * @return 冷数据迭代器
+     */
+    public CacheIterator<K, V> getColdEntry(){
+        coldEntry.setCapacity(coldSize);
+        return coldEntry;
     }
 }

@@ -22,10 +22,6 @@ public class LocalCacheBuilder<K, V> {
      */
     int capacity = 100;
 
-    public static LocalCacheBuilder<Object, Object> newBuilder(){
-        return new LocalCacheBuilder<>();
-    }
-
     public LocalCacheBuilder<K, V> setFactor(float factor){
         this.factor = factor;
         return this;
