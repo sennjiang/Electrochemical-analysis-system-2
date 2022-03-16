@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
+import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.ResultRender;

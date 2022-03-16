@@ -91,7 +91,9 @@ public class DispatcherServlet extends HttpServlet {
 
         //初始化请求处理器责任链
         // 预处理的请求处理器
-        PROCESSORS.add(new PreRequestProcessor());
+        PreRequestProcessor preRequestProcessor = new PreRequestProcessor();
+        preRequestProcessor.setFilterAdapter(filterAdapter);
+        PROCESSORS.add(preRequestProcessor);
 
         // 静态资源的请求处理器（如果是静态资源让RequestDispatcher自己处理）
         PROCESSORS.add(new StaticResourceRequestProcessor(servletConfig.getServletContext()));

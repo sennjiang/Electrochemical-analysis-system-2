@@ -14,7 +14,7 @@ public interface SpringFilter {
      * @param request request
      * @param response response
      */
-    default boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException {
+    default boolean beforeFilter(HttpServletRequest request, HttpServletResponse response) throws ExecutionException, Exception {
         return true;
     }
 

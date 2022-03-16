@@ -13,10 +13,7 @@ import bluedot.electrochemistry.commons.sender.processor.SenderProcessor;
 import bluedot.electrochemistry.service.edit.EditParam;
 import bluedot.electrochemistry.service.edit.EditType;
 import bluedot.electrochemistry.service.edit.main.EditService;
-import bluedot.electrochemistry.simplespring.core.annotation.Controller;
-import bluedot.electrochemistry.simplespring.core.annotation.RequestMapping;
-import bluedot.electrochemistry.simplespring.core.annotation.RequestParam;
-import bluedot.electrochemistry.simplespring.core.annotation.WhiteMapping;
+import bluedot.electrochemistry.simplespring.core.annotation.*;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
 import bluedot.electrochemistry.utils.LogUtil;
@@ -55,7 +52,7 @@ public class UserController extends BaseController {
 
     private static final Logger LOGGER = LogUtil.getLogger(UserController.class);
 
-
+    @RequestLimit(rate = 100, timeout = 3000)
     @WhiteMapping("/login")
     public Result login(@RequestParam({"account"}) String account, @RequestParam("password") String password, HttpServletRequest request) {
         if (account == null || password == null) {
