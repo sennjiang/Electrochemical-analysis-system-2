@@ -66,4 +66,14 @@ public class EncryptUtil {
         // 盐值(随机产生)
        return UUID.randomUUID().toString().substring(0, 4);
     }
+
+    /**
+     * 对文件内容加密
+     * @param o 对象
+     * @return 加密后密
+     */
+    public static String md5EncodeFileData(Object o){
+        Md5Hash md5Hash = new Md5Hash(o);
+        return md5Hash.toString();
+    }
 }
