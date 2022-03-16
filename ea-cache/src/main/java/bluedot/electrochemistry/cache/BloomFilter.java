@@ -23,5 +23,5 @@ public interface BloomFilter<T> {
      * @param t T
      * @return boolean
      */
-    boolean contains(T t);
+    boolean contain(T t);
 }
