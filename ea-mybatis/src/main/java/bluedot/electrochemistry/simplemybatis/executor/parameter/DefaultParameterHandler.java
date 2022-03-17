@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
+ * 负责根据传递的参数值，对statement对象（此处是PreparedStatement）进行赋值
  * @Author zero
  * @Create 2022/2/11 14:19
  */

@@ -18,7 +18,7 @@ import java.util.Properties;
  */
 public class Configuration {
     /**
-     * 数据库连接配置
+     * 配置文件相关配置
      */
     public static Properties pros = new Properties();
     /**

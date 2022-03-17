@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 负责处理jdbc的statement（此处是PreparedStatement）的交互和对sql的预处理工作
  * @Author zero
  * @Create 2022/2/11 13:41
  */
@@ -61,6 +62,12 @@ public class SimpleStatementHandler implements StatementHandler {
         return preparedStatement.executeQuery();
     }
 
+    /**
+     * 数据库的增删改方法
+     * @param preparedStatement statement对象
+     * @return  数据库影响行数
+     * @throws SQLException sql异常
+     */
     @Override
     public int update(PreparedStatement preparedStatement) throws SQLException {
         return preparedStatement.executeUpdate();
