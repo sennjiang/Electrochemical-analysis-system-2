@@ -16,6 +16,7 @@ import bluedot.electrochemistry.service.edit.main.EditService;
 import bluedot.electrochemistry.simplespring.core.annotation.*;
 import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
+import bluedot.electrochemistry.utils.EncryptUtil;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.web.controller.base.BaseController;
 import bluedot.electrochemistry.commons.factory.MapperFactory;
@@ -44,6 +45,8 @@ public class UserController extends BaseController {
 
     Jedis jedis = CacheExecutorFactory.createJedis();
 
+
+
     @Autowired
     MapperFactory factory;
 
@@ -62,7 +65,7 @@ public class UserController extends BaseController {
         System.out.println(id);
         BaseMapper mapper = factory.createMapper();
         User user = mapper.loginByEmail(account);
-        if (!user.getPassword().equals(password)) {
+        if (!user.getPassword().equals(EncryptUtil.md5Decode(user.getPassword(), user.getSalt()))) {
             return renderError("账号密码错误！请重新登录");
         }
         if (user.getStatus() == 0) {

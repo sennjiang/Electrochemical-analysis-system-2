@@ -25,6 +25,8 @@ public class User {
 
     private String email;
 
+    private String salt;
+
     private String portrait;
 
     private String password;
@@ -76,6 +78,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getPortrait() {
