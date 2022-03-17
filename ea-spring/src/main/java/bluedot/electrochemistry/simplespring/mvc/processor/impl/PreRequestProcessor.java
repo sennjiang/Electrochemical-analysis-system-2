@@ -1,10 +1,13 @@
 package bluedot.electrochemistry.simplespring.mvc.processor.impl;
 
+import bluedot.electrochemistry.simplespring.core.BeanContainer;
+import bluedot.electrochemistry.simplespring.core.LimitAdapter;
+import bluedot.electrochemistry.simplespring.core.RequestURLAdapter;
+import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessorChain;
 import bluedot.electrochemistry.simplespring.mvc.RequestProcessor;
 import bluedot.electrochemistry.simplespring.mvc.processor.render.impl.DefaultResultRender;
-import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 public class PreRequestProcessor implements RequestProcessor {
     private static final Logger LOGGER = LogUtil.getLogger("spring.mvc.processor");
     private static final String REQUEST_PATH_END = "/";
+    private static final RequestURLAdapter URL_ADAPTER = (RequestURLAdapter) BeanContainer.getInstance().getBean(RequestURLAdapter.class);
+
+    /**
+     * 过滤器
+     */
+    private FilterAdapter filterAdapter;
 
     @Override
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
@@ -53,9 +62,17 @@ public class PreRequestProcessor implements RequestProcessor {
             return false;
         }
         //TODO 限流
+        LimitAdapter.RateLimiter(requestPath);
         //TODO 前置Filter
+        if (filterAdapter.needDoBefore()) {
+            filterAdapter.doBeforeFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
+        }
 
         LOGGER.debug("preprocess requestMethod: {}, requestPath: {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
         return true;
+    }
+
+    public void setFilterAdapter(FilterAdapter filterAdapter) {
+        this.filterAdapter = filterAdapter;
     }
 }

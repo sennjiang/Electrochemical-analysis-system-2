@@ -53,7 +53,14 @@ public class DefaultBloomFilter implements BloomFilter<Object> {
     }
 
     @Override
-    public boolean contains(Object obj) {
+    public void remove(Object o) {
+        for (SimpleHash sf : func) {
+            bitSet.clear(sf.hash(o));
+        }
+    }
+
+    @Override
+    public boolean contain(Object obj) {
         boolean ret = true;
         for (SimpleHash f : func) {
             ret = ret && bitSet.get(f.hash(obj));

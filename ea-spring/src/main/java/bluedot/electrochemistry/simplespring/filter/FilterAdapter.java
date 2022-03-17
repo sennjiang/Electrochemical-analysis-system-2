@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.simplespring.filter;
 
+import bluedot.electrochemistry.simplespring.mvc.exception.FilterException;
 import bluedot.electrochemistry.utils.ClassUtil;
 import bluedot.electrochemistry.utils.LogUtil;
 import org.slf4j.Logger;
@@ -22,17 +23,14 @@ public class FilterAdapter {
     private final Set<FilterDefinition> afterFilters = new TreeSet<>();
 
 
-    public void doBeforeFilter(HttpServletRequest request, HttpServletResponse response) {
+    public void doBeforeFilter(HttpServletRequest request, HttpServletResponse response) throws FilterException, ExecutionException {
         for (FilterDefinition next : beforeFilters) {
             SpringFilter filter = next.getFilter();
             LOGGER.debug("do before filter filter name :  " + filter.getClass().getName());
-            try {
-                if (!filter.beforeFilter(request, response)) {
-                    throw new RuntimeException("do before filter fail ");
-                }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            if (!filter.beforeFilter(request, response)) {
+                throw new FilterException("do before filter fail ");
             }
+
         }
     }
 
@@ -41,7 +39,7 @@ public class FilterAdapter {
             SpringFilter filter = next.getFilter();
             LOGGER.debug("do after filter filter name :  " + filter.getClass().getName());
             if (!filter.afterFilter(request, response,returnValue)) {
-                throw new RuntimeException("do after filter fail ");
+                throw new FilterException("do before filter fail ");
             }
         }
     }

@@ -45,9 +45,6 @@ public class DoRequestProcessor implements RequestProcessor {
     public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
         String requestPath = requestProcessorChain.getRequestPath();
         LOGGER.info("request path --> {}", requestPath);
-        if (filterAdapter.needDoBefore()) {
-            filterAdapter.doBeforeFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());
-        }
         Method method = null;
         if (urlAdapter.isWhiteUrl(requestPath)) {
             method = urlAdapter.getWhiteUrl(requestPath);
