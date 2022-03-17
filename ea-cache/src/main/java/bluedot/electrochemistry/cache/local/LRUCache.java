@@ -4,6 +4,7 @@ import bluedot.electrochemistry.cache.LocalCacheBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -78,27 +79,27 @@ public class LRUCache<K, V> {
     /**
      * K V 映射
      */
-    private final Map<K, Node<K, V>> cache = new HashMap<>();
+    protected final Map<K, Node<K, V>> cache = new HashMap<>();
 
     /**
      * 热数据 大小
      */
-    private int hotSize;
+    protected AtomicInteger hotSize;
 
     /**
      * 冷数据 大小
      */
-    private int coldSize;
+    protected AtomicInteger coldSize;
 
     /**
      * 热数据阈值
      */
-    private int hotThreshold;
+    protected int hotThreshold;
 
     /**
      * 冷数据阈值
      */
-    private int coldThreshold;
+    protected int coldThreshold;
 
     /**
      * 冷热链表节点比值
@@ -108,33 +109,26 @@ public class LRUCache<K, V> {
     /**
      * 默认 冷数据升级 时间间隔
      */
-    private int interval;
+    protected int interval;
 
     /**
      * 头节点
      */
-    private Node<K, V> head;
+    protected final Node<K, V> head;
 
     /**
      * 冷头节点
      */
-    private Node<K, V> coldHead;
+    protected final Node<K, V> coldHead;
 
     /**
      * 尾节点
      */
-    private Node<K, V> tail;
+    protected final Node<K, V> tail;
 
     private CacheIterator<K, V> hotEntry;
 
     private CacheIterator<K, V> coldEntry;
-
-    /**
-     * 只能使用建造者模式创建
-     */
-    private LRUCache(){
-
-    }
 
     /**
      * 使用建造者模式创建
@@ -144,8 +138,8 @@ public class LRUCache<K, V> {
         this.coldThreshold = builder.getColdThreshold();
         this.hotThreshold = builder.getHotThreshold();
         this.interval = builder.getInterval();
-        this.hotSize = 0;
-        this.coldSize = 0;
+        this.hotSize = new AtomicInteger(0);
+        this.coldSize = new AtomicInteger(0);
         head = new Node<K, V>();
         tail = new ColdNode<K, V>();
         coldHead = new ColdNode<K, V>();
@@ -174,8 +168,8 @@ public class LRUCache<K, V> {
                 ColdNode<K, V> coldNode = (ColdNode<K, V>) node;
                 if (needToHot(coldNode)) {
                     moveToHotHead(coldNode);
-                    ++hotSize;
-                    if (hotSize >= hotThreshold) {
+                    int size = hotSize.incrementAndGet();
+                    if (size >= hotThreshold) {
                         moveFromHotToColdHead(coldHead.pre);
                     }
                 }else {
@@ -184,6 +178,7 @@ public class LRUCache<K, V> {
             }else {
                 moveToHotHead(node);
             }
+            afterNodeAccess(node);
             return node.value;
         }finally {
             readLock.unlock();
@@ -203,16 +198,18 @@ public class LRUCache<K, V> {
                 ColdNode<K, V> newNode = new ColdNode<K, V>(key, value, localTime());
                 cache.put(key, newNode);
                 addToHead(newNode, coldHead);
-                ++coldSize;
+                coldSize.incrementAndGet();
                 // 删除 尾节点 保持冷链表个数
-                while (coldSize > coldThreshold) {
+                while (coldSize.get() > coldThreshold) {
                     Node<K, V> tail = removeTail();
                     cache.remove(tail.key);
-                    --coldSize;
+                    coldSize.decrementAndGet();
+                    afterNodeRemoval(tail);
                 }
             } else {
                 node.value = value;
             }
+            afterNodeInsertion(cache.containsKey(node));
         }finally {
             writeLock.unlock();
         }
@@ -223,7 +220,7 @@ public class LRUCache<K, V> {
      * @param coldNode 数据
      * @return 是否热化
      */
-    private boolean needToHot(ColdNode<K, V> coldNode) {
+    protected boolean needToHot(ColdNode<K, V> coldNode) {
         return coldNode.getInterval() - localTime() >= this.interval;
     }
 
@@ -231,49 +228,57 @@ public class LRUCache<K, V> {
      * 移动到热点数据头
      * @param node 数据
      */
-    private void moveToHotHead(Node<K,V> node) {
-        removeNode(node);
-        if (node instanceof ColdNode) {
-            node = new Node<>(node.key, node.value);
+    protected void moveToHotHead(Node<K,V> node) {
+        synchronized (head){
+            removeNode(node);
+            if (node instanceof ColdNode) {
+                node = new Node<>(node.key, node.value);
+            }
+            addToHead(node, head);
         }
-        addToHead(node, head);
     }
 
     /**
      * 从冷数据移动到 头
      * @param node 冷数据
      */
-    private void moveToColdHead(ColdNode<K,V> node) {
-        removeNode(node);
-        addToHead(node, coldHead);
+    protected void moveToColdHead(ColdNode<K,V> node) {
+        synchronized (coldHead) {
+            removeNode(node);
+            addToHead(node, coldHead);
+        }
     }
 
     /**
      * 从 热点数据移动到冷数据
      * @param node 热点数据
      */
-    private void moveFromHotToColdHead(Node<K,V> node) {
-        removeNode(node);
-        node = new ColdNode<>(node.key, node.value, localTime());
-        addToHead(node, coldHead);
+    protected void moveFromHotToColdHead(Node<K,V> node) {
+        synchronized (coldHead){
+            removeNode(node);
+            node = new ColdNode<>(node.key, node.value, localTime());
+            addToHead(node, coldHead);
+        }
     }
 
     /**
      * 删除尾节点 （tail 前一节点）
      * @return  删除的节点
      */
-    private Node<K, V> removeTail() {
-        Node<K, V> temp = tail.pre;
-        removeNode(temp);
-        cache.remove(temp.key);
-        return temp;
+    protected Node<K, V> removeTail() {
+        synchronized (tail) {
+            Node<K, V> temp = tail.pre;
+            removeNode(temp);
+            cache.remove(temp.key);
+            return temp;
+        }
     }
 
     /**
      * 删除节点
      * @param node 节点
      */
-    private void removeNode(Node<K, V> node) {
+    protected void removeNode(Node<K, V> node) {
         node.pre.next = node.next;
         node.next.pre = node.pre;
     }
@@ -282,11 +287,13 @@ public class LRUCache<K, V> {
      * 将节点添加 头
      * @param node 节点
      */
-    private void addToHead(Node<K, V> node, Node<K, V> head) {
-        node.pre = head;
-        node.next = head.next;
-        head.next.pre = node;
-        head.next = node;
+    protected void addToHead(Node<K, V> node, Node<K, V> head) {
+        synchronized (head) {
+            node.pre = head;
+            node.next = head.next;
+            head.next.pre = node;
+            head.next = node;
+        }
     }
 
     /**
@@ -302,7 +309,7 @@ public class LRUCache<K, V> {
      * @return 热点数据迭代器
      */
     public CacheIterator<K, V> getHotEntry(){
-        hotEntry.setCapacity(hotSize);
+        hotEntry.setCapacity(hotSize.get());
         return hotEntry;
     }
 
@@ -311,7 +318,11 @@ public class LRUCache<K, V> {
      * @return 冷数据迭代器
      */
     public CacheIterator<K, V> getColdEntry(){
-        coldEntry.setCapacity(coldSize);
+        coldEntry.setCapacity(coldSize.get());
         return coldEntry;
     }
+
+    void afterNodeAccess(Node<K, V> p) { }
+    void afterNodeInsertion(boolean evict) { }
+    void afterNodeRemoval(Node<K, V> p) { }
 }
