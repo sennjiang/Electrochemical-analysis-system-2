@@ -63,7 +63,7 @@ public class SimpleExecutor implements Executor {
      * @param mappedStatement  封装sql信息的对象
      * @param parameter        参数
      * @param executorCallback 回调接口
-     * @return List结果集或受影响的行数
+     * @return obj 需要根据情况强转成(List结果集/受影响的行数)
      */
     private Object executeTemplate(MappedStatement mappedStatement, Object parameter, MyCallback executorCallback)  {
         try {

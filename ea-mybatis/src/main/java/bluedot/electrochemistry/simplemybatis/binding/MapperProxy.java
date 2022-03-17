@@ -66,6 +66,7 @@ public class MapperProxy<T> implements InvocationHandler {
 
         //System.out.println(mappedStatement!=null?"mappedStatement not null":"mappedStatement is null");
 
+        //查询
         if (Constant.SqlType.SELECT.value().equals(mappedStatement.getSqlType())) {
             Class<?> returnType = method.getReturnType();
             //返回值为集合类型

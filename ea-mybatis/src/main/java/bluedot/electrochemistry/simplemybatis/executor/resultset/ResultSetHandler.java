@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 /**
- * 结果集处理
+ * 结果集处理，负责将resultSet集合转换为List
  *
  * @Author zero
  * @Create 2022/2/11 14:55

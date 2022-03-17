@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 负责将resultSet集合转换为List
  * @Author zero
  * @Create 2022/2/11 15:11
  */

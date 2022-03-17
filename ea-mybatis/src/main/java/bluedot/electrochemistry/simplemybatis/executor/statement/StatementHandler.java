@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * 负责处理jdbc的statement（此处是PreparedStatement）的交互和对sql的预处理工作
  * @Author zero
  * @Create 2022/2/11 13:29
  */
