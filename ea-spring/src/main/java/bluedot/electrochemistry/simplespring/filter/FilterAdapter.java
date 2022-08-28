@@ -23,7 +23,7 @@ public class FilterAdapter {
     private final Set<FilterDefinition> afterFilters = new TreeSet<>();
 
 
-    public void doBeforeFilter(HttpServletRequest request, HttpServletResponse response) throws FilterException, ExecutionException {
+    public void doBeforeFilter(HttpServletRequest request, HttpServletResponse response) throws Exception {
         for (FilterDefinition next : beforeFilters) {
             SpringFilter filter = next.getFilter();
             LOGGER.debug("do before filter filter name :  " + filter.getClass().getName());

@@ -2,6 +2,7 @@ package bluedot.electrochemistry.commons.factory;
 
 import bluedot.electrochemistry.commons.Lifecycle;
 import bluedot.electrochemistry.commons.dao.BaseMapper;
+import bluedot.electrochemistry.commons.dao.FilterMapper;
 import bluedot.electrochemistry.simplemybatis.session.SqlSession;
 import bluedot.electrochemistry.simplemybatis.session.SqlSessionFactory;
 import bluedot.electrochemistry.simplemybatis.utils.LogUtils;
@@ -22,6 +23,11 @@ public class MapperFactory implements Lifecycle {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         sqlSession.setAutoCommit(true);
         return sqlSession.getMapper(BaseMapper.class);
+    }
+    public FilterMapper createFilterMapper() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        sqlSession.setAutoCommit(true);
+        return sqlSession.getMapper(FilterMapper.class);
     }
 
     @Override

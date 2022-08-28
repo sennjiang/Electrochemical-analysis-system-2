@@ -1,5 +1,7 @@
 package bluedot.electrochemistry.service.query;
 
+import bluedot.electrochemistry.commons.table.Table;
+
 /**
  * @author Senn
  * @create 2022/1/28 18:27

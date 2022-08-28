@@ -3,7 +3,7 @@ package bluedot.electrochemistry.service.query.condition;
 import bluedot.electrochemistry.service.exception.IllegalConditionException;
 import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.SelectType;
-import bluedot.electrochemistry.service.query.Table;
+import bluedot.electrochemistry.commons.table.Table;
 
 /**
  * @author Senn

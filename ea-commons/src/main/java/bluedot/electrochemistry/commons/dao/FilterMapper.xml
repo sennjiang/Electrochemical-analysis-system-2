@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="bluedot.electrochemistry.commons.dao.FilterMapper">
+
+    <select id="getUserMaxId" resultType="java.lang.Integer">
+        select id from user order by id desc limit 1;
+    </select>
+
+    <select id="getUserIds" resultType="java.lang.Integer">
+        select id from user limit #{pageStart}, #{pageSize};
+    </select>
+
+</mapper>

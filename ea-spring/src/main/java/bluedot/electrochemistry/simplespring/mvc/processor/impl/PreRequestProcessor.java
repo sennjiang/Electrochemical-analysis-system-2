@@ -61,8 +61,6 @@ public class PreRequestProcessor implements RequestProcessor {
             requestProcessorChain.setResultRender(new DefaultResultRender());
             return false;
         }
-        //TODO 限流
-        LimitAdapter.RateLimiter(requestPath);
         //TODO 前置Filter
         if (filterAdapter.needDoBefore()) {
             filterAdapter.doBeforeFilter(requestProcessorChain.getRequest(), requestProcessorChain.getResponse());

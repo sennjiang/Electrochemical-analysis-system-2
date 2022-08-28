@@ -1,6 +1,5 @@
 package bluedot.electrochemistry.utils;
 
-import oracle.jrockit.jfr.VMJFR;
 import org.slf4j.Logger;
 
 import java.io.IOException;

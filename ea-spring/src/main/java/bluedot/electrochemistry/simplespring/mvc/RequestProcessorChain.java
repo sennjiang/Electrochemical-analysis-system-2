@@ -1,5 +1,6 @@
 package bluedot.electrochemistry.simplespring.mvc;
 
+import bluedot.electrochemistry.simplespring.core.LimitAdapter;
 import bluedot.electrochemistry.simplespring.filter.FilterAdapter;
 import bluedot.electrochemistry.utils.LogUtil;
 import bluedot.electrochemistry.simplespring.mvc.file.MultipartFile;
@@ -85,6 +86,8 @@ public class RequestProcessorChain {
     public void doRequestProcessorChain() {
         //通过迭代器遍历注册的请求助力器实现类列表
         try {
+            //TODO 限流
+            LimitAdapter.tryAcquire(requestPath);
             while (requestProcessorIterator.hasNext()) {
                 RequestProcessor requestProcessor = requestProcessorIterator.next();
                 LOGGER.debug("this requestProcessor is {}", requestProcessor);
@@ -96,6 +99,8 @@ public class RequestProcessorChain {
         } catch (Exception e) {
             LOGGER.error("执行出错 : {}",e.getMessage());
             setResultRender(new ErrorResultRender(e.getMessage()));
+        } finally {
+            LimitAdapter.release(requestPath);
         }
 
 

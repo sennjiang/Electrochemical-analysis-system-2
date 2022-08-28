@@ -1,12 +1,9 @@
 package bluedot.electrochemistry.cache.local;
 
+import bluedot.electrochemistry.cache.BloomFilter;
 import bluedot.electrochemistry.cache.LocalCacheBuilder;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * v1.0
@@ -16,11 +13,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 为了使删除操作时间复杂度为 O(1)，就不能采用遍历的方式找到某个节点。HashMap 存储着 Key
  * 到节点的映射，通过 Key 就能以 O(1) 的时间得到节点，然后再以 O(1) 的时间将其从双向队列中删除。
  *
- * v1.1
- * 读写锁
- *
  * v2.0
+ * 并发 读写锁 + synchronized 分段锁
+
+ * v3.0
  * 升级 使用冷热链表
+ * 布隆过滤器
+ *
+ * v4.0
+ * 锁条件下移
+ *
+ * v5.0
+ * 扩展
  *
  * @author Senn
  * @create 2022/3/3 20:39
@@ -72,14 +76,10 @@ public class LRUCache<K, V> {
         }
     }
 
-    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private final Lock readLock = lock.readLock();
-    private final Lock writeLock = lock.writeLock();
-
     /**
      * K V 映射
      */
-    protected final Map<K, Node<K, V>> cache = new HashMap<>();
+    protected final Map<K, Node<K, V>> cache;
 
     /**
      * 热数据 大小
@@ -102,11 +102,6 @@ public class LRUCache<K, V> {
     protected int coldThreshold;
 
     /**
-     * 冷热链表节点比值
-     */
-    private int loadFactor;
-
-    /**
      * 默认 冷数据升级 时间间隔
      */
     protected int interval;
@@ -126,9 +121,20 @@ public class LRUCache<K, V> {
      */
     protected final Node<K, V> tail;
 
-    private CacheIterator<K, V> hotEntry;
+    /**
+     * 热点数据迭代器
+     */
+    private final CacheIterator<K, V> hotEntry;
 
-    private CacheIterator<K, V> coldEntry;
+    /**
+     * 冷数据迭代器
+     */
+    private final CacheIterator<K, V> coldEntry;
+
+    /**
+     * 布隆过滤器
+     */
+    private final BloomFilter<K> filter;
 
     /**
      * 使用建造者模式创建
@@ -138,6 +144,8 @@ public class LRUCache<K, V> {
         this.coldThreshold = builder.getColdThreshold();
         this.hotThreshold = builder.getHotThreshold();
         this.interval = builder.getInterval();
+        this.filter = builder.getFilter();
+        this.cache = builder.getMap();
         this.hotSize = new AtomicInteger(0);
         this.coldSize = new AtomicInteger(0);
         head = new Node<K, V>();
@@ -157,32 +165,29 @@ public class LRUCache<K, V> {
      * @return 无 则 null
      */
     public V get(K key) {
-        readLock.lock();
-        try {
-            Node<K, V> node = cache.get(key);
-            if (node == null) {
-                return null;
-            }
-            //判断是否为 冷节点
-            if (node instanceof ColdNode) {
-                ColdNode<K, V> coldNode = (ColdNode<K, V>) node;
-                if (needToHot(coldNode)) {
-                    moveToHotHead(coldNode);
-                    int size = hotSize.incrementAndGet();
-                    if (size >= hotThreshold) {
-                        moveFromHotToColdHead(coldHead.pre);
-                    }
-                }else {
-                    moveToColdHead(coldNode);
+        Node<K, V> node = cache.get(key);
+        if (node == null) {
+            return null;
+        }
+        //判断是否为 冷节点
+        if (node instanceof ColdNode) {
+            ColdNode<K, V> coldNode = (ColdNode<K, V>) node;
+            if (needToHot(coldNode)) {
+                moveToHotHead(coldNode);
+                coldSize.decrementAndGet();
+                hotSize.incrementAndGet();
+                if (hotSize.get() >= hotThreshold) {
+                    moveFromHotToColdHead(coldHead.pre);
                 }
             }else {
-                moveToHotHead(node);
+                moveToColdHead(coldNode);
             }
-            afterNodeAccess(node);
-            return node.value;
-        }finally {
-            readLock.unlock();
+        }else {
+            moveToHotHead(node);
         }
+        afterNodeAccess(node);
+        return node.value;
+
     }
 
     /**
@@ -191,28 +196,23 @@ public class LRUCache<K, V> {
      * @param value value
      */
     public void put(K key, V value) {
-        writeLock.lock();
-        try {
-            Node<K, V> node = cache.get(key);
-            if (node == null) {
-                ColdNode<K, V> newNode = new ColdNode<K, V>(key, value, localTime());
-                cache.put(key, newNode);
-                addToHead(newNode, coldHead);
-                coldSize.incrementAndGet();
-                // 删除 尾节点 保持冷链表个数
-                while (coldSize.get() > coldThreshold) {
-                    Node<K, V> tail = removeTail();
-                    cache.remove(tail.key);
-                    coldSize.decrementAndGet();
-                    afterNodeRemoval(tail);
-                }
-            } else {
-                node.value = value;
+        Node<K, V> node = cache.get(key);
+        if (node == null) {
+            ColdNode<K, V> newNode = new ColdNode<K, V>(key, value, localTime());
+            addToHead(newNode, coldHead);
+            coldSize.incrementAndGet();
+            // 删除 尾节点 保持冷链表个数
+            while (coldSize.get() >= coldThreshold) {
+                Node<K, V> tail = removeTail();
+                cache.remove(tail.key);
+                coldSize.decrementAndGet();
+                afterNodeRemoval(tail);
             }
-            afterNodeInsertion(cache.containsKey(node));
-        }finally {
-            writeLock.unlock();
+            node = cache.put(key, newNode);
+        } else {
+            node.value = value;
         }
+        afterNodeInsertion(node != null || cache.containsKey(key));
     }
 
     /**
@@ -221,7 +221,7 @@ public class LRUCache<K, V> {
      * @return 是否热化
      */
     protected boolean needToHot(ColdNode<K, V> coldNode) {
-        return coldNode.getInterval() - localTime() >= this.interval;
+        return localTime() - coldNode.getInterval() >= this.interval;
     }
 
     /**
@@ -268,6 +268,7 @@ public class LRUCache<K, V> {
     protected Node<K, V> removeTail() {
         synchronized (tail) {
             Node<K, V> temp = tail.pre;
+            filter.remove(temp.key);
             removeNode(temp);
             cache.remove(temp.key);
             return temp;

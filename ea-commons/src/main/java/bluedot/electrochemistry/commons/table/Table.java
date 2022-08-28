@@ -1,4 +1,4 @@
-package bluedot.electrochemistry.service.query;
+package bluedot.electrochemistry.commons.table;
 
 /**
  * @author Senn
@@ -48,7 +48,7 @@ public enum Table {
     /**
      * 表名
      */
-    String tableName;
+    public String tableName;
 
     Table(String tableName) {
         this.tableName = tableName;

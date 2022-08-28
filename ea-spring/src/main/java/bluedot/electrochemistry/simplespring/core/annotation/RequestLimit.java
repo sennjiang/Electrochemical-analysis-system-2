@@ -12,6 +12,15 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequestLimit {
+    /**
+     * 超时时间 单位毫秒值
+     * @return 超时时间
+     */
     int timeout();
+
+    /**
+     * 限流大小，单位请求。
+     * @return 限流大小
+     */
     int rate();
 }

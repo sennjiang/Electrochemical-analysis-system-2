@@ -5,10 +5,9 @@ import bluedot.electrochemistry.service.exception.IllegalIndexException;
 import bluedot.electrochemistry.service.query.QueryParam;
 import bluedot.electrochemistry.service.query.SearchResult;
 import bluedot.electrochemistry.service.query.SelectType;
-import bluedot.electrochemistry.service.query.Table;
+import bluedot.electrochemistry.commons.table.Table;
 import bluedot.electrochemistry.service.query.condition.Conditional;
 import bluedot.electrochemistry.simplespring.core.annotation.Service;
-import bluedot.electrochemistry.simplespring.inject.annotation.Autowired;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;

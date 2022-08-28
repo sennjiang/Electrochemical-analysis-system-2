@@ -9,7 +9,7 @@ import java.util.BitSet;
  * @author Senn
  * @create 2022/3/3 21:27
  */
-public class DefaultBloomFilter implements BloomFilter<Object> {
+public class DefaultBloomFilter<T> implements BloomFilter<T> {
     // 位数组大小
     private static final int DEFAULT_SIZE = 2 << 24;
     // 位数组
@@ -46,21 +46,21 @@ public class DefaultBloomFilter implements BloomFilter<Object> {
     }
 
     @Override
-    public void add(Object obj) {
+    public void add(T obj) {
         for (SimpleHash sf : func) {
             bitSet.set(sf.hash(obj), true);
         }
     }
 
     @Override
-    public void remove(Object o) {
+    public void remove(T o) {
         for (SimpleHash sf : func) {
             bitSet.clear(sf.hash(o));
         }
     }
 
     @Override
-    public boolean contain(Object obj) {
+    public boolean contain(T obj) {
         boolean ret = true;
         for (SimpleHash f : func) {
             ret = ret && bitSet.get(f.hash(obj));

@@ -42,8 +42,13 @@ public class LimitAdapter {
         }
     }
 
-    public static void RateLimiter(String url) throws InterruptedException {
+    public static void tryAcquire(String url) throws InterruptedException {
         LimitDefinition limitDefinition = urlLimit.get(url);
         limitDefinition.semaphore.tryAcquire(limitDefinition.timeout, TimeUnit.MILLISECONDS);
+    }
+
+    public static void release(String url) {
+        LimitDefinition limitDefinition = urlLimit.get(url);
+        limitDefinition.semaphore.release(1);
     }
 }
